@@ -1,7 +1,6 @@
 # Nodify Templates
 
-![Nodify](https://github.com/AZIRARM/nodify/raw/main/logo.png)
-
+![nodify_transparent.png](assets/nodify_transparent.png)
 A collection of templates for **Nodify Headless CMS**. These templates can be easily imported into Nodify to streamline your content management workflow.
 
 ## 🚀 About Nodify Headless CMS
