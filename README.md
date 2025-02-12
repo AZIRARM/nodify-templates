@@ -10,7 +10,7 @@ A collection of templates for **Nodify Headless CMS**. These templates can be ea
 This repository contains ready-to-use templates designed to work seamlessly with Nodify CMS. These templates help you quickly set up your content structure without starting from scratch.
 
 ### 📝 Available Templates
-- **Blog Template** → Structured for articles, authors, and categories.
+- **Nodify Blog** → Simple blog template.
 - **E-commerce Template** → In progress.
 - **Portfolio Template** → In progress.
 - **Custom Templates** → In progress.
