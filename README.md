@@ -11,6 +11,7 @@ This repository contains ready-to-use templates designed to work seamlessly with
 
 ### 📝 Available Templates
 - **Nodify Blog** → Simple blog template.
+- **Landing Page** →  Simple Landing Page template.
 - **E-commerce Template** → In progress.
 - **Portfolio Template** → In progress.
 - **Custom Templates** → In progress.
