@@ -1,6 +1,3 @@
-Voici la doc mise à jour en tenant compte de la liste des templates que tu m’as donnée :
-
-```markdown
 # Nodify Templates
 
 ![nodify_transparent.png](assets/nodify_transparent.png)
@@ -40,5 +37,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 💡 **Need help?** Open an issue or reach out to the [Nodify community](https://github.com/AZIRARM/nodify-templates/issues).
 ```
-
-Veux-tu que je génère aussi un **tableau récapitulatif** (avec nom du template, description et lien JSON) pour rendre la doc encore plus claire ?
