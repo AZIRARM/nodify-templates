@@ -1,3 +1,6 @@
+Voici la doc mise à jour en tenant compte de la liste des templates que tu m’as donnée :
+
+```markdown
 # Nodify Templates
 
 ![nodify_transparent.png](assets/nodify_transparent.png)
@@ -10,13 +13,13 @@ A collection of templates for **Nodify Headless CMS**. These templates can be ea
 This repository contains ready-to-use templates designed to work seamlessly with Nodify CMS. These templates help you quickly set up your content structure without starting from scratch.
 
 ### 📝 Available Templates
-- **[Blog](blogs/Nodify-Blog.json)** → Simple blog template.  
-- **[Ebooks](ebooks/Nodify-Ebooks.json)** → Simple ebooks reader and organizer.  
-- **[Gallery](gallery/Nodify-Gallery.json)** → Simple portfolio / gallery template.  
-- **[Landing Page](landingpages/Nodify-Landingpage.json)** → Simple landing page template.  
-- **[E-Market](market/Nodify-EMarket.json)** → Simple e-commerce template.  
-- **[Music](music/Nodify-Music.json)** → Simple music platform.  
-- **[News](news/Nodify-News.json)** → Simple news template.  
+- **[Blog](blogs/)** → Simple blog template.  
+- **[Ebooks](ebooks/)** → Simple ebooks reader and organizer.  
+- **[Gallery](gallery/)** → Simple portfolio / gallery template.  
+- **[Landing Page](landingpages/)** → Simple landing page template.  
+- **[E-Market](market/)** → Simple e-commerce template.  
+- **[Music](music/)** → Simple music platform.  
+- **[News](news/)** → Simple news template.  
 
 ## 🔧 How to Use
 1. Import the desired template into your Nodify CMS instance.
@@ -36,3 +39,6 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 💡 **Need help?** Open an issue or reach out to the [Nodify community](https://github.com/AZIRARM/nodify-templates/issues).
+```
+
+Veux-tu que je génère aussi un **tableau récapitulatif** (avec nom du template, description et lien JSON) pour rendre la doc encore plus claire ?
