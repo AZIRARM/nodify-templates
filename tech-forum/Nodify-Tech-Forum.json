@@ -1,0 +1,432 @@
+[
+  {
+    "id": "fd8f151a-0aba-44e5-a01f-aadc89d25813",
+    "name": "Dev Community Forum",
+    "code": "DEV-A76412A5",
+    "defaultLanguage": "en",
+    "type": "SITE",
+    "contents": [
+      {
+        "id": "455f056f-b241-424f-893e-4edaf209ff2e",
+        "parentCode": "DEV-A76412A5",
+        "code": "DEV-A0D075D8",
+        "type": "STYLE",
+        "title": "Dev Forum Styles",
+        "content": "* { margin: 0; padding: 0; box-sizing: border-box; }\n\nbody {\n    font-family: 'Fira Code', 'Segoe UI', 'Monaco', monospace;\n    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);\n    padding: 20px;\n    min-height: 100vh;\n    color: #e4e4e7;\n}\n\n.container { max-width: 1400px; margin: 0 auto; }\n\n.header {\n    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);\n    color: white;\n    padding: 50px;\n    border-radius: 30px;\n    margin-bottom: 40px;\n    text-align: center;\n    box-shadow: 0 20px 40px rgba(0,0,0,0.3);\n    border: 1px solid rgba(255,255,255,0.1);\n}\n\n.header h1 {\n    font-size: 3em;\n    margin-bottom: 15px;\n    letter-spacing: -1px;\n}\n\n.header p {\n    font-size: 1.2em;\n    opacity: 0.9;\n}\n\n.topics-table {\n    background: rgba(30, 30, 46, 0.9);\n    backdrop-filter: blur(10px);\n    border-radius: 20px;\n    overflow: hidden;\n    box-shadow: 0 10px 30px rgba(0,0,0,0.3);\n    border: 1px solid rgba(255,255,255,0.1);\n}\n\ntable {\n    width: 100%;\n    border-collapse: collapse;\n}\n\nth, td {\n    padding: 18px;\n    text-align: left;\n    border-bottom: 1px solid rgba(255,255,255,0.1);\n}\n\nth {\n    background: rgba(102, 126, 234, 0.3);\n    color: #fff;\n    font-weight: 600;\n    font-size: 1em;\n}\n\n.topic-title {\n    color: #a78bfa;\n    text-decoration: none;\n    font-weight: bold;\n    cursor: pointer;\n    font-size: 1.1em;\n    transition: color 0.3s;\n}\n\n.topic-title:hover {\n    color: #c084fc;\n    text-decoration: underline;\n}\n\n.replies-count {\n    text-align: center;\n    width: 80px;\n    background: rgba(102, 126, 234, 0.2);\n    border-radius: 20px;\n    padding: 5px 10px;\n    display: inline-block;\n}\n\n.author { color: #94a3b8; font-size: 0.9em; }\n.date { color: #64748b; font-size: 0.8em; }\n\n.topic-view {\n    background: rgba(30, 30, 46, 0.95);\n    backdrop-filter: blur(10px);\n    padding: 40px;\n    border-radius: 20px;\n    margin-bottom: 30px;\n    border: 1px solid rgba(255,255,255,0.1);\n}\n\n.topic-view h2 {\n    color: #a78bfa;\n    margin-bottom: 20px;\n    font-size: 2em;\n}\n\n.message {\n    background: rgba(20, 20, 35, 0.8);\n    padding: 20px;\n    margin: 15px 0;\n    border-radius: 15px;\n    border-left: 4px solid #a78bfa;\n    transition: transform 0.2s;\n}\n\n.message:hover {\n    transform: translateX(5px);\n}\n\n.message strong {\n    color: #c084fc;\n}\n\n.reply-form {\n    margin-top: 30px;\n    padding: 25px;\n    background: rgba(20, 20, 35, 0.6);\n    border-radius: 15px;\n    border: 1px solid rgba(255,255,255,0.1);\n}\n\n.reply-form h4 {\n    color: #a78bfa;\n    margin-bottom: 15px;\n}\n\n.reply-form input, .reply-form textarea {\n    width: 100%;\n    padding: 12px;\n    margin: 10px 0;\n    background: rgba(0,0,0,0.3);\n    border: 1px solid rgba(255,255,255,0.2);\n    border-radius: 10px;\n    color: #e4e4e7;\n    font-family: inherit;\n}\n\n.reply-form input:focus, .reply-form textarea:focus {\n    outline: none;\n    border-color: #a78bfa;\n}\n\n.reply-form button {\n    padding: 12px 30px;\n    background: linear-gradient(135deg, #667eea, #764ba2);\n    color: white;\n    border: none;\n    border-radius: 25px;\n    cursor: pointer;\n    font-weight: bold;\n    transition: transform 0.2s;\n}\n\n.reply-form button:hover {\n    transform: scale(1.05);\n}\n\n.back-btn {\n    margin-bottom: 20px;\n    padding: 10px 25px;\n    background: rgba(100, 100, 150, 0.5);\n    color: white;\n    border: none;\n    border-radius: 20px;\n    cursor: pointer;\n    font-weight: bold;\n    transition: all 0.3s;\n}\n\n.back-btn:hover {\n    background: rgba(100, 100, 150, 0.8);\n    transform: translateX(-5px);\n}\n\n.badge {\n    display: inline-block;\n    padding: 4px 12px;\n    border-radius: 12px;\n    font-size: 0.8em;\n    font-weight: bold;\n    margin-left: 10px;\n}\n\n.badge-java { background: #f89820; color: #1a1a2e; }\n.badge-angular { background: #dd0031; color: white; }\n.badge-python { background: #3776ab; color: white; }\n.badge-php { background: #777bb4; color: white; }\n",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279950004,
+        "modificationDate": 1774279954286,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774279954286,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "66e1abe2-5094-4610-9416-b94c238c0d2b",
+        "parentCode": "DEV-A76412A5",
+        "code": "DEV-1D42BB40",
+        "type": "SCRIPT",
+        "title": "Dev Forum Script",
+        "content": "let currentTopicCode = null;\nconst TOPICS_NODE_CODE = \"TOPICS-E8B558E3\";\n\nconsole.log('Dev Forum loaded');\n\nfunction viewTopic(topicCode) {\n    currentTopicCode = topicCode;\n\n    fetch(`/contents/code/${topicCode}`)\n        .then(response => {\n            if (!response.ok) throw new Error('Topic not found');\n            return response.json();\n        })\n        .then(topic => {\n            document.getElementById('topicList').style.display = 'none';\n            document.getElementById('topicView').style.display = 'block';\n\n            const author = topic.values?.find(v => v.key === 'AUTHOR')?.value || 'Anonymous';\n\n            document.getElementById('topicTitle').innerHTML = topic.title;\n            document.getElementById('topicContent').innerHTML = topic.payload || topic.content || 'No content';\n            document.getElementById('topicAuthor').innerHTML = author;\n            document.getElementById('topicDate').innerHTML = new Date(topic.creationDate).toLocaleString();\n        })\n        .catch(() => {});\n\n    fetch(`/datas/contentCode/${topicCode}`)\n        .then(response => {\n            if (response.status === 404) return [];\n            return response.json();\n        })\n        .then(messages => {\n            let messagesHtml = '';\n            if (!messages || messages.length === 0) {\n                messagesHtml = '<p style=\"text-align: center; opacity: 0.7;\">💬 No messages yet. Be the first to reply!</p>';\n            } else {\n                messages.forEach(msg => {\n                    messagesHtml += `\n                        <div class=\"message\">\n                            <strong>${escapeHtml(msg.user || 'Anonymous')}</strong>\n                            <small style=\"color: #64748b; margin-left: 10px;\">${new Date(msg.creationDate).toLocaleString()}</small>\n                            <p style=\"margin-top: 10px;\">${escapeHtml(msg.value)}</p>\n                        </div>\n                    `;\n                });\n            }\n            document.getElementById('messagesList').innerHTML = messagesHtml;\n        })\n        .catch(() => {});\n}\n\nfunction escapeHtml(text) {\n    const div = document.createElement('div');\n    div.textContent = text;\n    return div.innerHTML;\n}\n\nfunction addReply() {\n    const content = document.getElementById('replyContent').value;\n    const author = document.getElementById('replyAuthor').value || 'Anonymous';\n\n    if (!content.trim()) {\n        alert('Please enter a reply');\n        return;\n    }\n\n    if (!currentTopicCode) {\n        alert('No topic selected');\n        return;\n    }\n\n    const data = {\n        contentNodeCode: currentTopicCode,\n        key: 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8),\n        name: 'reply',\n        value: content,\n        user: author,\n        dataType: \"message\",\n        creationDate: Date.now(),\n        modificationDate: Date.now()\n    };\n\n    fetch('/datas/', {\n        method: 'POST',\n        headers: { 'Content-Type': 'application/json' },\n        body: JSON.stringify(data)\n    })\n    .then(response => {\n        if (!response.ok) throw new Error('Failed to save reply');\n        return response.json();\n    })\n    .then(() => {\n        document.getElementById('replyContent').value = '';\n        return fetch(`/datas/contentCode/${currentTopicCode}`);\n    })\n    .then(response => {\n        if (response.status === 404) return [];\n        return response.json();\n    })\n    .then(messages => {\n        let messagesHtml = '';\n        if (!messages || messages.length === 0) {\n            messagesHtml = '<p style=\"text-align: center; opacity: 0.7;\">💬 No messages yet. Be the first to reply!</p>';\n        } else {\n            messages.forEach(msg => {\n                messagesHtml += `\n                    <div class=\"message\">\n                        <strong>${escapeHtml(msg.user || 'Anonymous')}</strong>\n                        <small style=\"color: #64748b; margin-left: 10px;\">${new Date(msg.creationDate).toLocaleString()}</small>\n                        <p style=\"margin-top: 10px;\">${escapeHtml(msg.value)}</p>\n                    </div>\n                `;\n            });\n        }\n        document.getElementById('messagesList').innerHTML = messagesHtml;\n        loadTopics();\n    })\n    .catch(() => {\n        alert('Error adding reply');\n    });\n}\n\nfunction backToList() {\n    document.getElementById('topicList').style.display = 'block';\n    document.getElementById('topicView').style.display = 'none';\n    loadTopics();\n}\n\nfunction getMessageCount(topicCode) {\n    return fetch(`/datas/content-code/${topicCode}/count`)\n        .then(response => {\n            if (!response.ok) return 0;\n            return response.json();\n        })\n        .catch(() => 0);\n}\n\nfunction getLanguageBadge(title) {\n    const lowerTitle = title.toLowerCase();\n    if (lowerTitle.includes('java')) return '<span class=\"badge badge-java\">☕ Java</span>';\n    if (lowerTitle.includes('angular')) return '<span class=\"badge badge-angular\">🅰 Angular</span>';\n    if (lowerTitle.includes('python')) return '<span class=\"badge badge-python\">🐍 Python</span>';\n    if (lowerTitle.includes('php')) return '<span class=\"badge badge-php\">🐘 PHP</span>';\n    return '';\n}\n\nfunction renderTopics(topics) {\n    const promises = topics.map(topic =>\n        getMessageCount(topic.code).then(count => ({ ...topic, messageCount: count }))\n    );\n\n    Promise.all(promises).then(topicsWithCount => {\n        let html = '<table class=\"topics-table\"><thead> <th>Topic</th><th>💬 Replies</th><th>👤 Author</th><th>📅 Created</th> </thead><tbody>';\n\n        if (!topicsWithCount || topicsWithCount.length === 0) {\n            html += '<tr><td colspan=\"4\" style=\"text-align: center;\">📭 No topics found</td></tr>';\n        } else {\n            topicsWithCount.forEach(topic => {\n                const author = topic.values?.find(v => v.key === 'AUTHOR')?.value || 'Anonymous';\n                const badge = getLanguageBadge(topic.title);\n                html += `\n                    <tr>\n                        <td>\n                            <a class=\"topic-title\" onclick=\"viewTopic('${topic.code}')\">${escapeHtml(topic.title)}</a>\n                            ${badge}\n                            <br><small style=\"color: #64748b;\">${escapeHtml((topic.payload || topic.content || '').substring(0, 80))}...</small>\n                        </td>\n                        <td style=\"text-align: center; width: 80px;\"><span class=\"replies-count\">${topic.messageCount}</span></td>\n                        <td class=\"author\">${escapeHtml(author)}</td>\n                        <td class=\"date\">${new Date(topic.creationDate).toLocaleDateString()}</td>\n                    </tr>\n                `;\n            });\n        }\n        html += '</tbody></table>';\n        document.getElementById('topicsContainer').innerHTML = html;\n    });\n}\n\nfunction loadTopics() {\n    fetch(`/contents/node/code/${TOPICS_NODE_CODE}`)\n        .then(response => {\n            if (response.status === 404) return [];\n            if (!response.ok) throw new Error('Failed to load topics');\n            return response.json();\n        })\n        .then(topics => {\n            renderTopics(topics);\n        })\n        .catch(() => {\n            document.getElementById('topicsContainer').innerHTML = '<p style=\"text-align: center; opacity: 0.7;\">Unable to load topics. Please refresh.</p>';\n        });\n}\n\nwindow.addEventListener('DOMContentLoaded', () => {\n    loadTopics();\n});\n",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279950054,
+        "modificationDate": 1774279954313,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774279954313,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "65a08ed4-9724-442e-9a40-c66e63f45a9b",
+        "parentCode": "DEV-A76412A5",
+        "code": "DEV-571A4D3C",
+        "type": "HTML",
+        "title": "Dev Community Forum",
+        "content": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>Dev Community Forum - Code & Connect</title>\n    <link href=\"https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap\" rel=\"stylesheet\">\n    <style>$content(DEV-A0D075D8)</style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <h1>💻 Dev Community Forum</h1>\n            <p>Code, Share, Learn, Connect with fellow developers</p>\n            <p style=\"font-size: 0.9em; margin-top: 15px;\">⚡ Java • Angular • Python • PHP ⚡</p>\n        </div>\n\n        <div id=\"topicList\">\n            <div id=\"topicsContainer\">Loading topics...</div>\n        </div>\n\n        <div id=\"topicView\" style=\"display:none\">\n            <button class=\"back-btn\" onclick=\"backToList()\">← Back to topics</button>\n            <div class=\"topic-view\">\n                <h2 id=\"topicTitle\"></h2>\n                <div class=\"author\">Posted by <span id=\"topicAuthor\"></span> on <span id=\"topicDate\"></span></div>\n                <div id=\"topicContent\" style=\"margin: 20px 0; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px;\"></div>\n                <hr style=\"border-color: rgba(255,255,255,0.1);\">\n                <h3>💬 Replies</h3>\n                <div id=\"messagesList\"></div>\n                <div class=\"reply-form\">\n                    <h4>✍️ Add a reply</h4>\n                    <input type=\"text\" id=\"replyAuthor\" placeholder=\"Your name\">\n                    <textarea id=\"replyContent\" rows=\"4\" placeholder=\"Share your thoughts...\"></textarea>\n                    <button onclick=\"addReply()\">Post Reply</button>\n                </div>\n            </div>\n        </div>\n    </div>\n\n    <script>$content(DEV-1D42BB40)</script>\n</body>\n</html>\n",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279950085,
+        "modificationDate": 1774279954335,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774279954335,
+        "status": "SNAPSHOT",
+        "favorite": false
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774279949869,
+    "modificationDate": 1774279954276,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774279954276,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "b33f128c-58a9-45cf-8d94-ffb3fac2253c",
+    "parentCode": "DEV-A76412A5",
+    "name": "Programming Languages",
+    "code": "TOPICS-E8B558E3",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "84e54133-ad3c-4c17-aa85-381edd87eac7",
+        "parentCode": "TOPICS-E8B558E3",
+        "code": "TOPIC-265A4791",
+        "language": "en",
+        "type": "HTML",
+        "title": "☕ Java - Best practices for Spring Boot",
+        "description": "Share your tips and tricks for Spring Boot microservices architecture",
+        "content": "Share your tips and tricks for Spring Boot microservices architecture",
+        "values": [
+          {
+            "key": "AUTHOR",
+            "value": "JavaDev"
+          }
+        ],
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279950127,
+        "modificationDate": 1774279954510,
+        "modifiedBy": "",
+        "version": "2",
+        "publicationDate": 1774279954510,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "a4c67059-91f9-46fc-ab83-a7eb72bc6d34",
+        "parentCode": "TOPICS-E8B558E3",
+        "code": "TOPIC-C3982FD2",
+        "language": "en",
+        "type": "HTML",
+        "title": "🅰 Angular - Signals vs RxJS",
+        "description": "Which one do you prefer for state management in Angular 17+?",
+        "content": "Which one do you prefer for state management in Angular 17+?",
+        "values": [
+          {
+            "key": "AUTHOR",
+            "value": "AngularGuru"
+          }
+        ],
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279950163,
+        "modificationDate": 1774279954549,
+        "modifiedBy": "",
+        "version": "2",
+        "publicationDate": 1774279954549,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "a93a95d3-9793-4505-b5c8-5c905234599b",
+        "parentCode": "TOPICS-E8B558E3",
+        "code": "TOPIC-B1F5C19C",
+        "language": "en",
+        "type": "HTML",
+        "title": "🐍 Python - FastAPI vs Django",
+        "description": "Which framework for modern APIs? Share your experience!",
+        "content": "Which framework for modern APIs? Share your experience!",
+        "values": [
+          {
+            "key": "AUTHOR",
+            "value": "Pythonista"
+          }
+        ],
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279950192,
+        "modificationDate": 1774279954568,
+        "modifiedBy": "",
+        "version": "2",
+        "publicationDate": 1774279954568,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "d51b156b-cf19-4548-a90c-253dec28b7d4",
+        "parentCode": "TOPICS-E8B558E3",
+        "code": "TOPIC-6D55154E",
+        "language": "en",
+        "type": "HTML",
+        "title": "🐘 PHP - Laravel 11 new features",
+        "description": "What's your favorite new feature in Laravel 11?",
+        "content": "What's your favorite new feature in Laravel 11?",
+        "values": [
+          {
+            "key": "AUTHOR",
+            "value": "PHPWarrior"
+          }
+        ],
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279950225,
+        "modificationDate": 1774279954591,
+        "modifiedBy": "",
+        "version": "2",
+        "publicationDate": 1774279954591,
+        "status": "SNAPSHOT",
+        "favorite": false
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774279949937,
+    "modificationDate": 1774279954502,
+    "modifiedBy": "",
+    "version": "2",
+    "publicationDate": 1774279954502,
+    "status": "SNAPSHOT",
+    "favorite": false
+  }
+]

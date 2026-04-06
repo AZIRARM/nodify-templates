@@ -1,0 +1,2158 @@
+[
+  {
+    "id": "3b16c264-a2fe-4863-b1fc-9f03d5d63049",
+    "name": "Nodify E-Shop",
+    "code": "SITE-9C9182E4",
+    "description": "A complete e-commerce shop built with Nodify PHP client",
+    "defaultLanguage": "EN",
+    "type": "SITE",
+    "contents": [
+      {
+        "id": "6950c092-88da-42be-9a5a-41f8cf767de5",
+        "parentCode": "SITE-9C9182E4",
+        "code": "STYLE-9CBEFB13",
+        "language": "EN",
+        "type": "STYLE",
+        "title": "E-Shop Styles",
+        "description": "CSS styles for the e-commerce shop",
+        "content": "    * {\n        margin: 0;\n        padding: 0;\n        box-sizing: border-box;\n    }\n\n    body {\n        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;\n        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n        min-height: 100vh;\n        color: #333;\n    }\n\n    .language-selector {\n        position: fixed;\n        top: 20px;\n        right: 20px;\n        z-index: 1001;\n        background: white;\n        padding: 8px 15px;\n        border-radius: 25px;\n        box-shadow: 0 2px 10px rgba(0,0,0,0.1);\n    }\n\n    .language-selector select {\n        padding: 5px 10px;\n        border-radius: 15px;\n        border: 1px solid #667eea;\n        cursor: pointer;\n        font-size: 14px;\n        background: white;\n    }\n\n    .navbar {\n        background: rgba(255,255,255,0.95);\n        backdrop-filter: blur(10px);\n        box-shadow: 0 2px 20px rgba(0,0,0,0.1);\n        position: sticky;\n        top: 0;\n        z-index: 1000;\n    }\n\n    .nav-container {\n        max-width: 1200px;\n        margin: 0 auto;\n        padding: 1rem 2rem;\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n        flex-wrap: wrap;\n        gap: 1rem;\n    }\n\n    .logo {\n        font-size: 1.5rem;\n        font-weight: bold;\n        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n        -webkit-background-clip: text;\n        -webkit-text-fill-color: transparent;\n        background-clip: text;\n    }\n\n    .nav-links {\n        display: flex;\n        gap: 2rem;\n        list-style: none;\n        align-items: center;\n    }\n\n    .nav-links a {\n        text-decoration: none;\n        color: #666;\n        transition: color 0.3s;\n        font-weight: 500;\n        cursor: pointer;\n        padding: 0.5rem 1rem;\n        border-radius: 25px;\n    }\n\n    .nav-links a:hover {\n        color: #667eea;\n        background: rgba(102, 126, 234, 0.1);\n    }\n\n    .cart-link {\n        position: relative;\n        display: inline-flex;\n        align-items: center;\n        gap: 5px;\n    }\n\n    .cart-count {\n        background: #667eea;\n        color: white;\n        border-radius: 20px;\n        padding: 2px 8px;\n        font-size: 0.75rem;\n        font-weight: bold;\n        margin-left: 5px;\n    }\n\n    .container {\n        max-width: 1200px;\n        margin: 0 auto;\n        padding: 2rem;\n    }\n\n    .hero {\n        text-align: center;\n        padding: 4rem 2rem;\n        background: rgba(255,255,255,0.95);\n        border-radius: 20px;\n        margin-bottom: 3rem;\n        box-shadow: 0 10px 30px rgba(0,0,0,0.1);\n    }\n\n    .hero h1 {\n        font-size: 3rem;\n        margin-bottom: 1rem;\n        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n        -webkit-background-clip: text;\n        -webkit-text-fill-color: transparent;\n        background-clip: text;\n    }\n\n    .hero p {\n        font-size: 1.2rem;\n        color: #666;\n        margin-bottom: 2rem;\n    }\n\n    /* Categories filters */\n    .category-filters {\n        display: flex;\n        gap: 1rem;\n        margin-bottom: 2rem;\n        flex-wrap: wrap;\n        justify-content: center;\n        padding: 0.5rem;\n    }\n\n    .category-btn {\n        padding: 0.75rem 1.75rem;\n        border: none;\n        border-radius: 40px;\n        cursor: pointer;\n        font-size: 0.95rem;\n        font-weight: 600;\n        transition: all 0.3s ease;\n        background: white;\n        color: #4a5568;\n        box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n        letter-spacing: 0.3px;\n    }\n\n    .category-btn:hover {\n        transform: translateY(-3px);\n        box-shadow: 0 6px 20px rgba(0,0,0,0.15);\n        background: #f8f9fa;\n        color: #667eea;\n    }\n\n    .category-btn.active {\n        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n        color: white;\n        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);\n    }\n\n    /* Products grid */\n    .products-grid {\n        display: grid;\n        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));\n        gap: 2rem;\n        margin-bottom: 2rem;\n    }\n\n    .product-card {\n        background: white;\n        border-radius: 16px;\n        overflow: hidden;\n        transition: transform 0.3s, box-shadow 0.3s;\n        cursor: pointer;\n        box-shadow: 0 5px 20px rgba(0,0,0,0.1);\n    }\n\n    .product-card:hover {\n        transform: translateY(-8px);\n        box-shadow: 0 15px 35px rgba(0,0,0,0.2);\n    }\n\n    .product-card img {\n        width: 100%;\n        height: 220px;\n        object-fit: cover;\n        transition: transform 0.5s;\n    }\n\n    .product-card:hover img {\n        transform: scale(1.05);\n    }\n\n    .product-content {\n        padding: 1.5rem;\n    }\n\n    .product-category-badge {\n        display: inline-block;\n        background: #667eea;\n        color: white;\n        padding: 0.25rem 1rem;\n        border-radius: 20px;\n        font-size: 0.7rem;\n        font-weight: 500;\n        margin-bottom: 0.75rem;\n        text-transform: uppercase;\n        letter-spacing: 0.5px;\n    }\n\n    .product-card h3 {\n        margin-bottom: 0.5rem;\n        color: #2d3748;\n        font-size: 1.25rem;\n        font-weight: 600;\n        line-height: 1.3;\n    }\n\n    .product-description {\n        color: #718096;\n        font-size: 0.9rem;\n        line-height: 1.5;\n        margin-bottom: 1rem;\n        display: -webkit-box;\n        -webkit-line-clamp: 2;\n        -webkit-box-orient: vertical;\n        overflow: hidden;\n    }\n\n    .product-price {\n        font-size: 1.5rem;\n        font-weight: bold;\n        color: #667eea;\n        margin: 0.75rem 0;\n    }\n\n    .add-to-cart {\n        display: inline-block;\n        width: 100%;\n        margin-top: 0.5rem;\n        padding: 0.75rem 1rem;\n        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n        color: white;\n        border: none;\n        border-radius: 10px;\n        cursor: pointer;\n        font-weight: 600;\n        transition: all 0.3s;\n        text-align: center;\n    }\n\n    .add-to-cart:hover {\n        transform: translateY(-2px);\n        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);\n    }\n\n    /* Modal */\n    .modal {\n        display: none;\n        position: fixed;\n        z-index: 2000;\n        left: 0;\n        top: 0;\n        width: 100%;\n        height: 100%;\n        background: rgba(0,0,0,0.85);\n        overflow-y: auto;\n    }\n\n    .modal-content {\n        background: white;\n        margin: 40px auto;\n        padding: 2rem;\n        border-radius: 24px;\n        max-width: 700px;\n        position: relative;\n        animation: slideDown 0.3s ease;\n    }\n\n    @keyframes slideDown {\n        from {\n            opacity: 0;\n            transform: translateY(-50px);\n        }\n        to {\n            opacity: 1;\n            transform: translateY(0);\n        }\n    }\n\n    .close {\n        position: absolute;\n        right: 20px;\n        top: 20px;\n        font-size: 28px;\n        cursor: pointer;\n        color: #999;\n        transition: color 0.3s;\n        width: 32px;\n        height: 32px;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        border-radius: 50%;\n    }\n\n    .close:hover {\n        color: #333;\n        background: #f0f0f0;\n    }\n\n    .modal-product-image {\n        width: 100%;\n        max-height: 300px;\n        object-fit: cover;\n        border-radius: 16px;\n        margin-bottom: 1rem;\n    }\n\n    .modal-product-price {\n        font-size: 2rem;\n        font-weight: bold;\n        color: #667eea;\n        margin: 1rem 0;\n    }\n\n    /* Cart modal */\n    .cart-modal {\n        max-width: 600px;\n    }\n\n    .cart-items {\n        max-height: 400px;\n        overflow-y: auto;\n        margin: 1rem 0;\n    }\n\n    .cart-item {\n        display: flex;\n        justify-content: space-between;\n        align-items: center;\n        padding: 1rem;\n        border-bottom: 1px solid #eee;\n        gap: 1rem;\n        flex-wrap: wrap;\n    }\n\n    .cart-item-info {\n        flex: 2;\n    }\n\n    .cart-item-title {\n        font-weight: 600;\n        margin-bottom: 0.25rem;\n    }\n\n    .cart-item-price {\n        color: #667eea;\n        font-size: 0.9rem;\n    }\n\n    .cart-item-actions {\n        display: flex;\n        align-items: center;\n        gap: 0.5rem;\n    }\n\n    .cart-item-actions button {\n        width: 32px;\n        height: 32px;\n        background: #667eea;\n        color: white;\n        border: none;\n        border-radius: 8px;\n        cursor: pointer;\n        font-size: 1rem;\n        font-weight: bold;\n        transition: background 0.2s;\n    }\n\n    .cart-item-actions button:hover {\n        background: #5a67d8;\n    }\n\n    .cart-item-quantity {\n        min-width: 40px;\n        text-align: center;\n        font-weight: 600;\n    }\n\n    .cart-item-total {\n        font-weight: bold;\n        min-width: 80px;\n        text-align: right;\n        color: #2d3748;\n    }\n\n    .cart-total {\n        text-align: right;\n        padding: 1rem;\n        font-size: 1.3rem;\n        font-weight: bold;\n        border-top: 2px solid #eee;\n        margin-top: 1rem;\n    }\n\n    .checkout-btn {\n        width: 100%;\n        padding: 1rem;\n        background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);\n        color: white;\n        border: none;\n        border-radius: 12px;\n        cursor: pointer;\n        font-size: 1.1rem;\n        font-weight: bold;\n        transition: all 0.3s;\n        margin-top: 1rem;\n    }\n\n    .checkout-btn:hover {\n        transform: translateY(-2px);\n        box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);\n    }\n\n    /* Footer */\n    .footer {\n        background: rgba(255,255,255,0.95);\n        text-align: center;\n        padding: 2rem;\n        margin-top: 4rem;\n        border-radius: 20px;\n        color: #4a5568;\n    }\n\n    /* Reviews section */\n    .review-section {\n        margin-top: 2rem;\n        padding-top: 1rem;\n        border-top: 1px solid #eee;\n    }\n\n    .review-section h4 {\n        font-size: 1.2rem;\n        margin-bottom: 1rem;\n        color: #2d3748;\n    }\n\n    .review-input {\n        display: flex;\n        flex-direction: column;\n        gap: 0.75rem;\n        margin-top: 1rem;\n        background: #f7fafc;\n        padding: 1rem;\n        border-radius: 12px;\n    }\n\n    .review-input input,\n    .review-input select,\n    .review-input textarea {\n        padding: 0.75rem;\n        border: 1px solid #e2e8f0;\n        border-radius: 10px;\n        font-size: 0.95rem;\n        transition: border-color 0.2s;\n    }\n\n    .review-input input:focus,\n    .review-input select:focus,\n    .review-input textarea:focus {\n        outline: none;\n        border-color: #667eea;\n    }\n\n    .review-input button {\n        padding: 0.75rem 1.5rem;\n        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n        color: white;\n        border: none;\n        border-radius: 10px;\n        cursor: pointer;\n        font-weight: 600;\n        transition: all 0.3s;\n    }\n\n    .review-input button:hover {\n        transform: translateY(-2px);\n    }\n\n    .review {\n        background: #f7fafc;\n        padding: 1rem;\n        margin: 0.75rem 0;\n        border-radius: 12px;\n        border-left: 3px solid #667eea;\n    }\n\n    .review strong {\n        color: #2d3748;\n    }\n\n    .review-rating {\n        color: #fbbf24;\n        font-size: 0.9rem;\n        margin-left: 0.5rem;\n    }\n\n    .stars {\n        color: #fbbf24;\n        font-size: 1rem;\n        letter-spacing: 2px;\n    }\n\n    .rating {\n        margin: 1rem 0;\n        padding: 0.75rem;\n        background: #fef3c7;\n        border-radius: 12px;\n        text-align: center;\n    }\n\n    /* Responsive */\n    @media (max-width: 768px) {\n        .nav-container {\n            flex-direction: column;\n            text-align: center;\n        }\n\n        .nav-links {\n            justify-content: center;\n            gap: 1rem;\n            flex-wrap: wrap;\n        }\n\n        .language-selector {\n            position: relative;\n            top: 0;\n            right: 0;\n            display: inline-block;\n            margin-bottom: 1rem;\n        }\n\n        .hero {\n            padding: 2rem 1.5rem;\n        }\n\n        .hero h1 {\n            font-size: 2rem;\n        }\n\n        .hero p {\n            font-size: 1rem;\n        }\n\n        .category-filters {\n            gap: 0.75rem;\n        }\n\n        .category-btn {\n            padding: 0.6rem 1.25rem;\n            font-size: 0.85rem;\n        }\n\n        .products-grid {\n            grid-template-columns: 1fr;\n            gap: 1.5rem;\n        }\n\n        .modal-content {\n            margin: 20px;\n            padding: 1.5rem;\n        }\n\n        .cart-item {\n            flex-direction: column;\n            text-align: center;\n        }\n\n        .cart-item-total {\n            text-align: center;\n        }\n\n        .cart-item-actions {\n            justify-content: center;\n        }\n\n        .product-description {\n            -webkit-line-clamp: 3;\n        }\n    }\n\n    @media (max-width: 480px) {\n        .category-filters {\n            gap: 0.5rem;\n        }\n\n        .category-btn {\n            padding: 0.5rem 1rem;\n            font-size: 0.75rem;\n        }\n\n        .product-card h3 {\n            font-size: 1.1rem;\n        }\n\n        .product-price {\n            font-size: 1.2rem;\n        }\n\n        .product-description {\n            font-size: 0.85rem;\n        }\n\n        .modal-product-price {\n            font-size: 1.5rem;\n        }\n    }\n\n    @keyframes fadeInOut {\n        0% { opacity: 0; transform: translateY(20px); }\n        15% { opacity: 1; transform: translateY(0); }\n        85% { opacity: 1; transform: translateY(0); }\n        100% { opacity: 0; transform: translateY(-20px); }\n    }",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295500027,
+        "modificationDate": 1774295500354,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295500354,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "88d06a86-5d36-48dd-ab30-d1e14f2ef590",
+        "parentCode": "SITE-9C9182E4",
+        "code": "SCRIPT-9CC13131",
+        "language": "EN",
+        "type": "SCRIPT",
+        "title": "E-Shop Scripts",
+        "description": "JavaScript for the e-commerce shop",
+        "content": "    const API_BASE_URL = 'http://localhost:1080';\n    const CORE_BASE_URL = 'http://localhost:8080';\n    const CATEGORIES_CONTAINER_CODE = 'CATEGORIES-9C938782';\n\n    let currentModal = null;\n    let currentLang = 'EN';\n    let currentCategory = null;\n    let cart = JSON.parse(localStorage.getItem('cart') || '[]');\n    let productsMap = new Map();\n\n    const urlParams = new URLSearchParams(window.location.search);\n    const urlLang = urlParams.get('translation');\n    if (urlLang && ['EN', 'FR', 'ES'].includes(urlLang)) {\n        currentLang = urlLang;\n    } else if (localStorage.getItem('language')) {\n        currentLang = localStorage.getItem('language');\n    }\n\n    function changeLanguage(lang) {\n        if (!lang || lang === currentLang) return;\n        currentLang = lang;\n        localStorage.setItem('language', lang);\n        const url = new URL(window.location.href);\n        url.searchParams.set('translation', lang);\n        window.location.href = url.toString();\n    }\n\n    async function fetchCategories() {\n        const url = API_BASE_URL + '/nodes/parent/' + CATEGORIES_CONTAINER_CODE;\n        const response = await fetch(url);\n        return response.json();\n    }\n\n    async function fetchProductsFromCategory(categoryCode) {\n        const url = API_BASE_URL + '/contents/node/code/' + categoryCode + '?status=PUBLISHED&translation=' + currentLang;\n        const response = await fetch(url);\n        const items = await response.json();\n\n        return items.map(item => {\n            let content = {};\n            try {\n                content = item.payload;\n            } catch(e) {\n                console.error('Error parsing content', e);\n            }\n\n            return {\n                code: item.code,\n                title: content.title,\n                description: content.description,\n                price: content.price || 0,\n                imageCodes: content.imageCodes || [],\n                category_code: content.category_code\n            };\n        });\n    }\n\n    async function fetchImages(imageCodes) {\n        const images = [];\n        for (const code of imageCodes) {\n            const url = API_BASE_URL + '/contents/code/' + code + '/file?status=PUBLISHED';\n            images.push(url);\n        }\n        return images;\n    }\n\n    function addToCart(product) {\n        const existing = cart.find(item => item.code === product.code);\n        if (existing) {\n            existing.quantity++;\n        } else {\n            cart.push({\n                code: product.code,\n                title: product.title,\n                price: product.price,\n                quantity: 1\n            });\n        }\n        localStorage.setItem('cart', JSON.stringify(cart));\n        updateCartCount();\n        showNotification(product.title + ' added to cart!');\n    }\n\n    function showNotification(message) {\n        const notification = document.createElement('div');\n        notification.textContent = message;\n        notification.style.position = 'fixed';\n        notification.style.bottom = '20px';\n        notification.style.right = '20px';\n        notification.style.backgroundColor = '#48bb78';\n        notification.style.color = 'white';\n        notification.style.padding = '12px 24px';\n        notification.style.borderRadius = '8px';\n        notification.style.zIndex = '10000';\n        notification.style.animation = 'fadeInOut 2s ease';\n        document.body.appendChild(notification);\n\n        setTimeout(() => {\n            notification.remove();\n        }, 2000);\n    }\n\n    function updateCartCount() {\n        const count = cart.reduce((sum, item) => sum + item.quantity, 0);\n        const cartCount = document.getElementById('cartCount');\n        if (cartCount) cartCount.textContent = count;\n    }\n\n    function openCart() {\n        const modal = document.getElementById('cartModal');\n        const modalBody = document.getElementById('cartModalBody');\n\n        if (cart.length === 0) {\n            modalBody.innerHTML = '<p>Your cart is empty.</p>';\n        } else {\n            modalBody.innerHTML = `\n                <div class=\"cart-items\">\n                    ${cart.map(item => `\n                        <div class=\"cart-item\">\n                            <div class=\"cart-item-info\">\n                                <div class=\"cart-item-title\">${escapeHtml(item.title)}</div>\n                                <div class=\"cart-item-price\">€${item.price}</div>\n                            </div>\n                            <div class=\"cart-item-actions\">\n                                <button onclick=\"updateQuantity('${item.code}', -1)\">-</button>\n                                <span class=\"cart-item-quantity\">${item.quantity}</span>\n                                <button onclick=\"updateQuantity('${item.code}', 1)\">+</button>\n                                <button onclick=\"removeFromCart('${item.code}')\">🗑️</button>\n                            </div>\n                            <div class=\"cart-item-total\">€${(item.price * item.quantity).toFixed(2)}</div>\n                        </div>\n                    `).join('')}\n                </div>\n                <div class=\"cart-total\">\n                    Total: €${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}\n                </div>\n                <button class=\"checkout-btn\" onclick=\"goToCheckout()\">Proceed to Checkout</button>\n            `;\n        }\n        modal.style.display = 'block';\n        currentModal = modal;\n        document.body.style.overflow = 'hidden';\n    }\n\n    function updateQuantity(productCode, delta) {\n        const item = cart.find(i => i.code === productCode);\n        if (item) {\n            item.quantity += delta;\n            if (item.quantity <= 0) {\n                cart = cart.filter(i => i.code !== productCode);\n            }\n            localStorage.setItem('cart', JSON.stringify(cart));\n            openCart();\n            updateCartCount();\n        }\n    }\n\n    function removeFromCart(productCode) {\n        cart = cart.filter(i => i.code !== productCode);\n        localStorage.setItem('cart', JSON.stringify(cart));\n        openCart();\n        updateCartCount();\n    }\n\n    function goToCheckout() {\n        alert('Checkout page would redirect here. Implement your payment flow.');\n    }\n\n    async function openProduct(productCode) {\n        const modal = document.getElementById('productModal');\n        const modalBody = document.getElementById('productModalBody');\n\n        const product = productsMap.get(productCode);\n        if (!product) return;\n\n        const images = await fetchImages(product.imageCodes);\n        const mainImage = images[0] || 'https://via.placeholder.com/400x300';\n\n        modalBody.innerHTML = `\n            <img src=\"${mainImage}\" alt=\"${escapeHtml(product.title)}\" style=\"width: 100%; max-height: 300px; object-fit: cover; border-radius: 10px;\">\n            <h2>${escapeHtml(product.title)}</h2>\n            <div class=\"product-price\">€${product.price}</div>\n            <p>${escapeHtml(product.description)}</p>\n            <button class=\"add-to-cart\" onclick=\"addToCart({code:'${product.code}',title:'${escapeHtml(product.title)}',price:${product.price}})\">Add to Cart</button>\n            <div class=\"review-section\">\n                <h4>Reviews</h4>\n                <div id=\"reviews-${productCode}\"></div>\n                <div class=\"review-input\">\n                    <input type=\"text\" id=\"review-name-${productCode}\" placeholder=\"Your name\">\n                    <select id=\"review-rating-${productCode}\">\n                        <option value=\"5\">★★★★★ (5)</option>\n                        <option value=\"4\">★★★★☆ (4)</option>\n                        <option value=\"3\">★★★☆☆ (3)</option>\n                        <option value=\"2\">★★☆☆☆ (2)</option>\n                        <option value=\"1\">★☆☆☆☆ (1)</option>\n                    </select>\n                    <textarea id=\"review-text-${productCode}\" rows=\"3\" placeholder=\"Your review\"></textarea>\n                    <button onclick=\"addReview('${productCode}')\">Submit Review</button>\n                </div>\n            </div>\n        `;\n\n        modal.style.display = 'block';\n        currentModal = modal;\n        document.body.style.overflow = 'hidden';\n\n        await loadReviews(productCode);\n    }\n\n    async function addReview(productCode) {\n        const nameInput = document.getElementById('review-name-' + productCode);\n        const ratingSelect = document.getElementById('review-rating-' + productCode);\n        const textInput = document.getElementById('review-text-' + productCode);\n\n        const reviewData = {\n            user: nameInput.value.trim() || 'Anonymous',\n            rating: parseInt(ratingSelect.value),\n            comment: textInput.value.trim(),\n            date: new Date().toISOString()\n        };\n\n        if (!reviewData.comment) return;\n\n        const url = API_BASE_URL + '/datas/';\n        const response = await fetch(url, {\n            method: 'POST',\n            headers: { 'Content-Type': 'application/json' },\n            body: JSON.stringify({\n                contentNodeCode: productCode,\n                dataType: 'REVIEW',\n                name: 'Review',\n                user: reviewData.user,\n                key: 'review_' + Date.now(),\n                value: JSON.stringify(reviewData)\n            })\n        });\n\n        if (response.ok) {\n            nameInput.value = '';\n            ratingSelect.value = '5';\n            textInput.value = '';\n            await loadReviews(productCode);\n        }\n    }\n\n    async function loadReviews(productCode) {\n        const url = API_BASE_URL + '/datas/contentCode/' + productCode + '?limit=50';\n        const response = await fetch(url);\n        const reviews = await response.json();\n\n        const reviewsDiv = document.getElementById('reviews-' + productCode);\n        if (reviewsDiv) {\n            if (reviews.length === 0) {\n                reviewsDiv.innerHTML = '<p>No reviews yet. Be the first to review!</p>';\n            } else {\n                let totalRating = 0;\n                for (const r of reviews) {\n                    let data;\n                    try { data = JSON.parse(r.value); } catch(e) { data = { rating: 0 }; }\n                    totalRating += (data.rating || 0);\n                }\n                const avgRating = totalRating / reviews.length;\n                let starsHtml = '';\n                for (let i = 0; i < Math.round(avgRating); i++) starsHtml += '★';\n                for (let i = Math.round(avgRating); i < 5; i++) starsHtml += '☆';\n\n                let reviewsHtml = '';\n                for (const r of reviews) {\n                    let data;\n                    try { data = JSON.parse(r.value); } catch(e) { data = { user: r.user, rating: 0, comment: r.value, date: '' }; }\n                    let reviewStars = '';\n                    for (let i = 0; i < data.rating; i++) reviewStars += '★';\n                    for (let i = data.rating; i < 5; i++) reviewStars += '☆';\n                    reviewsHtml += `\n                        <div class=\"review\">\n                            <strong>${escapeHtml(data.user)}</strong>\n                            <span class=\"review-rating\">${reviewStars}</span>\n                            <span style=\"color:#999; font-size:0.8rem;\">${data.date ? new Date(data.date).toLocaleString() : ''}</span>\n                            <p>${escapeHtml(data.comment)}</p>\n                        </div>\n                    `;\n                }\n\n                reviewsDiv.innerHTML = `\n                    <div class=\"rating\">\n                        Average Rating: <span class=\"stars\">${starsHtml}</span> (${avgRating.toFixed(1)}/5)\n                    </div>\n                    ${reviewsHtml}\n                `;\n            }\n        }\n    }\n\n    function escapeHtml(text) {\n        if (!text) return '';\n        const div = document.createElement('div');\n        div.textContent = text;\n        return div.innerHTML;\n    }\n\n    function closeModal() {\n        if (currentModal) {\n            currentModal.style.display = 'none';\n            currentModal = null;\n            document.body.style.overflow = 'auto';\n        }\n    }\n\n    function updateStaticTranslations() {\n        const elements = document.querySelectorAll('[data-translate]');\n        const translations = {\n            EN: {\n                MAIN_TITLE: 'Nodify E-Shop',\n                MAIN_SUBTITLE: 'Your one-stop shop for everything',\n                CART: 'Cart',\n                SHOP: 'Shop',\n                FOOTER_TEXT: 'Built with ❤️ using Nodify Headless CMS',\n                COPYRIGHT: '© 2026 Nodify E-Shop. All rights reserved.'\n            },\n            FR: {\n                MAIN_TITLE: 'Nodify E-Shop',\n                MAIN_SUBTITLE: 'Votre boutique en ligne pour tout',\n                CART: 'Panier',\n                SHOP: 'Boutique',\n                FOOTER_TEXT: 'Construit avec ❤️ en utilisant Nodify Headless CMS',\n                COPYRIGHT: '© 2026 Nodify E-Shop. Tous droits réservés.'\n            },\n            ES: {\n                MAIN_TITLE: 'Nodify E-Shop',\n                MAIN_SUBTITLE: 'Tu tienda en línea para todo',\n                CART: 'Carrito',\n                SHOP: 'Tienda',\n                FOOTER_TEXT: 'Construido con ❤️ usando Nodify Headless CMS',\n                COPYRIGHT: '© 2026 Nodify E-Shop. Todos los derechos reservados.'\n            }\n        };\n        elements.forEach(el => {\n            const key = el.getAttribute('data-translate');\n            if (translations[currentLang] && translations[currentLang][key]) {\n                el.textContent = translations[currentLang][key];\n            }\n        });\n    }\n\n    async function loadProducts() {\n        const grid = document.getElementById('productsGrid');\n        if (!grid) return;\n\n        try {\n            const categories = await fetchCategories();\n\n            const filterContainer = document.getElementById('categoryFilters');\n            let filterHtml = `<button class=\"category-btn${!currentCategory ? ' active' : ''}\" onclick=\"filterByCategory(null)\">All</button>`;\n            for (const cat of categories) {\n                const isActive = currentCategory === cat.code ? ' active' : '';\n                filterHtml += `\n                    <button class=\"category-btn${isActive}\" onclick=\"filterByCategory('${cat.code}')\">\n                        ${escapeHtml(cat.name)}\n                    </button>\n                `;\n            }\n            filterContainer.innerHTML = filterHtml;\n\n            let allProducts = [];\n            productsMap.clear();\n\n            for (const cat of categories) {\n                const products = await fetchProductsFromCategory(cat.code);\n                for (const p of products) {\n                    const productData = {\n                        code: p.code,\n                        title: p.title,\n                        description: p.description,\n                        price: p.price,\n                        imageCodes: p.imageCodes || [],\n                        categoryName: cat.name,\n                        categoryCode: cat.code\n                    };\n                    allProducts.push(productData);\n                    productsMap.set(p.code, productData);\n                }\n            }\n\n            if (currentCategory) {\n                allProducts = allProducts.filter(p => p.categoryCode === currentCategory);\n            }\n\n            if (allProducts.length === 0) {\n                grid.innerHTML = '<p style=\"color: white; text-align: center;\">No products found.</p>';\n                return;\n            }\n\n            let productHtmls = [];\n            for (const product of allProducts) {\n                const images = await fetchImages(product.imageCodes);\n                const mainImage = images[0] || 'https://via.placeholder.com/280x200';\n                productHtmls.push(`\n                    <div class=\"product-card\" onclick=\"openProduct('${product.code}')\">\n                        <img src=\"${mainImage}\" alt=\"${escapeHtml(product.title)}\" loading=\"lazy\">\n                        <div class=\"product-content\">\n                            <h3>${escapeHtml(product.title)}</h3>\n                            <div class=\"product-price\">€${product.price}</div>\n                            <button class=\"add-to-cart\" onclick=\"event.stopPropagation(); addToCart({code:'${product.code}',title:'${escapeHtml(product.title)}',price:${product.price}})\">Add to Cart</button>\n                        </div>\n                    </div>\n                `);\n            }\n            grid.innerHTML = productHtmls.join('');\n        } catch (error) {\n            console.error('Error loading products:', error);\n            grid.innerHTML = '<p style=\"color: white; text-align: center;\">Error loading products.</p>';\n        }\n    }\n\n    function filterByCategory(categoryCode) {\n        currentCategory = categoryCode;\n        loadProducts();\n    }\n\n    document.addEventListener('DOMContentLoaded', async function() {\n        updateStaticTranslations();\n        updateCartCount();\n        await loadProducts();\n\n        const select = document.getElementById('langSelect');\n        if (select) {\n            select.value = currentLang;\n            select.onchange = function(e) { changeLanguage(e.target.value); };\n        }\n    });\n\n    document.addEventListener('keydown', function(e) {\n        if (e.key === 'Escape') closeModal();\n    });\n\n    window.onclick = function(e) {\n        if (currentModal && e.target === currentModal) closeModal();\n    };",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295500122,
+        "modificationDate": 1774295500422,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295500422,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "34935495-ff90-4fa0-844a-cf4201c2be9a",
+        "parentCode": "SITE-9C9182E4",
+        "code": "PAGE-9CC2B66C",
+        "language": "EN",
+        "type": "HTML",
+        "title": "E-Shop Landing Page",
+        "description": "Main landing page for the e-commerce shop",
+        "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Nodify E-Shop</title>\n    <style>$content(STYLE-9CBEFB13)</style>\n</head>\n<body>\n    <div class=\"language-selector\">\n        <select id=\"langSelect\">\n            <option value=\"EN\">English</option>\n            <option value=\"FR\">Français</option>\n            <option value=\"ES\">Español</option>\n        </select>\n    </div>\n    <nav class=\"navbar\">\n        <div class=\"nav-container\">\n            <div class=\"logo\">🛍️ <span data-translate=\"MAIN_TITLE\">Nodify E-Shop</span></div>\n            <ul class=\"nav-links\">\n                <li><a href=\"#\" onclick=\"loadProducts()\" data-translate=\"SHOP\">Shop</a></li>\n                <li><a href=\"#\" onclick=\"openCart()\"><span data-translate=\"CART\">Cart</span> (<span id=\"cartCount\">0</span>)</a></li>\n            </ul>\n        </div>\n    </nav>\n    <main class=\"container\">\n        <section class=\"hero\">\n            <h1 data-translate=\"MAIN_TITLE\">Nodify E-Shop</h1>\n            <p data-translate=\"MAIN_SUBTITLE\">Your one-stop shop for everything</p>\n        </section>\n        <div id=\"categoryFilters\" class=\"category-filters\"></div>\n        <div id=\"productsGrid\" class=\"products-grid\"></div>\n        <footer class=\"footer\">\n            <p data-translate=\"COPYRIGHT\">© 2026 Nodify E-Shop. All rights reserved.</p>\n            <p><span data-translate=\"FOOTER_TEXT\">Built with ❤️ using Nodify Headless CMS</span></p>\n        </footer>\n    </main>\n\n    <div id=\"productModal\" class=\"modal\">\n        <div class=\"modal-content\">\n            <span class=\"close\" onclick=\"closeModal()\">&times;</span>\n            <div id=\"productModalBody\"></div>\n        </div>\n    </div>\n\n    <div id=\"cartModal\" class=\"modal\">\n        <div class=\"modal-content cart-modal\">\n            <span class=\"close\" onclick=\"closeModal()\">&times;</span>\n            <h2 data-translate=\"CART\">Shopping Cart</h2>\n            <div id=\"cartModalBody\"></div>\n        </div>\n    </div>\n\n    <script>$content(SCRIPT-9CC13131)</script>\n</body>\n</html>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295500212,
+        "modificationDate": 1774295500488,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295500488,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "MAIN_TITLE",
+            "value": "Nodify E-Shop"
+          },
+          {
+            "language": "FR",
+            "key": "MAIN_TITLE",
+            "value": "Nodify E-Shop"
+          },
+          {
+            "language": "ES",
+            "key": "MAIN_TITLE",
+            "value": "Nodify E-Shop"
+          },
+          {
+            "language": "EN",
+            "key": "MAIN_SUBTITLE",
+            "value": "Your one-stop shop for everything"
+          },
+          {
+            "language": "FR",
+            "key": "MAIN_SUBTITLE",
+            "value": "Votre boutique en ligne pour tout"
+          },
+          {
+            "language": "ES",
+            "key": "MAIN_SUBTITLE",
+            "value": "Tu tienda en línea para todo"
+          },
+          {
+            "language": "EN",
+            "key": "CART",
+            "value": "Cart"
+          },
+          {
+            "language": "FR",
+            "key": "CART",
+            "value": "Panier"
+          },
+          {
+            "language": "ES",
+            "key": "CART",
+            "value": "Carrito"
+          },
+          {
+            "language": "EN",
+            "key": "SHOP",
+            "value": "Shop"
+          },
+          {
+            "language": "FR",
+            "key": "SHOP",
+            "value": "Boutique"
+          },
+          {
+            "language": "ES",
+            "key": "SHOP",
+            "value": "Tienda"
+          },
+          {
+            "language": "EN",
+            "key": "FOOTER_TEXT",
+            "value": "Built with ❤️ using Nodify Headless CMS"
+          },
+          {
+            "language": "FR",
+            "key": "FOOTER_TEXT",
+            "value": "Construit avec ❤️ en utilisant Nodify Headless CMS"
+          },
+          {
+            "language": "ES",
+            "key": "FOOTER_TEXT",
+            "value": "Construido con ❤️ usando Nodify Headless CMS"
+          },
+          {
+            "language": "EN",
+            "key": "COPYRIGHT",
+            "value": "© 2026 Nodify E-Shop. All rights reserved."
+          },
+          {
+            "language": "FR",
+            "key": "COPYRIGHT",
+            "value": "© 2026 Nodify E-Shop. Tous droits réservés."
+          },
+          {
+            "language": "ES",
+            "key": "COPYRIGHT",
+            "value": "© 2026 Nodify E-Shop. Todos los derechos reservados."
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "languages": [
+      "EN",
+      "FR",
+      "ES"
+    ],
+    "creationDate": 1774295497149,
+    "modificationDate": 1774295500318,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295500318,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "6abad794-fe94-4289-acb3-6c84e2258c25",
+    "parentCode": "CAT-9CA1F4AF",
+    "name": "Images",
+    "code": "IMAGES-9CA331CA",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "e858e84e-d6aa-45eb-b0ab-5dfc1b9f3648",
+        "parentCode": "IMAGES-9CA331CA",
+        "code": "IMG-9CA427BB",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "monster_1",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/64/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295498309,
+        "modificationDate": 1774295501406,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501406,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "74d452c0-bfbe-4f73-8aca-507dc892bd18",
+        "parentCode": "IMAGES-9CA331CA",
+        "code": "IMG-9CA5638F",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "redbull_1",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/51/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295498372,
+        "modificationDate": 1774295501462,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501462,
+        "status": "SNAPSHOT",
+        "favorite": false
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295498224,
+    "modificationDate": 1774295501385,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295501385,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "9d72c2cc-1e79-4507-8fa6-0bd9656f6404",
+    "parentCode": "CAT-9C954580",
+    "name": "Images",
+    "code": "IMAGES-9C96B6E5",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "6ffa35d9-779d-43c7-bd2f-ee5689159c38",
+        "parentCode": "IMAGES-9C96B6E5",
+        "code": "IMG-9C97C755",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "cyberpunk_1",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/54/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295497567,
+        "modificationDate": 1774295501872,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501872,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "b4d433ff-ecd9-46c3-bebe-7a91c3a090bc",
+        "parentCode": "IMAGES-9C96B6E5",
+        "code": "IMG-9C99FA37",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "cyberpunk_2",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/55/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295497690,
+        "modificationDate": 1774295501953,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501953,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "555381a1-d6f3-45fc-93fa-6ed9eb4d5a31",
+        "parentCode": "IMAGES-9C96B6E5",
+        "code": "IMG-9C9BA2FA",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "elden_ring_1",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/52/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295497815,
+        "modificationDate": 1774295501999,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501999,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "97ff9d16-60f8-448a-bb65-5bbb782c51bf",
+        "parentCode": "IMAGES-9C96B6E5",
+        "code": "IMG-9C9D9DC7",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "elden_ring_2",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/48/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295497926,
+        "modificationDate": 1774295502049,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295502049,
+        "status": "SNAPSHOT",
+        "favorite": false
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295497468,
+    "modificationDate": 1774295501842,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295501842,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "44c011b6-e557-4d47-8383-054aecfe1a15",
+    "parentCode": "CATEGORIES-9C938782",
+    "name": "Video Games",
+    "code": "CAT-9C954580",
+    "description": "Latest video games for all platforms",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "1439cdba-6cad-4362-acbe-25fdc897579e",
+        "parentCode": "CAT-9C954580",
+        "code": "PROD-9C9EDC17",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Cyberpunk 2077",
+        "description": "Open-world action RPG set in a futuristic metropolis",
+        "content": "{\"title\":\"$translate(title)\",\"description\":\"$translate(description)\",\"price\":59.99,\"category_code\":\"GAMES-GAMES\",\"imageCodes\":[\"IMG-9C97C755\",\"IMG-9C99FA37\"]}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295497993,
+        "modificationDate": 1774295500864,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295500864,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "Cyberpunk 2077"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Cyberpunk 2077"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Cyberpunk 2077"
+          },
+          {
+            "language": "EN",
+            "key": "description",
+            "value": "Open-world action RPG set in a futuristic metropolis"
+          },
+          {
+            "language": "FR",
+            "key": "description",
+            "value": "Jeu de rôle d'action en monde ouvert dans une métropole futuriste"
+          },
+          {
+            "language": "ES",
+            "key": "description",
+            "value": "RPG de acción de mundo abierto en una metrópolis futurista"
+          }
+        ]
+      },
+      {
+        "id": "e63adb40-e652-4b6e-8529-240c87f04010",
+        "parentCode": "CAT-9C954580",
+        "code": "PROD-9CA0BE10",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Elden Ring",
+        "description": "A challenging action RPG from the creators of Dark Souls",
+        "content": "{\"title\":\"$translate(title)\",\"description\":\"$translate(description)\",\"price\":69.99,\"category_code\":\"GAMES-GAMES\",\"imageCodes\":[\"IMG-9C9BA2FA\",\"IMG-9C9D9DC7\"]}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295498070,
+        "modificationDate": 1774295500914,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295500914,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "Elden Ring"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Elden Ring"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Elden Ring"
+          },
+          {
+            "language": "EN",
+            "key": "description",
+            "value": "A challenging action RPG from the creators of Dark Souls"
+          },
+          {
+            "language": "FR",
+            "key": "description",
+            "value": "Un RPG d'action difficile des créateurs de Dark Souls"
+          },
+          {
+            "language": "ES",
+            "key": "description",
+            "value": "Un RPG de acción desafiante de los creadores de Dark Souls"
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295497385,
+    "modificationDate": 1774295500841,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295500841,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "f0626054-e244-46be-88f8-816c133e09ba",
+    "parentCode": "CATEGORIES-9C938782",
+    "name": "Energy Drinks",
+    "code": "CAT-9CA1F4AF",
+    "description": "Boost your energy with our selection",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "ecd6251d-1129-4d6c-b209-d711869f9183",
+        "parentCode": "CAT-9CA1F4AF",
+        "code": "PROD-9CA65F85",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Monster Energy",
+        "description": "Classic energy drink for maximum boost",
+        "content": "{\"title\":\"$translate(title)\",\"description\":\"$translate(description)\",\"price\":2.99,\"category_code\":\"ENERGY-ENERGY\",\"imageCodes\":[\"IMG-9CA427BB\"]}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295498466,
+        "modificationDate": 1774295501005,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501005,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "Monster Energy"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Monster Energy"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Monster Energy"
+          },
+          {
+            "language": "EN",
+            "key": "description",
+            "value": "Classic energy drink for maximum boost"
+          },
+          {
+            "language": "FR",
+            "key": "description",
+            "value": "Boisson énergétique classique pour un boost maximum"
+          },
+          {
+            "language": "ES",
+            "key": "description",
+            "value": "Bebida energética clásica para un impulso máximo"
+          }
+        ]
+      },
+      {
+        "id": "b6f307b5-2150-4335-b2ec-27996c0c4388",
+        "parentCode": "CAT-9CA1F4AF",
+        "code": "PROD-9CA7D3C2",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Red Bull",
+        "description": "Gives you wings",
+        "content": "{\"title\":\"$translate(title)\",\"description\":\"$translate(description)\",\"price\":2.99,\"category_code\":\"ENERGY-ENERGY\",\"imageCodes\":[\"IMG-9CA5638F\"]}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295498557,
+        "modificationDate": 1774295501055,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501055,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "Red Bull"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Red Bull"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Red Bull"
+          },
+          {
+            "language": "EN",
+            "key": "description",
+            "value": "Gives you wings"
+          },
+          {
+            "language": "FR",
+            "key": "description",
+            "value": "Vous donne des ailes"
+          },
+          {
+            "language": "ES",
+            "key": "description",
+            "value": "Te da alas"
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295498161,
+    "modificationDate": 1774295500985,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295500985,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "aa3b29b0-959d-4ff2-83d2-cf1e29032c39",
+    "parentCode": "CATEGORIES-9C938782",
+    "name": "Promotions",
+    "code": "CAT-9CB93FAF",
+    "description": "Special limited-time offers",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "690fe683-68b2-4422-9c99-58cec476a14d",
+        "parentCode": "CAT-9CB93FAF",
+        "code": "PROD-9CBCBDEE",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Limited Edition Controller",
+        "description": "Special edition controller with unique design",
+        "content": "{\"title\":\"$translate(title)\",\"description\":\"$translate(description)\",\"price\":79.99,\"category_code\":\"PROMO-PROMO\",\"imageCodes\":[\"IMG-9CBB801D\"]}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295499870,
+        "modificationDate": 1774295500656,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295500656,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "Limited Edition Controller"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Manette Édition Limitée"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Control Edición Limitada"
+          },
+          {
+            "language": "EN",
+            "key": "description",
+            "value": "Special edition controller with unique design"
+          },
+          {
+            "language": "FR",
+            "key": "description",
+            "value": "Manette édition limitée au design unique"
+          },
+          {
+            "language": "ES",
+            "key": "description",
+            "value": "Control edición limitada con diseño único"
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295499630,
+    "modificationDate": 1774295500634,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295500634,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "1201123b-9184-4b21-b149-9d0248fa3806",
+    "parentCode": "CATEGORIES-9C938782",
+    "name": "Sales",
+    "code": "CAT-9CB4EABF",
+    "description": "Best deals and discounts",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "5feb9beb-c741-4be7-9619-f246b16ec387",
+        "parentCode": "CAT-9CB4EABF",
+        "code": "PROD-9CB83760",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Winter Sale Bundle",
+        "description": "Get 3 games for the price of 2",
+        "content": "{\"title\":\"$translate(title)\",\"description\":\"$translate(description)\",\"price\":99.99,\"category_code\":\"SALES-SALES\",\"imageCodes\":[\"IMG-9CB6ED27\"]}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295499560,
+        "modificationDate": 1774295501312,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501312,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "Winter Sale Bundle"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Pack Soldes d'Hiver"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Paquete de Ofertas de Invierno"
+          },
+          {
+            "language": "EN",
+            "key": "description",
+            "value": "Get 3 games for the price of 2"
+          },
+          {
+            "language": "FR",
+            "key": "description",
+            "value": "3 jeux pour le prix de 2"
+          },
+          {
+            "language": "ES",
+            "key": "description",
+            "value": "3 juegos por el precio de 2"
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295499335,
+    "modificationDate": 1774295501294,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295501294,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "19c12cb2-02a6-491c-acf2-b799403954e1",
+    "parentCode": "CAT-9CB4EABF",
+    "name": "Images",
+    "code": "IMAGES-9CB5C58E",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "06784565-e532-4c2e-8897-93f7dd39ce20",
+        "parentCode": "IMAGES-9CB5C58E",
+        "code": "IMG-9CB6ED27",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "sale_1",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/27/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295499496,
+        "modificationDate": 1774295502172,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295502172,
+        "status": "SNAPSHOT",
+        "favorite": false
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295499412,
+    "modificationDate": 1774295502148,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295502148,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "45e70d0e-3979-4688-b38e-6c049371d652",
+    "parentCode": "CAT-9CB93FAF",
+    "name": "Images",
+    "code": "IMAGES-9CBA4C03",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "3f366327-dfa5-47bb-a020-dd0e02b2216c",
+        "parentCode": "IMAGES-9CBA4C03",
+        "code": "IMG-9CBB801D",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "controller_1",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/94/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295499790,
+        "modificationDate": 1774295502298,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295502298,
+        "status": "SNAPSHOT",
+        "favorite": false
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295499708,
+    "modificationDate": 1774295502276,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295502276,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "6d18ba58-aba8-4ec9-a80f-5060e3e7887a",
+    "parentCode": "CATEGORIES-9C938782",
+    "name": "Consoles",
+    "code": "CAT-9CA93C39",
+    "description": "Latest gaming consoles",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "118a6212-8df5-48b5-985d-3ed6af20a5a8",
+        "parentCode": "CAT-9CA93C39",
+        "code": "PROD-9CB1FD8B",
+        "language": "EN",
+        "type": "JSON",
+        "title": "PlayStation 5",
+        "description": "Next-gen gaming console",
+        "content": "{\"title\":\"$translate(title)\",\"description\":\"$translate(description)\",\"price\":499.99,\"category_code\":\"CONSOLES-CONSOLES\",\"imageCodes\":[\"IMG-9CAB7747\",\"IMG-9CACA275\"]}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295499181,
+        "modificationDate": 1774295501170,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501170,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "PlayStation 5"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "PlayStation 5"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "PlayStation 5"
+          },
+          {
+            "language": "EN",
+            "key": "description",
+            "value": "Next-gen gaming console"
+          },
+          {
+            "language": "FR",
+            "key": "description",
+            "value": "Console de jeux nouvelle génération"
+          },
+          {
+            "language": "ES",
+            "key": "description",
+            "value": "Consola de juegos de nueva generación"
+          }
+        ]
+      },
+      {
+        "id": "e0f488d9-0844-4268-a75d-06b78e61ce6f",
+        "parentCode": "CAT-9CA93C39",
+        "code": "PROD-9CB3B649",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Xbox Series X",
+        "description": "The most powerful Xbox ever",
+        "content": "{\"title\":\"$translate(title)\",\"description\":\"$translate(description)\",\"price\":499.99,\"category_code\":\"CONSOLES-CONSOLES\",\"imageCodes\":[\"IMG-9CADF3A6\",\"IMG-9CB08C46\"]}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295499278,
+        "modificationDate": 1774295501215,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501215,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "Xbox Series X"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Xbox Series X"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Xbox Series X"
+          },
+          {
+            "language": "EN",
+            "key": "description",
+            "value": "The most powerful Xbox ever"
+          },
+          {
+            "language": "FR",
+            "key": "description",
+            "value": "La Xbox la plus puissante jamais créée"
+          },
+          {
+            "language": "ES",
+            "key": "description",
+            "value": "La Xbox más poderosa jamás creada"
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295498641,
+    "modificationDate": 1774295501145,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295501145,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "149716cf-f35a-42a1-b0ae-a233eafeba1a",
+    "parentCode": "CAT-9CA93C39",
+    "name": "Images",
+    "code": "IMAGES-9CAA88CC",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "61a7ed03-fdfd-478c-bea9-44a273906bc3",
+        "parentCode": "IMAGES-9CAA88CC",
+        "code": "IMG-9CAB7747",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "ps5_1",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/70/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295498784,
+        "modificationDate": 1774295501558,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501558,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "9cd361e3-6162-4930-b973-3003caa37161",
+        "parentCode": "IMAGES-9CAA88CC",
+        "code": "IMG-9CACA275",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "ps5_2",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/53/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295498867,
+        "modificationDate": 1774295501600,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501600,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "8d887a84-67d2-4cd0-bb50-eb17e88775ca",
+        "parentCode": "IMAGES-9CAA88CC",
+        "code": "IMG-9CADF3A6",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "xbox_1",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/90/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295498955,
+        "modificationDate": 1774295501665,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501665,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "a2c83ac1-04be-44cd-9708-0cca575c9f7d",
+        "parentCode": "IMAGES-9CAA88CC",
+        "code": "IMG-9CB08C46",
+        "language": "EN",
+        "type": "PICTURE",
+        "title": "xbox_2",
+        "description": "Image for product",
+        "content": "https://picsum.photos/id/57/400/300",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295499081,
+        "modificationDate": 1774295501736,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295501736,
+        "status": "SNAPSHOT",
+        "favorite": false
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295498706,
+    "modificationDate": 1774295501538,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295501538,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "4caabc5f-d68d-42ae-90d2-ff5eb3e5027e",
+    "parentCode": "SITE-9C9182E4",
+    "name": "Categories",
+    "code": "CATEGORIES-9C938782",
+    "description": "Container for all product categories",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "8eec0031-7fe2-4582-b400-105a305f2335",
+        "parentCode": "CATEGORIES-9C938782",
+        "code": "CAT-9CBDF9E6",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Categories Metadata",
+        "description": "Metadata for all product categories",
+        "content": "{\"categories\":[{\"code\":\"GAMES-GAMES\",\"name\":\"$translate(name_GAMES-GAMES)\",\"description\":\"$translate(desc_GAMES-GAMES)\",\"nodeCode\":\"CAT-9C954580\"},{\"code\":\"ENERGY-ENERGY\",\"name\":\"$translate(name_ENERGY-ENERGY)\",\"description\":\"$translate(desc_ENERGY-ENERGY)\",\"nodeCode\":\"CAT-9CA1F4AF\"},{\"code\":\"CONSOLES-CONSOLES\",\"name\":\"$translate(name_CONSOLES-CONSOLES)\",\"description\":\"$translate(desc_CONSOLES-CONSOLES)\",\"nodeCode\":\"CAT-9CA93C39\"},{\"code\":\"SALES-SALES\",\"name\":\"$translate(name_SALES-SALES)\",\"description\":\"$translate(desc_SALES-SALES)\",\"nodeCode\":\"CAT-9CB4EABF\"},{\"code\":\"PROMO-PROMO\",\"name\":\"$translate(name_PROMO-PROMO)\",\"description\":\"$translate(desc_PROMO-PROMO)\",\"nodeCode\":\"CAT-9CB93FAF\"}]}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774295499936,
+        "modificationDate": 1774295500760,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774295500760,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "name_GAMES-GAMES",
+            "value": "Video Games"
+          },
+          {
+            "language": "FR",
+            "key": "name_GAMES-GAMES",
+            "value": "Jeux Vidéo"
+          },
+          {
+            "language": "ES",
+            "key": "name_GAMES-GAMES",
+            "value": "Videojuegos"
+          },
+          {
+            "language": "EN",
+            "key": "desc_GAMES-GAMES",
+            "value": "Latest video games for all platforms"
+          },
+          {
+            "language": "FR",
+            "key": "desc_GAMES-GAMES",
+            "value": "Derniers jeux vidéo pour toutes les plateformes"
+          },
+          {
+            "language": "ES",
+            "key": "desc_GAMES-GAMES",
+            "value": "Últimos videojuegos para todas las plataformas"
+          },
+          {
+            "language": "EN",
+            "key": "name_ENERGY-ENERGY",
+            "value": "Energy Drinks"
+          },
+          {
+            "language": "FR",
+            "key": "name_ENERGY-ENERGY",
+            "value": "Boissons Énergétiques"
+          },
+          {
+            "language": "ES",
+            "key": "name_ENERGY-ENERGY",
+            "value": "Bebidas Energéticas"
+          },
+          {
+            "language": "EN",
+            "key": "desc_ENERGY-ENERGY",
+            "value": "Boost your energy with our selection"
+          },
+          {
+            "language": "FR",
+            "key": "desc_ENERGY-ENERGY",
+            "value": "Boostez votre énergie avec notre sélection"
+          },
+          {
+            "language": "ES",
+            "key": "desc_ENERGY-ENERGY",
+            "value": "Aumenta tu energía con nuestra selección"
+          },
+          {
+            "language": "EN",
+            "key": "name_CONSOLES-CONSOLES",
+            "value": "Consoles"
+          },
+          {
+            "language": "FR",
+            "key": "name_CONSOLES-CONSOLES",
+            "value": "Consoles"
+          },
+          {
+            "language": "ES",
+            "key": "name_CONSOLES-CONSOLES",
+            "value": "Consolas"
+          },
+          {
+            "language": "EN",
+            "key": "desc_CONSOLES-CONSOLES",
+            "value": "Latest gaming consoles"
+          },
+          {
+            "language": "FR",
+            "key": "desc_CONSOLES-CONSOLES",
+            "value": "Dernières consoles de jeux"
+          },
+          {
+            "language": "ES",
+            "key": "desc_CONSOLES-CONSOLES",
+            "value": "Últimas consolas de juegos"
+          },
+          {
+            "language": "EN",
+            "key": "name_SALES-SALES",
+            "value": "Sales"
+          },
+          {
+            "language": "FR",
+            "key": "name_SALES-SALES",
+            "value": "Soldes"
+          },
+          {
+            "language": "ES",
+            "key": "name_SALES-SALES",
+            "value": "Ofertas"
+          },
+          {
+            "language": "EN",
+            "key": "desc_SALES-SALES",
+            "value": "Best deals and discounts"
+          },
+          {
+            "language": "FR",
+            "key": "desc_SALES-SALES",
+            "value": "Meilleures offres et réductions"
+          },
+          {
+            "language": "ES",
+            "key": "desc_SALES-SALES",
+            "value": "Mejores ofertas y descuentos"
+          },
+          {
+            "language": "EN",
+            "key": "name_PROMO-PROMO",
+            "value": "Promotions"
+          },
+          {
+            "language": "FR",
+            "key": "name_PROMO-PROMO",
+            "value": "Promotions"
+          },
+          {
+            "language": "ES",
+            "key": "name_PROMO-PROMO",
+            "value": "Promociones"
+          },
+          {
+            "language": "EN",
+            "key": "desc_PROMO-PROMO",
+            "value": "Special limited-time offers"
+          },
+          {
+            "language": "FR",
+            "key": "desc_PROMO-PROMO",
+            "value": "Offres spéciales à durée limitée"
+          },
+          {
+            "language": "ES",
+            "key": "desc_PROMO-PROMO",
+            "value": "Ofertas especiales por tiempo limitado"
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774295497271,
+    "modificationDate": 1774295500735,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774295500735,
+    "status": "SNAPSHOT",
+    "favorite": false
+  }
+]

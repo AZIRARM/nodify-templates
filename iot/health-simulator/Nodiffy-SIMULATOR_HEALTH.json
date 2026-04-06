@@ -1,0 +1,316 @@
+[
+  {
+    "id": "c89b2207-b464-4b50-9465-9abd383fe47a",
+    "name": "Simulator_Health",
+    "code": "SIMULATOR_HEALTH-1775422916457",
+    "defaultLanguage": "EN",
+    "contents": [
+      {
+        "id": "834d4e31-2b16-44fe-9fcd-2771ab0a3fa4",
+        "parentCode": "SIMULATOR_HEALTH-1775422916457",
+        "parentCodeOrigin": "DEV-01",
+        "code": "HTML-1775422942644",
+        "type": "HTML",
+        "description": "simulator_health",
+        "content": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=yes\">\n    <title>🏥 Simulateur Capteurs Santé - IoT Médical</title>\n\t$content(STYLE-1775422961591)\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <h1>🏥 Capteurs Santé IoT</h1>\n            <p>Simulateur de monitoring patient</p>\n        </div>\n        \n        <div class=\"add-patient\">\n            <h3>➕ Ajouter un patient</h3>\n            <div class=\"form-group\">\n                <input type=\"text\" id=\"patientName\" placeholder=\"Nom du patient\">\n                <input type=\"text\" id=\"patientId\" placeholder=\"ID (ex: patient_001)\">\n                <button class=\"btn btn-primary\" onclick=\"addPatient()\">Ajouter</button>\n            </div>\n            <label>📦 Content Node Code (obligatoire):</label>\n            <input type=\"text\" id=\"contentNodeCode\" placeholder=\"ex: health-data\" value=\"health-data\">\n            <small style=\"color: #666;\">⭐ Code du content node dans Nodify</small>\n        </div>\n        \n        <div id=\"patientsContainer\"></div>\n        \n        <div class=\"log\" id=\"globalLog\">\n            > Système de monitoring santé démarré<br>\n            > Entrez un Content Node Code (ex: health-data)<br>\n            > Ajoutez des patients pour commencer\n        </div>\n    </div>\n\t$content(SCRIPT-1775422952313)\n</body>\n</html>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775422948369,
+        "modificationDate": 1775492304218,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1775423532896,
+        "status": "SNAPSHOT",
+        "favorite": true
+      },
+      {
+        "id": "d392a26e-f681-479e-a75a-ddfd4a32989f",
+        "parentCode": "SIMULATOR_HEALTH-1775422916457",
+        "parentCodeOrigin": "DEV-01",
+        "code": "SCRIPT-1775422952313",
+        "type": "SCRIPT",
+        "description": "simulator_health",
+        "content": "\n    <script>\n        let patients = {};\n        let intervals = {};\n        let currentContentNodeCode = null;\n\n        // Seuils médicaux\n        const thresholds = {\n            heart_rate: { min: 60, max: 100, warningMin: 50, warningMax: 120, criticalMin: 40, criticalMax: 140 },\n            systolic: { min: 90, max: 120, warningMin: 80, warningMax: 140, criticalMin: 70, criticalMax: 160 },\n            diastolic: { min: 60, max: 80, warningMin: 50, warningMax: 90, criticalMin: 40, criticalMax: 100 },\n            temperature: { min: 36.1, max: 37.2, warningMin: 35.5, warningMax: 38.5, criticalMin: 35, criticalMax: 39.5 },\n            oxygen: { min: 95, max: 100, warningMin: 90, warningMax: 100, criticalMin: 85, criticalMax: 100 }\n        };\n\n        // Générer une clé unique pour un patient\n        function generateDataKey(patientId) {\n            return `health_${patientId}`;\n        }\n\n        // Vérifier le contentNodeCode\n        function getContentNodeCode() {\n            const code = document.getElementById('contentNodeCode').value.trim();\n            if (!code) {\n                addLog(\"❌ Veuillez entrer un Content Node Code\");\n                return null;\n            }\n            return code;\n        }\n\n        // Évaluer le niveau d'alerte\n        function evaluateAlertLevel(data) {\n            let level = \"normal\";\n            \n            // Rythme cardiaque\n            if (data.heart_rate <= thresholds.heart_rate.criticalMin || data.heart_rate >= thresholds.heart_rate.criticalMax) {\n                level = \"critical\";\n            } else if (data.heart_rate <= thresholds.heart_rate.warningMin || data.heart_rate >= thresholds.heart_rate.warningMax) {\n                if (level !== \"critical\") level = \"warning\";\n            }\n            \n            // Tension systolique\n            if (data.blood_pressure_systolic <= thresholds.systolic.criticalMin || data.blood_pressure_systolic >= thresholds.systolic.criticalMax) {\n                level = \"critical\";\n            } else if (data.blood_pressure_systolic <= thresholds.systolic.warningMin || data.blood_pressure_systolic >= thresholds.systolic.warningMax) {\n                if (level !== \"critical\") level = \"warning\";\n            }\n            \n            // Tension diastolique\n            if (data.blood_pressure_diastolic <= thresholds.diastolic.criticalMin || data.blood_pressure_diastolic >= thresholds.diastolic.criticalMax) {\n                level = \"critical\";\n            } else if (data.blood_pressure_diastolic <= thresholds.diastolic.warningMin || data.blood_pressure_diastolic >= thresholds.diastolic.warningMax) {\n                if (level !== \"critical\") level = \"warning\";\n            }\n            \n            // Température\n            if (data.temperature <= thresholds.temperature.criticalMin || data.temperature >= thresholds.temperature.criticalMax) {\n                level = \"critical\";\n            } else if (data.temperature <= thresholds.temperature.warningMin || data.temperature >= thresholds.temperature.warningMax) {\n                if (level !== \"critical\") level = \"warning\";\n            }\n            \n            // Oxygène\n            if (data.oxygen_saturation <= thresholds.oxygen.criticalMin) {\n                level = \"critical\";\n            } else if (data.oxygen_saturation <= thresholds.oxygen.warningMin) {\n                if (level !== \"critical\") level = \"warning\";\n            }\n            \n            return level;\n        }\n\n        // Générer des données vitales aléatoires mais réalistes\n        function generateHealthData(patientId) {\n            const baseData = patients[patientId]?.lastData || {\n                heart_rate: 75,\n                systolic: 110,\n                diastolic: 70,\n                temperature: 36.8,\n                oxygen: 97\n            };\n            \n            // Variation progressive\n            return {\n                heart_rate: Math.max(40, Math.min(150, Math.round(baseData.heart_rate + (Math.random() - 0.5) * 4))),\n                blood_pressure_systolic: Math.max(70, Math.min(180, Math.round(baseData.systolic + (Math.random() - 0.5) * 3))),\n                blood_pressure_diastolic: Math.max(50, Math.min(110, Math.round(baseData.diastolic + (Math.random() - 0.5) * 2))),\n                temperature: Math.max(35, Math.min(40, +(baseData.temperature + (Math.random() - 0.5) * 0.2).toFixed(1))),\n                oxygen_saturation: Math.max(70, Math.min(100, Math.round(baseData.oxygen + (Math.random() - 0.5) * 1.5)))\n            };\n        }\n\n        // Créer ou mettre à jour les données dans Nodify\n        async function sendHealthData(patientId) {\n            const contentNodeCode = getContentNodeCode();\n            if (!contentNodeCode) return;\n            \n            const patient = patients[patientId];\n            if (!patient) return;\n            \n            const healthData = generateHealthData(patientId);\n            const alertLevel = evaluateAlertLevel(healthData);\n            \n            // Sauvegarder pour la prochaine variation\n            patients[patientId].lastData = healthData;\n            \n            const now = Date.now();\n            const dataKey = generateDataKey(patientId);\n            \n            const healthPayload = {\n                device_id: patientId,\n                patient_name: patient.name,\n                heart_rate: healthData.heart_rate,\n                blood_pressure_systolic: healthData.blood_pressure_systolic,\n                blood_pressure_diastolic: healthData.blood_pressure_diastolic,\n                temperature: healthData.temperature,\n                oxygen_saturation: healthData.oxygen_saturation,\n                alert_level: alertLevel,\n                timestamp: new Date().toISOString(),\n                timestamp_ms: now\n            };\n            \n            const payload = {\n                key: dataKey,\n                name: `Données santé - ${patient.name} (${patientId})`,\n                dataType: \"json\",\n                value: JSON.stringify(healthPayload),\n                creationDate: now,\n                modificationDate: now,\n                contentNodeCode: contentNodeCode,\n                user: patient.name\n            };\n            \n            try {\n                let response;\n                \n                if (patients[patientId].uuid) {\n                    // Mise à jour\n                    payload.id = patients[patientId].uuid;\n                    response = await fetch(`/datas/id/${patients[patientId].uuid}`, {\n                        method: 'PUT',\n                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },\n                        body: JSON.stringify(payload)\n                    });\n                } else {\n                    // Création\n                    response = await fetch(`/datas/`, {\n                        method: 'POST',\n                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },\n                        body: JSON.stringify(payload)\n                    });\n                }\n                \n                if (response.ok && !patients[patientId].uuid) {\n                    const result = await response.json();\n                    patients[patientId].uuid = result.id;\n                }\n                \n                updatePatientUI(patientId, healthData, alertLevel);\n                \n            } catch (error) {\n                addLog(`❌ Erreur ${patientId}: ${error.message}`);\n            }\n        }\n\n        // Mettre à jour l'interface d'un patient\n        function updatePatientUI(patientId, data, alertLevel) {\n            const container = document.getElementById(`patient-${patientId}`);\n            if (!container) return;\n            \n            const alertClass = alertLevel === 'critical' ? 'alert-critical' : (alertLevel === 'warning' ? 'alert-warning' : 'alert-normal');\n            const alertText = alertLevel === 'critical' ? '🚨 CRITIQUE' : (alertLevel === 'warning' ? '⚠️ ATTENTION' : '✅ NORMAL');\n            \n            const alertBadge = container.querySelector('.alert-badge');\n            if (alertBadge) {\n                alertBadge.innerHTML = alertText;\n                alertBadge.className = `alert-badge ${alertClass}`;\n            }\n            \n            const hrSpan = container.querySelector('.heart-rate-value');\n            if (hrSpan) hrSpan.innerHTML = data.heart_rate;\n            \n            const sysSpan = container.querySelector('.systolic-value');\n            if (sysSpan) sysSpan.innerHTML = data.blood_pressure_systolic;\n            \n            const diaSpan = container.querySelector('.diastolic-value');\n            if (diaSpan) diaSpan.innerHTML = data.blood_pressure_diastolic;\n            \n            const tempSpan = container.querySelector('.temperature-value');\n            if (tempSpan) tempSpan.innerHTML = data.temperature;\n            \n            const oxSpan = container.querySelector('.oxygen-value');\n            if (oxSpan) oxSpan.innerHTML = data.oxygen_saturation;\n            \n            // Changer les couleurs\n            const vitalValues = container.querySelectorAll('.vital-value');\n            vitalValues.forEach(el => {\n                el.classList.remove('status-normal', 'status-warning', 'status-critical');\n                if (alertLevel === 'critical') el.classList.add('status-critical');\n                else if (alertLevel === 'warning') el.classList.add('status-warning');\n                else el.classList.add('status-normal');\n            });\n            \n            const timeSpan = container.querySelector('.last-time');\n            if (timeSpan) timeSpan.innerHTML = new Date().toLocaleTimeString();\n        }\n\n        // Ajouter un patient\n        function addPatient() {\n            const contentNodeCode = getContentNodeCode();\n            if (!contentNodeCode) {\n                alert(\"Entrez d'abord un Content Node Code\");\n                return;\n            }\n            \n            const name = document.getElementById('patientName').value;\n            let id = document.getElementById('patientId').value;\n            \n            if (!name) {\n                alert(\"Entrez un nom\");\n                return;\n            }\n            if (!id) {\n                id = `patient_${Date.now()}`;\n            }\n            \n            if (patients[id]) {\n                alert(\"Ce patient existe déjà\");\n                return;\n            }\n            \n            patients[id] = {\n                name: name,\n                lastData: null,\n                interval: null,\n                uuid: null\n            };\n            \n            renderPatients();\n            \n            // Démarrer l'envoi pour ce patient\n            patients[id].interval = setInterval(() => {\n                sendHealthData(id);\n            }, 3000);\n            \n            document.getElementById('patientName').value = '';\n            document.getElementById('patientId').value = '';\n            \n            addLog(`✅ Patient ajouté: ${name} (${id})`);\n        }\n\n        // Supprimer un patient\n        function removePatient(patientId) {\n            if (patients[patientId].interval) {\n                clearInterval(patients[patientId].interval);\n            }\n            delete patients[patientId];\n            renderPatients();\n            addLog(`❌ Patient supprimé: ${patientId}`);\n        }\n\n        // Basculer l'affichage du contenu patient\n        function togglePatient(patientId) {\n            const content = document.getElementById(`content-${patientId}`);\n            if (content) {\n                content.classList.toggle('active');\n            }\n        }\n\n        // Rendre tous les patients\n        function renderPatients() {\n            const container = document.getElementById('patientsContainer');\n            \n            if (Object.keys(patients).length === 0) {\n                container.innerHTML = '<p style=\"text-align: center; color: white;\">Aucun patient. Ajoutez-en un !</p>';\n                return;\n            }\n            \n            container.innerHTML = Object.entries(patients).map(([id, patient]) => `\n                <div class=\"patient-card\" id=\"patient-${id}\">\n                    <div class=\"patient-header\" onclick=\"togglePatient('${id}')\">\n                        <div>\n                            🏥 <strong>${patient.name}</strong> (${id})\n                            <span class=\"alert-badge alert-normal\">✅ NORMAL</span>\n                        </div>\n                        <span>▼</span>\n                    </div>\n                    <div class=\"patient-content\" id=\"content-${id}\">\n                        <div class=\"vital-grid\">\n                            <div class=\"vital-card\">\n                                <div class=\"vital-label\">❤️ Rythme cardiaque</div>\n                                <div class=\"vital-value heart-rate-value status-normal\">--</div>\n                                <div class=\"vital-unit\">bpm</div>\n                            </div>\n                            <div class=\"vital-card\">\n                                <div class=\"vital-label\">🩸 Tension artérielle</div>\n                                <div><span class=\"vital-value systolic-value status-normal\">--</span><span class=\"vital-unit\"> / </span><span class=\"vital-value diastolic-value status-normal\">--</span></div>\n                                <div class=\"vital-unit\">mmHg</div>\n                            </div>\n                            <div class=\"vital-card\">\n                                <div class=\"vital-label\">🌡️ Température</div>\n                                <div class=\"vital-value temperature-value status-normal\">--</div>\n                                <div class=\"vital-unit\">°C</div>\n                            </div>\n                            <div class=\"vital-card\">\n                                <div class=\"vital-label\">💨 SpO2</div>\n                                <div class=\"vital-value oxygen-value status-normal\">--</div>\n                                <div class=\"vital-unit\">%</div>\n                            </div>\n                        </div>\n                        <div class=\"button-group\">\n                            <button class=\"btn btn-danger\" onclick=\"removePatient('${id}')\">🗑 Supprimer</button>\n                        </div>\n                        <div class=\"last-time\" style=\"font-size: 11px; color: #999; margin-top: 10px;\">\n                            🕐 Dernière mise à jour: --\n                        </div>\n                    </div>\n                </div>\n            `).join('');\n        }\n\n        // Ajouter un message dans le log global\n        function addLog(message) {\n            const logDiv = document.getElementById('globalLog');\n            const timestamp = new Date().toLocaleTimeString();\n            logDiv.innerHTML += `<div>[${timestamp}] ${message}</div>`;\n            logDiv.scrollTop = logDiv.scrollHeight;\n            if (logDiv.children.length > 100) {\n                logDiv.removeChild(logDiv.children[0]);\n            }\n        }\n\n        // Nettoyage\n        window.onbeforeunload = () => {\n            Object.values(patients).forEach(p => {\n                if (p.interval) clearInterval(p.interval);\n            });\n        };\n        \n        // Ajouter un patient par défaut pour la démo\n        setTimeout(() => {\n            if (Object.keys(patients).length === 0) {\n                document.getElementById('patientName').value = \"Jean Dupont\";\n                document.getElementById('patientId').value = \"patient_001\";\n                addPatient();\n                \n                setTimeout(() => {\n                    document.getElementById('patientName').value = \"Marie Martin\";\n                    document.getElementById('patientId').value = \"patient_002\";\n                    addPatient();\n                }, 500);\n            }\n        }, 1000);\n    </script>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775422956728,
+        "modificationDate": 1775423532916,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1775423532916,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "79e33599-48d4-4224-96e2-2739c8d1a5fa",
+        "parentCode": "SIMULATOR_HEALTH-1775422916457",
+        "parentCodeOrigin": "DEV-01",
+        "code": "STYLE-1775422961591",
+        "type": "STYLE",
+        "description": "simulator_health",
+        "content": "    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            min-height: 100vh;\n            padding: 20px;\n        }\n        .container {\n            max-width: 800px;\n            margin: 0 auto;\n        }\n        .header {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            padding: 20px;\n            text-align: center;\n            border-radius: 20px 20px 0 0;\n        }\n        .add-patient {\n            background: white;\n            border-radius: 15px;\n            padding: 20px;\n            margin-bottom: 20px;\n        }\n        .add-patient h3 {\n            margin-bottom: 15px;\n            color: #333;\n        }\n        .form-group {\n            display: flex;\n            gap: 10px;\n            flex-wrap: wrap;\n        }\n        input, select {\n            padding: 10px;\n            border: 1px solid #ddd;\n            border-radius: 8px;\n            font-size: 14px;\n            flex: 1;\n        }\n        .btn {\n            padding: 10px 20px;\n            border: none;\n            border-radius: 8px;\n            cursor: pointer;\n            font-size: 14px;\n            transition: transform 0.2s;\n            font-weight: bold;\n        }\n        .btn-primary {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n        }\n        .btn-danger {\n            background: #f44336;\n            color: white;\n        }\n        .btn-success {\n            background: #4caf50;\n            color: white;\n        }\n        .btn-warning {\n            background: #ff9800;\n            color: white;\n        }\n        .btn:hover {\n            transform: scale(1.02);\n        }\n        .patient-card {\n            background: white;\n            border-radius: 15px;\n            margin-bottom: 20px;\n            overflow: hidden;\n            box-shadow: 0 10px 30px rgba(0,0,0,0.2);\n            transition: all 0.3s;\n        }\n        .patient-header {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            padding: 15px 20px;\n            cursor: pointer;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n        .patient-header:hover {\n            opacity: 0.95;\n        }\n        .patient-content {\n            padding: 20px;\n            display: none;\n        }\n        .patient-content.active {\n            display: block;\n        }\n        .vital-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));\n            gap: 15px;\n            margin: 15px 0;\n        }\n        .vital-card {\n            background: #f7f7f7;\n            padding: 15px;\n            border-radius: 10px;\n            text-align: center;\n        }\n        .vital-label {\n            font-size: 12px;\n            color: #666;\n            margin-bottom: 5px;\n        }\n        .vital-value {\n            font-size: 28px;\n            font-weight: bold;\n        }\n        .vital-unit {\n            font-size: 12px;\n            color: #999;\n        }\n        .status-normal { color: #4caf50; }\n        .status-warning { color: #ff9800; }\n        .status-critical { color: #f44336; }\n        .alert-badge {\n            display: inline-block;\n            padding: 4px 12px;\n            border-radius: 20px;\n            font-size: 12px;\n            font-weight: bold;\n        }\n        .alert-normal {\n            background: #4caf50;\n            color: white;\n        }\n        .alert-warning {\n            background: #ff9800;\n            color: white;\n            animation: pulse 1s infinite;\n        }\n        .alert-critical {\n            background: #f44336;\n            color: white;\n            animation: blink 0.5s infinite;\n        }\n        @keyframes pulse {\n            0%, 100% { opacity: 1; }\n            50% { opacity: 0.7; }\n        }\n        @keyframes blink {\n            0%, 100% { opacity: 1; }\n            50% { opacity: 0.5; }\n        }\n        .button-group {\n            display: flex;\n            gap: 10px;\n            margin-top: 15px;\n            flex-wrap: wrap;\n        }\n        .log {\n            background: #2d2d2d;\n            color: #00ff00;\n            padding: 15px;\n            font-family: monospace;\n            font-size: 12px;\n            height: 150px;\n            overflow-y: auto;\n            border-radius: 8px;\n            margin-top: 20px;\n        }\n        .data-info {\n            background: #e3f2fd;\n            padding: 8px;\n            border-radius: 5px;\n            font-family: monospace;\n            font-size: 11px;\n            margin: 10px 0;\n            word-break: break-all;\n            display: none;\n        }\n        hr {\n            margin: 15px 0;\n            border: none;\n            border-top: 1px solid #ddd;\n        }\n        label {\n            font-weight: bold;\n            display: block;\n            margin-top: 10px;\n            margin-bottom: 5px;\n        }\n    </style>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775422964856,
+        "modificationDate": 1775423532927,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1775423532927,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "c44a0867-482b-4dcb-88f5-982a1de07999",
+        "parentCode": "SIMULATOR_HEALTH-1775422916457",
+        "parentCodeOrigin": "DEV-01",
+        "code": "STYLE-1775422973543",
+        "type": "STYLE",
+        "description": "dashboard",
+        "content": "    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            background: #f0f2f5;\n        }\n        .header {\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            color: white;\n            padding: 20px;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            flex-wrap: wrap;\n            gap: 15px;\n        }\n        .header h1 {\n            font-size: 1.5rem;\n        }\n        .stats-bar {\n            display: flex;\n            gap: 15px;\n            align-items: center;\n            flex-wrap: wrap;\n        }\n        .stat {\n            background: rgba(255,255,255,0.2);\n            padding: 8px 20px;\n            border-radius: 10px;\n            text-align: center;\n        }\n        .stat-value {\n            font-size: 24px;\n            font-weight: bold;\n        }\n        .stat-label {\n            font-size: 11px;\n            opacity: 0.8;\n        }\n        .control-group {\n            display: flex;\n            align-items: center;\n            gap: 8px;\n            background: rgba(255,255,255,0.2);\n            padding: 8px 15px;\n            border-radius: 8px;\n        }\n        .control-group input {\n            padding: 5px 10px;\n            border: none;\n            border-radius: 5px;\n            font-size: 14px;\n            width: 180px;\n        }\n        button {\n            background: white;\n            color: #1e3c72;\n            border: none;\n            padding: 8px 16px;\n            border-radius: 8px;\n            cursor: pointer;\n            font-weight: bold;\n        }\n        .refresh-btn {\n            background: #4caf50;\n            color: white;\n        }\n        .live-badge {\n            background: #4caf50;\n            color: white;\n            padding: 5px 12px;\n            border-radius: 20px;\n            font-size: 12px;\n            animation: pulse 1.5s infinite;\n        }\n        @keyframes pulse {\n            0%, 100% { opacity: 1; }\n            50% { opacity: 0.6; }\n        }\n        .container {\n            max-width: 1400px;\n            margin: 20px auto;\n            padding: 0 20px;\n        }\n        .patients-grid {\n            display: grid;\n            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));\n            gap: 20px;\n        }\n        .patient-card {\n            background: white;\n            border-radius: 15px;\n            overflow: hidden;\n            box-shadow: 0 4px 12px rgba(0,0,0,0.1);\n            transition: transform 0.3s;\n        }\n        .patient-card:hover {\n            transform: translateY(-5px);\n        }\n        .patient-header {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            padding: 15px;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n        .alert-badge {\n            padding: 4px 12px;\n            border-radius: 20px;\n            font-size: 11px;\n            font-weight: bold;\n        }\n        .alert-normal { background: #4caf50; }\n        .alert-warning { background: #ff9800; animation: pulse 1s infinite; }\n        .alert-critical { background: #f44336; animation: blink 0.5s infinite; }\n        @keyframes blink {\n            0%, 100% { opacity: 1; }\n            50% { opacity: 0.5; }\n        }\n        .patient-body {\n            padding: 15px;\n        }\n        .vitals {\n            display: grid;\n            grid-template-columns: 1fr 1fr;\n            gap: 10px;\n            margin-bottom: 15px;\n        }\n        .vital-item {\n            background: #f7f7f7;\n            padding: 10px;\n            border-radius: 8px;\n            text-align: center;\n        }\n        .vital-label {\n            font-size: 11px;\n            color: #666;\n        }\n        .vital-value {\n            font-size: 22px;\n            font-weight: bold;\n        }\n        .vital-unit {\n            font-size: 10px;\n            color: #999;\n        }\n        .timestamp {\n            font-size: 10px;\n            color: #999;\n            text-align: center;\n            margin-top: 10px;\n        }\n        .chart-container {\n            margin-top: 15px;\n            height: 120px;\n        }\n        canvas {\n            max-height: 120px;\n        }\n        .no-data {\n            text-align: center;\n            color: #999;\n            padding: 40px;\n            grid-column: 1/-1;\n        }\n    </style>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775422987946,
+        "modificationDate": 1775423532936,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1775423532936,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "eddb8851-a2ad-4653-b145-1103115f64f2",
+        "parentCode": "SIMULATOR_HEALTH-1775422916457",
+        "parentCodeOrigin": "DEV-01",
+        "code": "SCRIPT-1775422992777",
+        "type": "SCRIPT",
+        "description": "dashboard",
+        "content": "   <script>\n        let charts = {};\n        let refreshInterval;\n\n        // Récupérer TOUTES les données d'un content node\n        async function fetchAllHealthData() {\n            const contentNodeCode = document.getElementById('contentNodeCode').value.trim();\n            if (!contentNodeCode) {\n                return [];SCRIPT-1775422992777\n            }\n            \n            try {\n                const response = await fetch(`/datas/contentCode/${contentNodeCode}`, {\n                    method: 'GET',\n                    headers: { 'Accept': 'application/json' }\n                });\n                \n                if (response.ok) {\n                    const allData = await response.json();\n                    return allData;\n                }\n                return [];\n            } catch (error) {\n                console.error('Erreur fetch:', error);\n                return [];\n            }\n        }\n\n        // Rafraîchir les données\n        async function refreshData() {\n            const allData = await fetchAllHealthData();\n            \n            if (allData.length === 0) {\n                document.getElementById('patientsGrid').innerHTML = '<div class=\"no-data\">Aucune donnée santé trouvée. Lancez le simulateur !</div>';\n                document.getElementById('totalPatients').innerHTML = '0';\n                document.getElementById('criticalCount').innerHTML = '0';\n                document.getElementById('warningCount').innerHTML = '0';\n                return;\n            }\n            \n            // Grouper par patient pour avoir la dernière mesure et l'historique\n            const patientsMap = {};\n            const historyMap = {};\n            \n            allData.forEach(data => {\n                try {\n                    const healthData = JSON.parse(data.value);\n                    const patientId = healthData.device_id;\n                    \n                    // Dernière mesure\n                    if (!patientsMap[patientId] || healthData.timestamp_ms > patientsMap[patientId].timestamp_ms) {\n                        patientsMap[patientId] = {\n                            ...healthData,\n                            key: data.key,\n                            id: data.id\n                        };\n                    }\n                    \n                    // Historique\n                    if (!historyMap[patientId]) historyMap[patientId] = [];\n                    historyMap[patientId].push({\n                        heart_rate: healthData.heart_rate,\n                        timestamp_ms: healthData.timestamp_ms,\n                        timestamp: healthData.timestamp\n                    });\n                } catch (e) {\n                    console.error('Erreur parsing:', e);\n                }\n            });\n            \n            // Trier l'historique et garder les 20 derniers\n            Object.keys(historyMap).forEach(pid => {\n                historyMap[pid].sort((a, b) => a.timestamp_ms - b.timestamp_ms);\n                historyMap[pid] = historyMap[pid].slice(-20);\n            });\n            \n            updateDashboard(Object.values(patientsMap), historyMap);\n            \n            const critical = Object.values(patientsMap).filter(p => p.alert_level === 'critical').length;\n            const warning = Object.values(patientsMap).filter(p => p.alert_level === 'warning').length;\n            \n            document.getElementById('totalPatients').innerHTML = Object.keys(patientsMap).length;\n            document.getElementById('criticalCount').innerHTML = critical;\n            document.getElementById('warningCount').innerHTML = warning;\n        }\n\n        // Mettre à jour le dashboard\n        function updateDashboard(patients, history) {\n            const container = document.getElementById('patientsGrid');\n            \n            if (patients.length === 0) {\n                container.innerHTML = '<div class=\"no-data\">Aucun patient. Lancez le simulateur !</div>';\n                return;\n            }\n            \n            container.innerHTML = patients.map(patient => `\n                <div class=\"patient-card\" id=\"card-${patient.device_id}\">\n                    <div class=\"patient-header\">\n                        <div>\n                            🏥 <strong>${patient.patient_name}</strong><br>\n                            <small>${patient.device_id}</small>\n                        </div>\n                        <div class=\"alert-badge alert-${patient.alert_level}\">\n                            ${patient.alert_level === 'critical' ? '🚨 CRITIQUE' : (patient.alert_level === 'warning' ? '⚠️ ATTENTION' : '✅ NORMAL')}\n                        </div>\n                    </div>\n                    <div class=\"patient-body\">\n                        <div class=\"vitals\">\n                            <div class=\"vital-item\">\n                                <div class=\"vital-label\">❤️ Rythme cardiaque</div>\n                                <div class=\"vital-value\" id=\"hr-${patient.device_id}\">${Math.round(patient.heart_rate)}</div>\n                                <div class=\"vital-unit\">bpm</div>\n                            </div>\n                            <div class=\"vital-item\">\n                                <div class=\"vital-label\">🩸 Tension</div>\n                                <div class=\"vital-value\" id=\"bp-${patient.device_id}\">${Math.round(patient.blood_pressure_systolic)}/${Math.round(patient.blood_pressure_diastolic)}</div>\n                                <div class=\"vital-unit\">mmHg</div>\n                            </div>\n                            <div class=\"vital-item\">\n                                <div class=\"vital-label\">🌡️ Température</div>\n                                <div class=\"vital-value\" id=\"temp-${patient.device_id}\">${patient.temperature.toFixed(1)}</div>\n                                <div class=\"vital-unit\">°C</div>\n                            </div>\n                            <div class=\"vital-item\">\n                                <div class=\"vital-label\">💨 SpO2</div>\n                                <div class=\"vital-value\" id=\"ox-${patient.device_id}\">${Math.round(patient.oxygen_saturation)}</div>\n                                <div class=\"vital-unit\">%</div>\n                            </div>\n                        </div>\n                        <div class=\"timestamp\">\n                            🕐 ${new Date(patient.timestamp).toLocaleString()}\n                        </div>\n                        <div class=\"chart-container\">\n                            <canvas id=\"chart-${patient.device_id}\"></canvas>\n                        </div>\n                    </div>\n                </div>\n            `).join('');\n            \n            // Créer les graphiques\n            patients.forEach(patient => {\n                const patientHistory = history[patient.device_id] || [];\n                createChart(patient.device_id, patientHistory);\n            });\n        }\n\n        // Créer un graphique d'historique\n        function createChart(patientId, history) {\n            const canvas = document.getElementById(`chart-${patientId}`);\n            if (!canvas) return;\n            \n            const ctx = canvas.getContext('2d');\n            const labels = history.map(h => new Date(h.timestamp_ms).toLocaleTimeString());\n            const heartRates = history.map(h => h.heart_rate);\n            \n            if (charts[patientId]) {\n                charts[patientId].destroy();\n            }\n            \n            charts[patientId] = new Chart(ctx, {\n                type: 'line',\n                data: {\n                    labels: labels,\n                    datasets: [{\n                        label: 'Rythme cardiaque (bpm)',\n                        data: heartRates,\n                        borderColor: '#f44336',\n                        backgroundColor: 'rgba(244, 67, 54, 0.1)',\n                        tension: 0.3,\n                        fill: true,\n                        pointRadius: 2,\n                        pointHoverRadius: 5\n                    }]\n                },\n                options: {\n                    responsive: true,\n                    maintainAspectRatio: true,\n                    plugins: {\n                        legend: { position: 'top', labels: { font: { size: 9 } } }\n                    },\n                    scales: {\n                        y: { min: 40, max: 140, title: { display: true, text: 'bpm', font: { size: 9 } } },\n                        x: { ticks: { font: { size: 8 } } }\n                    }\n                }\n            });\n        }\n\n        // Démarrer l'auto-refresh\n        function startAutoRefresh() {\n            refreshData();\n            refreshInterval = setInterval(refreshData, 5000);\n        }\n\n        // Écouter les changements de contentNodeCode\n        function setupContentCodeListener() {\n            const input = document.getElementById('contentNodeCode');\n            if (input) {\n                input.addEventListener('change', () => {\n                    refreshData();\n                });\n            }\n        }\n\n        // Initialisation\n        window.onload = () => {\n            setupContentCodeListener();\n            startAutoRefresh();\n        };\n\n        window.onbeforeunload = () => {\n            if (refreshInterval) clearInterval(refreshInterval);\n        };\n    </script>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775422996448,
+        "modificationDate": 1775423532954,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1775423532954,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "d622e523-096a-4489-8bf2-e4fcf7e66286",
+        "parentCode": "SIMULATOR_HEALTH-1775422916457",
+        "parentCodeOrigin": "DEV-01",
+        "code": "HTML-1775423001782",
+        "type": "HTML",
+        "description": "dashboard",
+        "content": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>🏥 Dashboard Santé IoT - Monitoring Patient</title>\n    <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n\t$content(STYLE-1775422973543)\n</head>\n<body>\n    <div class=\"header\">\n        <div>\n            <h1>🏥 Monitoring Patient IoT</h1>\n            <p>Nodify - Surveillance médicale temps réel</p>\n        </div>\n        <div class=\"stats-bar\">\n            <div class=\"control-group\">\n                <label>📦 Content Node Code:</label>\n                <input type=\"text\" id=\"contentNodeCode\" placeholder=\"health-data\" value=\"health-data\">\n            </div>\n            <div class=\"stat\">\n                <div class=\"stat-value\" id=\"totalPatients\">0</div>\n                <div class=\"stat-label\">Patients</div>\n            </div>\n            <div class=\"stat\">\n                <div class=\"stat-value\" id=\"criticalCount\">0</div>\n                <div class=\"stat-label\">Critiques</div>\n            </div>\n            <div class=\"stat\">\n                <div class=\"stat-value\" id=\"warningCount\">0</div>\n                <div class=\"stat-label\">Attention</div>\n            </div>\n            <button class=\"refresh-btn\" onclick=\"refreshData()\">🔄 Actualiser</button>\n            <span class=\"live-badge\">● LIVE</span>\n        </div>\n    </div>\n    \n    <div class=\"container\">\n        <div class=\"patients-grid\" id=\"patientsGrid\">\n            <div class=\"no-data\">Chargement des données patients...</div>\n        </div>\n    </div>\n\n \t$content(SCRIPT-1775422992777)\n</body>\n</html>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775423006504,
+        "modificationDate": 1775492308870,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1775423533006,
+        "status": "SNAPSHOT",
+        "favorite": true
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1775422921240,
+    "modificationDate": 1775423532882,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1775423532882,
+    "status": "SNAPSHOT",
+    "favorite": false
+  }
+]

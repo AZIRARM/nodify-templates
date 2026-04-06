@@ -1,0 +1,361 @@
+[
+  {
+    "id": "cbdbde18-1fcd-4c06-9905-df908a09661e",
+    "name": "Phones_tracker",
+    "code": "PHONES_TRACKER-1775421161590",
+    "defaultLanguage": "EN",
+    "contents": [
+      {
+        "id": "f1d3a1a7-72c3-41ca-b499-0f9488d3db7c",
+        "parentCode": "PHONES_TRACKER-1775421161590",
+        "parentCodeOrigin": "DEV-01",
+        "code": "HTML-1775421179230",
+        "type": "HTML",
+        "description": "simulator_phone",
+        "content": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=yes\">\n    <title>📱 Simulateur Téléphone - GPS Réel</title>\n   \t$content(STYLE-1775421302073)\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <h1>📱 Mon Téléphone</h1>\n            <p>Partagez votre position en temps réel</p>\n        </div>\n        \n        <div class=\"device-info\">\n            <label>📱 Identifiant du téléphone:</label>\n            <input type=\"text\" id=\"deviceId\" placeholder=\"ex: phone_001\">\n            <small>⭐ Laissez vide pour un ID automatique</small>\n            \n            <label>👤 Votre nom:</label>\n            <input type=\"text\" id=\"userName\" placeholder=\"Votre nom\">\n            \n            <label>📦 Content Node Code (obligatoire):</label>\n            <input type=\"text\" id=\"contentNodeCode\" placeholder=\"ex: phone-tracking\" value=\"phone-tracking\">\n            <small>⭐ Code du content node dans Nodify</small>\n        </div>\n        \n        <div class=\"status\">\n            <div id=\"gpsStatus\" class=\"gps-status gps-waiting\">\n                ⏳ En attente d'autorisation GPS...\n            </div>\n            \n            <div id=\"dataInfo\" class=\"data-info\">\n                <div><span class=\"info-label\">🔑 Clé:</span> <span id=\"dataKey\"></span></div>\n                <div><span class=\"info-label\">📦 Content Node:</span> <span id=\"dataContentNode\"></span></div>\n                <div><span class=\"info-label\">🆔 UUID:</span> <span id=\"dataUuid\"></span></div>\n            </div>\n            \n            <h3>📍 Ma position</h3>\n            <div class=\"coord\" id=\"coordinates\">\n                Latitude: --<br>\n                Longitude: --<br>\n                Précision: --<br>\n                Dernière mise à jour: --\n            </div>\n            \n            <div style=\"display: flex; gap: 10px; flex-wrap: wrap;\">\n                <button class=\"button\" onclick=\"startTracking()\">▶ Partager ma position</button>\n                <button class=\"button button-danger\" onclick=\"stopTracking()\">⏹ Arrêter</button>\n            </div>\n            \n            <hr>\n            \n            <div style=\"margin-top: 15px;\">\n                <label>⚡ Fréquence d'envoi:</label>\n                <select id=\"frequency\">\n                    <option value=\"2000\">Toutes les 2 secondes</option>\n                    <option value=\"5000\">Toutes les 5 secondes</option>\n                    <option value=\"10000\">Toutes les 10 secondes</option>\n                </select>\n            </div>\n            \n            <div class=\"log\" id=\"log\">\n                > 🌍 Prêt à partager votre position<br>\n                > 1️⃣ Entrez un Content Node Code (ex: phone-tracking)<br>\n                > 2️⃣ Autorisez le GPS<br>\n                > 3️⃣ Cliquez sur \"Partager ma position\"<br>\n                > 📌 Le contentNodeCode est OBLIGATOIRE\n            </div>\n        </div>\n    </div>\n  $content(SCRIPT-1775421772703)\n</body>\n</html>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775421245174,
+        "modificationDate": 1775492021209,
+        "modifiedBy": "",
+        "version": "5",
+        "publicationDate": 1775492021209,
+        "status": "SNAPSHOT",
+        "favorite": true
+      },
+      {
+        "id": "6bf2ff11-d878-4f5f-88d3-de8aea7830bd",
+        "parentCode": "PHONES_TRACKER-1775421161590",
+        "parentCodeOrigin": "DEV-01",
+        "code": "SCRIPT-1775421250549",
+        "type": "SCRIPT",
+        "description": "simulator_phone",
+        "content": "\n\n    <script>\n        let trackingInterval = null;\n        let watchPositionId = null;\n        let currentPosition = null;\n        let deviceId = null;\n        let currentDataUuid = null;\n        let currentDataKey = null;\n        let currentContentNodeCode = null;\n\n        // Générer un ID unique si vide\n        function generateDeviceId() {\n            const existing = document.getElementById('deviceId').value;\n            if (existing) return existing;\n            const randomId = `phone_${Math.random().toString(36).substr(2, 8)}`;\n            document.getElementById('deviceId').value = randomId;\n            return randomId;\n        }\n\n        // Générer une clé unique pour ce téléphone\n        function generateDataKey(deviceId) {\n            return `location_${deviceId}`;\n        }\n\n        // Vérifier que le contentNodeCode est valide\n        function getContentNodeCode() {\n            const code = document.getElementById('contentNodeCode').value.trim();\n            if (!code) {\n                addLog(\"❌ Veuillez entrer un Content Node Code (ex: phone-tracking)\");\n                return null;\n            }\n            return code;\n        }\n\n        // Mettre à jour l'affichage de la position\n        function updateDisplay(position) {\n            currentPosition = position;\n            const lat = position.coords.latitude;\n            const lng = position.coords.longitude;\n            const accuracy = position.coords.accuracy;\n            \n            document.getElementById('coordinates').innerHTML = `\n                📍 Latitude: ${lat.toFixed(6)}<br>\n                📍 Longitude: ${lng.toFixed(6)}<br>\n                🎯 Précision: ${accuracy.toFixed(1)} mètres<br>\n                🕐 Dernière mise à jour: ${new Date().toLocaleTimeString()}\n            `;\n        }\n\n        // Créer une nouvelle donnée (POST /datas/)\n        async function createData() {\n            const contentNodeCode = getContentNodeCode();\n            if (!contentNodeCode) return false;\n            \n            deviceId = generateDeviceId();\n            const userName = document.getElementById('userName').value || \"Anonyme\";\n            currentDataKey = generateDataKey(deviceId);\n            currentContentNodeCode = contentNodeCode;\n            \n            const now = Date.now();\n            const locationData = {\n                device_id: deviceId,\n                user_name: userName,\n                lat: currentPosition.coords.latitude,\n                lng: currentPosition.coords.longitude,\n                accuracy: currentPosition.coords.accuracy,\n                timestamp: new Date().toISOString(),\n                timestamp_ms: now\n            };\n            \n            const payload = {\n                key: currentDataKey,\n                name: `Position de ${userName} (${deviceId})`,\n                dataType: \"json\",\n                value: JSON.stringify(locationData),\n                creationDate: now,\n                modificationDate: now,\n                contentNodeCode: contentNodeCode,\n                user: userName\n            };\n            \n            addLog(`📤 POST /datas/ - Création dans ${contentNodeCode}`);\n            \n            try {\n                const response = await fetch(`/datas/`, {\n                    method: 'POST',\n                    headers: { \n                        'Content-Type': 'application/json',\n                        'Accept': 'application/json'\n                    },\n                    body: JSON.stringify(payload)\n                });\n                \n                if (response.ok) {\n                    const result = await response.json();\n                    currentDataUuid = result.id;\n                    \n                    document.getElementById('dataInfo').style.display = 'block';\n                    document.getElementById('dataKey').innerText = currentDataKey;\n                    document.getElementById('dataContentNode').innerText = currentContentNodeCode;\n                    document.getElementById('dataUuid').innerText = currentDataUuid;\n                    \n                    addLog(`✅ CRÉÉ - UUID: ${currentDataUuid.substring(0, 8)}...`);\n                    return true;\n                } else {\n                    const errorText = await response.text();\n                    addLog(`❌ Erreur création: ${response.status} - ${errorText}`);\n                    return false;\n                }\n            } catch (error) {\n                addLog(`❌ Erreur connexion: ${error.message}`);\n                return false;\n            }\n        }\n\n        // Mettre à jour une donnée existante (PUT /datas/id/{id})\n        async function updateData() {\n            if (!currentDataUuid) {\n                addLog(\"⚠️ Pas d'UUID, création d'abord...\");\n                return await createData();\n            }\n            \n            const userName = document.getElementById('userName').value || \"Anonyme\";\n            const now = Date.now();\n            const locationData = {\n                device_id: deviceId,\n                user_name: userName,\n                lat: currentPosition.coords.latitude,\n                lng: currentPosition.coords.longitude,\n                accuracy: currentPosition.coords.accuracy,\n                timestamp: new Date().toISOString(),\n                timestamp_ms: now\n            };\n            \n            const payload = {\n                id: currentDataUuid,\n                key: currentDataKey,\n                name: `Position de ${userName} (${deviceId})`,\n                dataType: \"json\",\n                value: JSON.stringify(locationData),\n                creationDate: now,\n                modificationDate: now,\n                contentNodeCode: currentContentNodeCode,\n                user: userName\n            };\n            \n            try {\n                const response = await fetch(`/datas/id/${currentDataUuid}`, {\n                    method: 'PUT',\n                    headers: { \n                        'Content-Type': 'application/json',\n                        'Accept': 'application/json'\n                    },\n                    body: JSON.stringify(payload)\n                });\n                \n                if (response.ok) {\n                    addLog(`✅ MIS À JOUR - Lat:${locationData.lat.toFixed(4)}, Lng:${locationData.lng.toFixed(4)}`);\n                    return true;\n                } else if (response.status === 404) {\n                    addLog(`⚠️ UUID plus trouvé, recréation...`);\n                    currentDataUuid = null;\n                    return await createData();\n                } else {\n                    addLog(`⚠️ Erreur mise à jour: ${response.status}`);\n                    return false;\n                }\n            } catch (error) {\n                addLog(`❌ Erreur connexion: ${error.message}`);\n                return false;\n            }\n        }\n\n        // Envoyer/Update la position dans Nodify\n        async function sendLocationToNodify() {\n            if (!currentPosition) {\n                addLog(\"⚠️ En attente de la position GPS...\");\n                return;\n            }\n            \n            if (!getContentNodeCode()) {\n                addLog(\"❌ Content Node Code requis avant envoi\");\n                return;\n            }\n            \n            if (!currentDataUuid) {\n                await createData();\n            } else {\n                await updateData();\n            }\n        }\n\n        // Démarrer la géolocalisation\n        function startGPS() {\n            if (!navigator.geolocation) {\n                document.getElementById('gpsStatus').innerHTML = '❌ Votre navigateur ne supporte pas la géolocalisation';\n                document.getElementById('gpsStatus').className = 'gps-status gps-error';\n                addLog(\"❌ GPS non supporté par ce navigateur\");\n                return false;\n            }\n            \n            document.getElementById('gpsStatus').innerHTML = '⏳ Demande d\\'autorisation... Veuillez accepter';\n            document.getElementById('gpsStatus').className = 'gps-status gps-waiting';\n            \n            navigator.geolocation.getCurrentPosition(\n                (position) => {\n                    updateDisplay(position);\n                    document.getElementById('gpsStatus').innerHTML = '✅ GPS actif - Position partagée';\n                    document.getElementById('gpsStatus').className = 'gps-status gps-active';\n                    addLog(`✅ GPS autorisé - Latitude: ${position.coords.latitude.toFixed(4)}`);\n                    \n                    if (watchPositionId) {\n                        navigator.geolocation.clearWatch(watchPositionId);\n                    }\n                    \n                    watchPositionId = navigator.geolocation.watchPosition(\n                        (newPosition) => {\n                            updateDisplay(newPosition);\n                        },\n                        (error) => {\n                            handleGPSError(error);\n                        },\n                        {\n                            enableHighAccuracy: true,\n                            maximumAge: 5000,\n                            timeout: 10000\n                        }\n                    );\n                    \n                    return true;\n                },\n                (error) => {\n                    handleGPSError(error);\n                    return false;\n                },\n                { enableHighAccuracy: true, timeout: 10000 }\n            );\n        }\n\n        // Gérer les erreurs GPS\n        function handleGPSError(error) {\n            let message = \"\";\n            switch(error.code) {\n                case error.PERMISSION_DENIED:\n                    message = \"❌ Vous avez refusé l'accès. Rafraîchissez et acceptez.\";\n                    break;\n                case error.POSITION_UNAVAILABLE:\n                    message = \"❌ Position indisponible. Vérifiez votre GPS.\";\n                    break;\n                case error.TIMEOUT:\n                    message = \"⏱️ Délai dépassé. Réessayez.\";\n                    break;\n                default:\n                    message = \"❌ Erreur GPS inconnue\";\n            }\n            document.getElementById('gpsStatus').innerHTML = message;\n            document.getElementById('gpsStatus').className = 'gps-status gps-error';\n            addLog(message);\n        }\n\n        // Démarrer l'envoi périodique\n        function startTracking() {\n            if (!getContentNodeCode()) {\n                addLog(\"❌ Entrez d'abord un Content Node Code\");\n                return;\n            }\n            \n            if (trackingInterval) {\n                clearInterval(trackingInterval);\n            }\n            \n            if (!currentPosition) {\n                addLog(\"⚠️ Attendez que le GPS soit actif avant de démarrer\");\n                startGPS();\n                setTimeout(() => {\n                    if (currentPosition) {\n                        startTracking();\n                    }\n                }, 3000);\n                return;\n            }\n            \n            const frequency = parseInt(document.getElementById('frequency').value);\n            \n            sendLocationToNodify();\n            \n            trackingInterval = setInterval(() => {\n                sendLocationToNodify();\n            }, frequency);\n            \n            addLog(`▶ Tracking démarré (envoi toutes les ${frequency/1000} secondes)`);\n        }\n\n        // Arrêter le tracking\n        function stopTracking() {\n            if (trackingInterval) {\n                clearInterval(trackingInterval);\n                trackingInterval = null;\n                addLog(\"⏹ Tracking arrêté\");\n            }\n        }\n\n        // Ajouter un message dans le log\n        function addLog(message) {\n            const logDiv = document.getElementById('log');\n            const timestamp = new Date().toLocaleTimeString();\n            logDiv.innerHTML += `<div>[${timestamp}] ${message}</div>`;\n            logDiv.scrollTop = logDiv.scrollHeight;\n            if (logDiv.children.length > 50) {\n                logDiv.removeChild(logDiv.children[0]);\n            }\n        }\n\n        // Initialisation\n        window.onload = () => {\n            const defaultId = `phone_${Math.random().toString(36).substr(2, 8)}`;\n            document.getElementById('deviceId').value = defaultId;\n            \n            setTimeout(() => {\n                startGPS();\n            }, 500);\n        };\n\n        window.onbeforeunload = () => {\n            if (trackingInterval) clearInterval(trackingInterval);\n            if (watchPositionId) navigator.geolocation.clearWatch(watchPositionId);\n        };\n    </script>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775421272858,
+        "modificationDate": 1775492021390,
+        "modifiedBy": "",
+        "version": "5",
+        "publicationDate": 1775492021390,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "fae3131e-8493-4c75-a321-1815a76e661c",
+        "parentCode": "PHONES_TRACKER-1775421161590",
+        "parentCodeOrigin": "DEV-01",
+        "code": "STYLE-1775421302073",
+        "type": "STYLE",
+        "description": "simulator_phone",
+        "content": " <style>\n        * { margin: 0; padding: 0; box-sizing: border-box; }\n        body {\n            font-family: 'Segoe UI', sans-serif;\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            min-height: 100vh;\n            padding: 20px;\n        }\n        .container {\n            max-width: 600px;\n            margin: 0 auto;\n            background: white;\n            border-radius: 20px;\n            box-shadow: 0 20px 60px rgba(0,0,0,0.3);\n            overflow: hidden;\n        }\n        .header {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            padding: 20px;\n            text-align: center;\n        }\n        .header h1 {\n            font-size: 1.8rem;\n        }\n        .device-info, .status {\n            padding: 20px;\n        }\n        .coord {\n            background: #e8f4f8;\n            padding: 15px;\n            border-radius: 10px;\n            margin: 10px 0;\n            font-family: monospace;\n            font-size: 1.1em;\n        }\n        .button {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            border: none;\n            padding: 12px 24px;\n            border-radius: 8px;\n            cursor: pointer;\n            font-size: 16px;\n            margin: 5px;\n            transition: transform 0.2s;\n        }\n        .button:hover { transform: scale(1.05); }\n        .button-danger { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }\n        .log {\n            background: #2d2d2d;\n            color: #00ff00;\n            padding: 15px;\n            font-family: monospace;\n            font-size: 12px;\n            height: 200px;\n            overflow-y: auto;\n            border-radius: 8px;\n            margin-top: 15px;\n        }\n        input, select {\n            width: 100%;\n            padding: 10px;\n            margin: 10px 0;\n            border: 1px solid #ddd;\n            border-radius: 5px;\n            font-size: 14px;\n        }\n        .gps-status {\n            padding: 10px;\n            border-radius: 8px;\n            margin: 10px 0;\n            text-align: center;\n            font-weight: bold;\n        }\n        .gps-active { background: #4caf50; color: white; }\n        .gps-waiting { background: #ff9800; color: white; }\n        .gps-error { background: #f44336; color: white; }\n        .data-info {\n            background: #e3f2fd;\n            padding: 8px;\n            border-radius: 5px;\n            font-family: monospace;\n            font-size: 11px;\n            margin: 10px 0;\n            word-break: break-all;\n            display: none;\n        }\n        .info-label {\n            font-weight: bold;\n            color: #1565c0;\n        }\n        hr {\n            margin: 15px 0;\n            border: none;\n            border-top: 1px solid #ddd;\n        }\n        label {\n            font-weight: bold;\n            color: #333;\n        }\n        small {\n            display: block;\n            margin-top: -5px;\n            color: #666;\n        }\n    </style>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775421314311,
+        "modificationDate": 1775492021408,
+        "modifiedBy": "",
+        "version": "5",
+        "publicationDate": 1775492021408,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "680aa54b-4836-48ae-ac09-d1166b345f75",
+        "parentCode": "PHONES_TRACKER-1775421161590",
+        "parentCodeOrigin": "DEV-01",
+        "code": "HTML-1775421482486",
+        "type": "HTML",
+        "description": "dashboard",
+        "content": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>📍 Dashboard Live Tracking - Nodify IoT</title>\n    <link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.css\" />\n    <script src=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js\"></script>\n    $content(STYLE-1775421533868)\n</head>\n<body>\n    <div class=\"header\">\n        <div>\n            <h1>📍 Live Tracking Dashboard</h1>\n            <p>Nodify IoT - Géolocalisation temps réel</p>\n        </div>\n        \n        <div class=\"controls\">\n            <div class=\"control-group\">\n                <label>📦 Content Node Code:</label>\n                <input type=\"text\" id=\"contentNodeCode\" placeholder=\"phone-tracking\" value=\"phone-tracking\">\n            </div>\n            <div class=\"stats\">\n                <div class=\"stat-card\">\n                    <div class=\"stat-number\" id=\"deviceCount\">0</div>\n                    <div class=\"stat-label\">Appareils</div>\n                </div>\n                <div class=\"stat-card\">\n                    <div class=\"stat-number\" id=\"lastUpdate\">-</div>\n                    <div class=\"stat-label\">MAJ</div>\n                </div>\n            </div>\n            <button class=\"refresh-btn\" onclick=\"refreshAllDevices()\">🔄 Actualiser</button>\n            <span class=\"live-badge\">● LIVE</span>\n        </div>\n    </div>\n    \n    <div class=\"main-container\">\n        <div id=\"map\"></div>\n        <div class=\"sidebar\">\n            <h3>📱 Appareils connectés</h3>\n            <div id=\"devicesList\">\n                <div class=\"no-devices\">Aucun appareil pour le moment</div>\n            </div>\n        </div>\n    </div>\n\n    $content(SCRIPT-1775421587109)\n</body>\n</html>\t",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775421527612,
+        "modificationDate": 1775492021477,
+        "modifiedBy": "",
+        "version": "4",
+        "publicationDate": 1775492021477,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "dd39c114-2cdf-4ef7-9b34-92da03cdc242",
+        "parentCode": "PHONES_TRACKER-1775421161590",
+        "parentCodeOrigin": "DEV-01",
+        "code": "STYLE-1775421533868",
+        "type": "STYLE",
+        "description": "dashboard",
+        "content": "<style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            background: #1a1a2e;\n            height: 100vh;\n            display: flex;\n            flex-direction: column;\n        }\n        .header {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            padding: 15px 20px;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            flex-wrap: wrap;\n            gap: 10px;\n        }\n        .header h1 {\n            font-size: 1.5rem;\n        }\n        .header p {\n            font-size: 0.8rem;\n            opacity: 0.9;\n        }\n        .controls {\n            display: flex;\n            gap: 15px;\n            align-items: center;\n            flex-wrap: wrap;\n        }\n        .control-group {\n            display: flex;\n            align-items: center;\n            gap: 8px;\n            background: rgba(255,255,255,0.2);\n            padding: 8px 15px;\n            border-radius: 8px;\n        }\n        .control-group label {\n            font-size: 0.9rem;\n        }\n        .control-group input {\n            padding: 5px 10px;\n            border: none;\n            border-radius: 5px;\n            font-size: 0.9rem;\n            width: 180px;\n        }\n        .stats {\n            display: flex;\n            gap: 15px;\n        }\n        .stat-card {\n            background: rgba(255,255,255,0.2);\n            padding: 5px 15px;\n            border-radius: 10px;\n            text-align: center;\n        }\n        .stat-number {\n            font-size: 1.5rem;\n            font-weight: bold;\n        }\n        .stat-label {\n            font-size: 0.7rem;\n            opacity: 0.8;\n        }\n        button {\n            background: white;\n            color: #667eea;\n            border: none;\n            padding: 8px 16px;\n            border-radius: 8px;\n            cursor: pointer;\n            font-weight: bold;\n            transition: transform 0.2s;\n        }\n        button:hover {\n            transform: scale(1.05);\n        }\n        .refresh-btn {\n            background: #4caf50;\n            color: white;\n        }\n        .live-badge {\n            background: #4caf50;\n            color: white;\n            padding: 4px 12px;\n            border-radius: 20px;\n            font-size: 0.8rem;\n            animation: pulse 1.5s infinite;\n        }\n        @keyframes pulse {\n            0%, 100% { opacity: 1; }\n            50% { opacity: 0.6; }\n        }\n        .main-container {\n            display: flex;\n            flex: 1;\n            overflow: hidden;\n        }\n        #map {\n            flex: 3;\n            height: 100%;\n        }\n        .sidebar {\n            flex: 1;\n            background: white;\n            padding: 15px;\n            overflow-y: auto;\n            border-left: 2px solid #ddd;\n            min-width: 280px;\n        }\n        .sidebar h3 {\n            margin-bottom: 15px;\n            color: #333;\n        }\n        .device-card {\n            background: #f7f7f7;\n            border-radius: 10px;\n            padding: 12px;\n            margin-bottom: 12px;\n            border-left: 4px solid #667eea;\n            transition: all 0.3s;\n            cursor: pointer;\n        }\n        .device-card:hover {\n            transform: translateX(-5px);\n            box-shadow: 0 4px 12px rgba(0,0,0,0.1);\n        }\n        .device-card.selected {\n            border-left-color: #4caf50;\n            background: #e8f5e9;\n        }\n        .device-name {\n            font-weight: bold;\n            font-size: 1rem;\n            margin-bottom: 5px;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n        .device-status {\n            width: 10px;\n            height: 10px;\n            border-radius: 50%;\n            display: inline-block;\n            margin-right: 6px;\n        }\n        .status-active { background: #4caf50; box-shadow: 0 0 5px #4caf50; }\n        .status-inactive { background: #999; }\n        .device-location {\n            font-size: 0.75rem;\n            color: #666;\n            font-family: monospace;\n        }\n        .device-time {\n            font-size: 0.7rem;\n            color: #999;\n            margin-top: 5px;\n        }\n        .device-accuracy {\n            font-size: 0.7rem;\n            color: #ff9800;\n        }\n        .no-devices {\n            text-align: center;\n            color: #999;\n            padding: 20px;\n        }\n    </style>\t",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775421552717,
+        "modificationDate": 1775492021494,
+        "modifiedBy": "",
+        "version": "4",
+        "publicationDate": 1775492021494,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "5b77d737-145c-4d58-9091-f46aec94c9ea",
+        "parentCode": "PHONES_TRACKER-1775421161590",
+        "parentCodeOrigin": "DEV-01",
+        "code": "SCRIPT-1775421587109",
+        "type": "SCRIPT",
+        "description": "dashboard",
+        "content": "<script>\n        let map;\n        let markers = {};\n        let devices = {};\n        let refreshInterval;\n        let selectedDeviceId = null;\n\n        // Initialisation de la carte\n        function initMap() {\n            map = L.map('map').setView([48.8566, 2.3522], 13);\n            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {\n                attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OSM</a>'\n            }).addTo(map);\n        }\n\n        // Récupérer TOUTES les données d'un content node via GET /datas/contentCode/{code}\n        async function fetchAllData(contentNodeCode) {\n            try {\n                const response = await fetch(`/datas/contentCode/${contentNodeCode}`, {\n                    method: 'GET',\n                    headers: { 'Accept': 'application/json' }\n                });\n                \n                if (response.ok) {\n                    const allData = await response.json();\n                    return allData;\n                } else {\n                    console.error(`Erreur ${response.status} pour contentCode ${contentNodeCode}`);\n                    return [];\n                }\n            } catch (error) {\n                console.error(`Erreur fetch pour ${contentNodeCode}:`, error);\n                return [];\n            }\n        }\n\n        // Rafraîchir tous les devices depuis Nodify\n        async function refreshAllDevices() {\n            const contentNodeCode = document.getElementById('contentNodeCode').value.trim();\n            if (!contentNodeCode) {\n                return;\n            }\n            \n            const allData = await fetchAllData(contentNodeCode);\n            \n            // Transformer les données en devices\n            const newDevices = {};\n            \n            allData.forEach(data => {\n                try {\n                    const locationData = JSON.parse(data.value);\n                    newDevices[data.key] = {\n                        id: data.id,\n                        key: data.key,\n                        device_id: locationData.device_id,\n                        user_name: locationData.user_name,\n                        lat: locationData.lat,\n                        lng: locationData.lng,\n                        accuracy: locationData.accuracy,\n                        timestamp: locationData.timestamp,\n                        timestamp_ms: locationData.timestamp_ms,\n                        raw: data\n                    };\n                } catch (e) {\n                    console.error(`Erreur parsing JSON pour ${data.key}:`, e);\n                }\n            });\n            \n            devices = newDevices;\n            \n            updateDashboard();\n            document.getElementById('lastUpdate').innerHTML = new Date().toLocaleTimeString();\n            \n            const deviceCount = Object.keys(devices).length;\n            console.log(`${deviceCount} appareils trouvés dans ${contentNodeCode}`);\n        }\n\n        // Mettre à jour la carte et la sidebar\n        function updateDashboard() {\n            // Mettre à jour le compteur\n            const deviceCount = Object.keys(devices).length;\n            document.getElementById('deviceCount').innerHTML = deviceCount;\n            \n            // Mettre à jour la sidebar\n            const container = document.getElementById('devicesList');\n            \n            if (deviceCount === 0) {\n                container.innerHTML = '<div class=\"no-devices\">Aucun appareil trouvé. Lancez le simulateur !</div>';\n            } else {\n                container.innerHTML = Object.entries(devices)\n                    .sort((a, b) => new Date(b[1].timestamp) - new Date(a[1].timestamp))\n                    .map(([key, device]) => {\n                        const timeAgo = getTimeAgo(new Date(device.timestamp));\n                        const isActive = (Date.now() - device.timestamp_ms) < 10000;\n                        \n                        return `\n                            <div class=\"device-card ${selectedDeviceId === device.device_id ? 'selected' : ''}\" \n                                 onclick=\"selectDevice('${device.device_id}')\">\n                                <div class=\"device-name\">\n                                    <span>\n                                        <span class=\"device-status ${isActive ? 'status-active' : 'status-inactive'}\"></span>\n                                        📱 ${device.user_name || device.device_id}\n                                    </span>\n                                </div>\n                                <div class=\"device-location\">\n                                    📍 ${device.lat?.toFixed(6)}, ${device.lng?.toFixed(6)}\n                                </div>\n                                <div class=\"device-accuracy\">\n                                    🎯 Précision: ${device.accuracy?.toFixed(1) || '?'} m\n                                </div>\n                                <div class=\"device-time\">\n                                    🕐 ${timeAgo}\n                                </div>\n                            </div>\n                        `;\n                    }).join('');\n            }\n            \n            // Mettre à jour la carte\n            updateMap();\n        }\n\n        // Mettre à jour les marqueurs sur la carte\n        function updateMap() {\n            Object.entries(devices).forEach(([key, device]) => {\n                const markerId = device.device_id;\n                const position = [device.lat, device.lng];\n                const isActive = (Date.now() - device.timestamp_ms) < 10000;\n                \n                if (markers[markerId]) {\n                    markers[markerId].setLatLng(position);\n                    \n                    const popupContent = `\n                        <b>📱 ${device.user_name || device.device_id}</b><br>\n                        📍 ${device.lat?.toFixed(6)}, ${device.lng?.toFixed(6)}<br>\n                        🎯 Précision: ${device.accuracy?.toFixed(1)} m<br>\n                        🕐 ${new Date(device.timestamp).toLocaleString()}<br>\n                        ${isActive ? '🟢 Actif' : '⚫ Inactif'}\n                    `;\n                    markers[markerId].getPopup().setContent(popupContent);\n                    \n                    if (!isActive) {\n                        markers[markerId].setOpacity(0.5);\n                    } else {\n                        markers[markerId].setOpacity(1);\n                    }\n                } else {\n                    const markerIcon = L.divIcon({\n                        className: 'custom-marker',\n                        html: `<div style=\"background: ${selectedDeviceId === device.device_id ? '#4caf50' : '#667eea'}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);\"></div>`,\n                        iconSize: [20, 20],\n                        popupAnchor: [0, -10]\n                    });\n                    \n                    const marker = L.marker(position, { icon: markerIcon }).addTo(map);\n                    marker.bindPopup(`\n                        <b>📱 ${device.user_name || device.device_id}</b><br>\n                        📍 ${device.lat?.toFixed(6)}, ${device.lng?.toFixed(6)}<br>\n                        🎯 Précision: ${device.accuracy?.toFixed(1)} m<br>\n                        🕐 ${new Date(device.timestamp).toLocaleString()}\n                    `);\n                    markers[markerId] = marker;\n                }\n            });\n            \n            // Supprimer les marqueurs des devices qui n'existent plus\n            const currentDeviceIds = new Set(Object.values(devices).map(d => d.device_id));\n            Object.keys(markers).forEach(markerId => {\n                if (!currentDeviceIds.has(markerId)) {\n                    map.removeLayer(markers[markerId]);\n                    delete markers[markerId];\n                }\n            });\n            \n            // Centrer la carte sur le device sélectionné\n            if (selectedDeviceId && devices[Object.keys(devices).find(k => devices[k].device_id === selectedDeviceId)]) {\n                const selectedDevice = Object.values(devices).find(d => d.device_id === selectedDeviceId);\n                if (selectedDevice) {\n                    map.setView([selectedDevice.lat, selectedDevice.lng], 15);\n                }\n            }\n        }\n\n        // Sélectionner un device\n        function selectDevice(deviceId) {\n            selectedDeviceId = deviceId;\n            updateDashboard();\n        }\n\n        // Helper: temps écoulé\n        function getTimeAgo(date) {\n            const seconds = Math.floor((new Date() - date) / 1000);\n            if (seconds < 60) return `il y a ${seconds} secondes`;\n            const minutes = Math.floor(seconds / 60);\n            if (minutes < 60) return `il y a ${minutes} minutes`;\n            return date.toLocaleTimeString();\n        }\n\n        // Démarrer l'auto-refresh\n        function startAutoRefresh() {\n            refreshAllDevices();\n            refreshInterval = setInterval(refreshAllDevices, 5000);\n        }\n\n        // Arrêter l'auto-refresh\n        function stopAutoRefresh() {\n            if (refreshInterval) {\n                clearInterval(refreshInterval);\n                refreshInterval = null;\n            }\n        }\n\n        // Écouter les changements de contentNodeCode\n        function setupContentCodeListener() {\n            const input = document.getElementById('contentNodeCode');\n            if (input) {\n                input.addEventListener('change', () => {\n                    refreshAllDevices();\n                });\n            }\n        }\n\n        // Initialisation\n        window.onload = () => {\n            initMap();\n            setupContentCodeListener();\n            startAutoRefresh();\n        };\n\n        window.onbeforeunload = () => {\n            stopAutoRefresh();\n        };\n    </script>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775421599140,
+        "modificationDate": 1775492021511,
+        "modifiedBy": "",
+        "version": "4",
+        "publicationDate": 1775492021511,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "3bf506b9-b844-48ee-8c29-17625d3166f3",
+        "parentCode": "PHONES_TRACKER-1775421161590",
+        "parentCodeOrigin": "DEV-01",
+        "code": "SCRIPT-1775421772703",
+        "type": "SCRIPT",
+        "description": "simulator_phone_fictives_positions",
+        "content": "<script>\n  let trackingInterval = null;\n  let currentPosition = null;\n  let deviceId = null;\n  let currentDataUuid = null;\n  let currentDataKey = null;\n  let currentContentNodeCode = null;\n\n  // Positions fictives autour de Paris\n  const parisLocations = [\n      { lat: 48.8584, lng: 2.2945, name: \"Tour Eiffel\" },\n      { lat: 48.8530, lng: 2.3499, name: \"Notre-Dame\" },\n      { lat: 48.8867, lng: 2.3431, name: \"Montmartre\" },\n      { lat: 48.8606, lng: 2.3376, name: \"Louvre\" },\n      { lat: 48.8698, lng: 2.3074, name: \"Champs-Élysées\" },\n      { lat: 48.8462, lng: 2.3464, name: \"Panthéon\" },\n      { lat: 48.8532, lng: 2.3692, name: \"Bastille\" },\n      { lat: 48.8718, lng: 2.3318, name: \"Opéra Garnier\" },\n      { lat: 48.8892, lng: 2.3276, name: \"Moulin Rouge\" },\n      { lat: 48.8561, lng: 2.2978, name: \"Trocadéro\" }\n  ];\n\n  // Générer une position aléatoire autour de Paris\n  function generateRandomPosition() {\n      const centerLat = 48.8566;\n      const centerLng = 2.3522;\n      const radius = 0.05; // ~5km\n\n      // 70% de chance d'être près d'un point d'intérêt, 30% complètement aléatoire\n      if (Math.random() < 0.7) {\n          const poi = parisLocations[Math.floor(Math.random() * parisLocations.length)];\n          return {\n              lat: poi.lat + (Math.random() - 0.5) * 0.003,\n              lng: poi.lng + (Math.random() - 0.5) * 0.003,\n              accuracy: 5 + Math.random() * 15,\n              poi_name: poi.name\n          };\n      } else {\n          return {\n              lat: centerLat + (Math.random() - 0.5) * radius * 2,\n              lng: centerLng + (Math.random() - 0.5) * radius * 2,\n              accuracy: 10 + Math.random() * 30,\n              poi_name: null\n          };\n      }\n  }\n\n  // Faire bouger la position (petite variation)\n  function movePosition(position) {\n      return {\n          lat: position.lat + (Math.random() - 0.5) * 0.002,\n          lng: position.lng + (Math.random() - 0.5) * 0.002,\n          accuracy: 5 + Math.random() * 20,\n          poi_name: position.poi_name\n      };\n  }\n\n  // Générer un ID unique si vide\n  function generateDeviceId() {\n      const existing = document.getElementById('deviceId').value;\n      if (existing) return existing;\n      const randomId = `phone_${Math.random().toString(36).substr(2, 8)}`;\n      document.getElementById('deviceId').value = randomId;\n      return randomId;\n  }\n\n  // Générer une clé unique pour ce téléphone\n  function generateDataKey(deviceId) {\n      return `location_${deviceId}`;\n  }\n\n  // Vérifier que le contentNodeCode est valide\n  function getContentNodeCode() {\n      const code = document.getElementById('contentNodeCode').value.trim();\n      if (!code) {\n          addLog(\"❌ Veuillez entrer un Content Node Code (ex: phone-tracking)\");\n          return null;\n      }\n      return code;\n  }\n\n  // Mettre à jour l'affichage de la position\n  function updateDisplay(position) {\n      document.getElementById('coordinates').innerHTML = `\n          📍 Latitude: ${position.lat.toFixed(6)}<br>\n          📍 Longitude: ${position.lng.toFixed(6)}<br>\n          🎯 Précision: ${position.accuracy.toFixed(1)} mètres<br>\n          ${position.poi_name ? `📍 Lieu: ${position.poi_name}<br>` : ''}\n          🕐 Dernière mise à jour: ${new Date().toLocaleTimeString()}\n      `;\n  }\n\n  // Créer une nouvelle donnée (POST /datas/)\n  async function createData() {\n      const contentNodeCode = getContentNodeCode();\n      if (!contentNodeCode) return false;\n\n      deviceId = generateDeviceId();\n      const userName = document.getElementById('userName').value || \"Anonyme\";\n      currentDataKey = generateDataKey(deviceId);\n      currentContentNodeCode = contentNodeCode;\n\n      const now = Date.now();\n      const locationData = {\n          device_id: deviceId,\n          user_name: userName,\n          lat: currentPosition.lat,\n          lng: currentPosition.lng,\n          accuracy: currentPosition.accuracy,\n          timestamp: new Date().toISOString(),\n          timestamp_ms: now,\n          poi_name: currentPosition.poi_name\n      };\n\n      const payload = {\n          key: currentDataKey,\n          name: `Position de ${userName} (${deviceId})`,\n          dataType: \"json\",\n          value: JSON.stringify(locationData),\n          creationDate: now,\n          modificationDate: now,\n          contentNodeCode: contentNodeCode,\n          user: userName\n      };\n\n      addLog(`📤 POST /datas/ - Création dans ${contentNodeCode}`);\n\n      try {\n          const response = await fetch(`/datas/`, {\n              method: 'POST',\n              headers: { \n                  'Content-Type': 'application/json',\n                  'Accept': 'application/json'\n              },\n              body: JSON.stringify(payload)\n          });\n\n          if (response.ok) {\n              const result = await response.json();\n              currentDataUuid = result.id;\n\n              document.getElementById('dataInfo').style.display = 'block';\n              document.getElementById('dataKey').innerText = currentDataKey;\n              document.getElementById('dataContentNode').innerText = currentContentNodeCode;\n              document.getElementById('dataUuid').innerText = currentDataUuid;\n\n              addLog(`✅ CRÉÉ - UUID: ${currentDataUuid.substring(0, 8)}...`);\n              return true;\n          } else {\n              const errorText = await response.text();\n              addLog(`❌ Erreur création: ${response.status} - ${errorText}`);\n              return false;\n          }\n      } catch (error) {\n          addLog(`❌ Erreur connexion: ${error.message}`);\n          return false;\n      }\n  }\n\n  // Mettre à jour une donnée existante (PUT /datas/id/{id})\n  async function updateData() {\n      if (!currentDataUuid) {\n          addLog(\"⚠️ Pas d'UUID, création d'abord...\");\n          return await createData();\n      }\n\n      const userName = document.getElementById('userName').value || \"Anonyme\";\n      const now = Date.now();\n      const locationData = {\n          device_id: deviceId,\n          user_name: userName,\n          lat: currentPosition.lat,\n          lng: currentPosition.lng,\n          accuracy: currentPosition.accuracy,\n          timestamp: new Date().toISOString(),\n          timestamp_ms: now,\n          poi_name: currentPosition.poi_name\n      };\n\n      const payload = {\n          id: currentDataUuid,\n          key: currentDataKey,\n          name: `Position de ${userName} (${deviceId})`,\n          dataType: \"json\",\n          value: JSON.stringify(locationData),\n          creationDate: now,\n          modificationDate: now,\n          contentNodeCode: currentContentNodeCode,\n          user: userName\n      };\n\n      try {\n          const response = await fetch(`/datas/id/${currentDataUuid}`, {\n              method: 'PUT',\n              headers: { \n                  'Content-Type': 'application/json',\n                  'Accept': 'application/json'\n              },\n              body: JSON.stringify(payload)\n          });\n\n          if (response.ok) {\n              addLog(`✅ MIS À JOUR - Lat:${locationData.lat.toFixed(4)}, Lng:${locationData.lng.toFixed(4)}${locationData.poi_name ? ` - ${locationData.poi_name}` : ''}`);\n              return true;\n          } else if (response.status === 404) {\n              addLog(`⚠️ UUID plus trouvé, recréation...`);\n              currentDataUuid = null;\n              return await createData();\n          } else {\n              addLog(`⚠️ Erreur mise à jour: ${response.status}`);\n              return false;\n          }\n      } catch (error) {\n          addLog(`❌ Erreur connexion: ${error.message}`);\n          return false;\n      }\n  }\n\n  // Envoyer/Update la position dans Nodify\n  async function sendLocationToNodify() {\n      if (!currentPosition) {\n          addLog(\"⚠️ Aucune position générée\");\n          return;\n      }\n\n      if (!getContentNodeCode()) {\n          addLog(\"❌ Content Node Code requis avant envoi\");\n          return;\n      }\n\n      if (!currentDataUuid) {\n          await createData();\n      } else {\n          await updateData();\n      }\n  }\n\n  // Générer une position initiale\n  function generateInitialPosition() {\n      const position = generateRandomPosition();\n      currentPosition = position;\n      updateDisplay(position);\n      addLog(`📍 Position générée: ${position.lat.toFixed(4)}, ${position.lng.toFixed(4)}${position.poi_name ? ` (${position.poi_name})` : ''}`);\n  }\n\n  // Démarrer l'envoi périodique avec mouvement\n  function startTracking() {\n      if (!getContentNodeCode()) {\n          addLog(\"❌ Entrez d'abord un Content Node Code\");\n          return;\n      }\n\n      if (trackingInterval) {\n          clearInterval(trackingInterval);\n      }\n\n      // Générer une position initiale si pas encore fait\n      if (!currentPosition) {\n          generateInitialPosition();\n      }\n\n      const frequency = parseInt(document.getElementById('frequency').value);\n\n      // Envoi immédiat\n      sendLocationToNodify();\n\n      // Puis intervalle avec déplacement\n      trackingInterval = setInterval(() => {\n          // Faire bouger la position\n          if (currentPosition) {\n              currentPosition = movePosition(currentPosition);\n              updateDisplay(currentPosition);\n          }\n          sendLocationToNodify();\n      }, frequency);\n\n      addLog(`▶ Tracking démarré (envoi toutes les ${frequency/1000} secondes) avec déplacement automatique`);\n  }\n\n  // Arrêter le tracking\n  function stopTracking() {\n      if (trackingInterval) {\n          clearInterval(trackingInterval);\n          trackingInterval = null;\n          addLog(\"⏹ Tracking arrêté\");\n      }\n  }\n\n  // Ajouter un message dans le log\n  function addLog(message) {\n      const logDiv = document.getElementById('log');\n      const timestamp = new Date().toLocaleTimeString();\n      logDiv.innerHTML += `<div>[${timestamp}] ${message}</div>`;\n      logDiv.scrollTop = logDiv.scrollHeight;\n      if (logDiv.children.length > 50) {\n          logDiv.removeChild(logDiv.children[0]);\n      }\n  }\n\n  // Initialisation\n  window.onload = () => {\n      const defaultId = `phone_${Math.random().toString(36).substr(2, 8)}`;\n      document.getElementById('deviceId').value = defaultId;\n\n      // Générer une position initiale\n      generateInitialPosition();\n\n      addLog(\"✨ Mode démo activé - Positions fictives générées automatiquement\");\n      addLog(\"💡 Aucun GPS nécessaire - Les positions bougent toutes seules\");\n  };\n\n  window.onbeforeunload = () => {\n      if (trackingInterval) clearInterval(trackingInterval);\n  };\n</script>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1775422006683,
+        "modificationDate": 1775492021577,
+        "modifiedBy": "",
+        "version": "4",
+        "publicationDate": 1775492021577,
+        "status": "SNAPSHOT",
+        "favorite": false
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1775421167561,
+    "modificationDate": 1775492021102,
+    "modifiedBy": "",
+    "version": "5",
+    "publicationDate": 1775492021102,
+    "status": "SNAPSHOT",
+    "favorite": false
+  }
+]

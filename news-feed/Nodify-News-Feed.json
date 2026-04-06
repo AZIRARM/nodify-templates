@@ -1,0 +1,808 @@
+[
+  {
+    "id": "682f28ba-4b7b-4a1c-9c03-2d32ac24bb91",
+    "name": "Nodify News Feed",
+    "code": "SITE-40DCA10AC732",
+    "description": "A dynamic news feed built with Nodify Python client",
+    "defaultLanguage": "EN",
+    "type": "SITE",
+    "contents": [
+      {
+        "id": "4ee38c25-41af-44b0-b9f5-bca1068516cb",
+        "parentCode": "SITE-40DCA10AC732",
+        "code": "STYLE-770D35847BC7",
+        "language": "EN",
+        "type": "STYLE",
+        "title": "News Feed Styles",
+        "description": "CSS styles for the news feed",
+        "content": "\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            min-height: 100vh;\n            color: #333;\n        }\n        .language-selector {\n            position: fixed;\n            top: 20px;\n            right: 20px;\n            z-index: 1001;\n            background: white;\n            padding: 8px 15px;\n            border-radius: 25px;\n            box-shadow: 0 2px 10px rgba(0,0,0,0.1);\n        }\n        .language-selector select {\n            padding: 5px 10px;\n            border-radius: 15px;\n            border: 1px solid #1e3c72;\n            cursor: pointer;\n            font-size: 14px;\n        }\n        .navbar {\n            background: rgba(255,255,255,0.95);\n            backdrop-filter: blur(10px);\n            box-shadow: 0 2px 20px rgba(0,0,0,0.1);\n            position: sticky;\n            top: 0;\n            z-index: 1000;\n        }\n        .nav-container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 1rem 2rem;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n        .logo {\n            font-size: 1.5rem;\n            font-weight: bold;\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            -webkit-background-clip: text;\n            -webkit-text-fill-color: transparent;\n        }\n        .container {\n            max-width: 1200px;\n            margin: 0 auto;\n            padding: 2rem;\n        }\n        .hero {\n            text-align: center;\n            padding: 4rem 2rem;\n            background: rgba(255,255,255,0.95);\n            border-radius: 20px;\n            margin-bottom: 3rem;\n            box-shadow: 0 10px 30px rgba(0,0,0,0.1);\n        }\n        .hero h1 {\n            font-size: 3rem;\n            margin-bottom: 1rem;\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            -webkit-background-clip: text;\n            -webkit-text-fill-color: transparent;\n        }\n        .hero p {\n            font-size: 1.2rem;\n            color: #666;\n            margin-bottom: 2rem;\n        }\n        .category-filters {\n            display: flex;\n            gap: 1rem;\n            margin-bottom: 2rem;\n            flex-wrap: wrap;\n            justify-content: center;\n        }\n        .category-btn {\n            padding: 0.75rem 1.5rem;\n            border: none;\n            border-radius: 25px;\n            cursor: pointer;\n            font-size: 1rem;\n            font-weight: 500;\n            transition: all 0.3s;\n            background: rgba(255,255,255,0.9);\n            color: #333;\n        }\n        .category-btn:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 5px 15px rgba(0,0,0,0.2);\n        }\n        .category-btn.active {\n            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);\n            color: white;\n        }\n        .articles-grid {\n            display: grid;\n            gap: 2rem;\n        }\n        .article-card {\n            background: white;\n            border-radius: 15px;\n            overflow: hidden;\n            transition: transform 0.3s, box-shadow 0.3s;\n            cursor: pointer;\n            box-shadow: 0 5px 20px rgba(0,0,0,0.1);\n        }\n        .article-card:hover {\n            transform: translateY(-5px);\n            box-shadow: 0 10px 30px rgba(0,0,0,0.2);\n        }\n        .article-content {\n            padding: 1.5rem;\n        }\n        .article-card h3 {\n            margin-bottom: 0.5rem;\n            color: #333;\n            font-size: 1.25rem;\n        }\n        .article-meta {\n            color: #999;\n            font-size: 0.85rem;\n            margin-bottom: 1rem;\n        }\n        .comment-count {\n            display: inline-block;\n            margin-left: 1rem;\n            color: #1e3c72;\n            font-size: 0.8rem;\n            background: #e8f0fe;\n            padding: 0.2rem 0.5rem;\n            border-radius: 20px;\n        }\n        .article-category {\n            display: inline-block;\n            background: #1e3c72;\n            color: white;\n            padding: 0.25rem 0.75rem;\n            border-radius: 20px;\n            font-size: 0.75rem;\n            margin-bottom: 0.5rem;\n        }\n        .read-more {\n            display: inline-block;\n            margin-top: 1rem;\n            color: #1e3c72;\n            font-weight: bold;\n            cursor: pointer;\n        }\n        .modal {\n            display: none;\n            position: fixed;\n            z-index: 2000;\n            left: 0;\n            top: 0;\n            width: 100%;\n            height: 100%;\n            background: rgba(0,0,0,0.8);\n            overflow-y: auto;\n        }\n        .modal-content {\n            background: white;\n            margin: 50px auto;\n            padding: 2rem;\n            border-radius: 20px;\n            max-width: 800px;\n            position: relative;\n            animation: slideDown 0.3s ease;\n        }\n        @keyframes slideDown {\n            from { opacity: 0; transform: translateY(-50px); }\n            to { opacity: 1; transform: translateY(0); }\n        }\n        .close {\n            position: absolute;\n            right: 20px;\n            top: 20px;\n            font-size: 2rem;\n            cursor: pointer;\n            color: #999;\n            transition: color 0.3s;\n        }\n        .close:hover {\n            color: #333;\n        }\n        .modal-body {\n            margin-top: 1rem;\n        }\n        .article-full-content {\n            line-height: 1.8;\n            color: #666;\n        }\n        .article-full-content h2 {\n            color: #1e3c72;\n            margin: 1.5rem 0 1rem 0;\n        }\n        .comment-section {\n            margin-top: 2rem;\n            padding-top: 1rem;\n            border-top: 1px solid #eee;\n        }\n        .comment-input {\n            display: flex;\n            gap: 1rem;\n            margin-top: 1rem;\n        }\n        .comment-input input {\n            flex: 1;\n            padding: 0.75rem;\n            border: 1px solid #ddd;\n            border-radius: 8px;\n        }\n        .comment-input input:first-child {\n            flex: 0.3;\n        }\n        .comment-input button {\n            padding: 0.75rem 1.5rem;\n            background: #1e3c72;\n            color: white;\n            border: none;\n            border-radius: 8px;\n            cursor: pointer;\n        }\n        .comment {\n            background: #f9f9f9;\n            padding: 0.75rem;\n            margin: 0.5rem 0;\n            border-radius: 8px;\n        }\n        .comment strong {\n            color: #1e3c72;\n        }\n        .footer {\n            background: rgba(255,255,255,0.95);\n            text-align: center;\n            padding: 2rem;\n            margin-top: 4rem;\n            border-radius: 20px;\n        }\n        @media (max-width: 768px) {\n            .hero h1 { font-size: 2rem; }\n            .hero p { font-size: 1rem; }\n            .category-btn { padding: 0.5rem 1rem; font-size: 0.9rem; }\n            .comment-input { flex-direction: column; }\n            .modal-content { margin: 20px; padding: 1rem; }\n        }\n        ",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774280080578,
+        "modificationDate": 1774280080654,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774280080654,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "1ef3b52f-ef16-447b-8026-0190c8040547",
+        "parentCode": "SITE-40DCA10AC732",
+        "code": "SCRIPT-85E96327C0E6",
+        "language": "EN",
+        "type": "SCRIPT",
+        "title": "News Feed Scripts",
+        "description": "JavaScript for the news feed",
+        "content": "\n        const API_BASE_URL = 'http://localhost:1080';\n        const CORE_BASE_URL = 'http://localhost:8080';\n        const CATEGORIES_CONTAINER_CODE = 'CATEGORIES-8E2F4F19D7C6';\n\n        let currentModal = null;\n        let currentLang = 'EN';\n        let currentCategory = null;\n\n        const urlParams = new URLSearchParams(window.location.search);\n        const urlLang = urlParams.get('translation');\n        if (urlLang && ['EN', 'FR', 'ES'].includes(urlLang)) {\n            currentLang = urlLang;\n        } else if (localStorage.getItem('language')) {\n            currentLang = localStorage.getItem('language');\n        }\n\n        function changeLanguage(lang) {\n            if (!lang || lang === currentLang) return;\n            currentLang = lang;\n            localStorage.setItem('language', lang);\n            const url = new URL(window.location.href);\n            url.searchParams.set('translation', lang);\n            window.location.href = url.toString();\n        }\n\n        async function fetchCategories() {\n            const url = API_BASE_URL + '/nodes/parent/' + CATEGORIES_CONTAINER_CODE;\n            const response = await fetch(url);\n            return response.json();\n        }\n\n        async function fetchArticlesFromCategory(categoryCode) {\n            const url = API_BASE_URL + '/contents/node/code/' + categoryCode + '?status=PUBLISHED';\n            const response = await fetch(url);\n            const articles = await response.json();\n\n            const articlesWithContent = [];\n            for (const article of articles) {\n                const contentUrl = API_BASE_URL + '/contents/code/' + article.code + '?payloadOnly=true&status=PUBLISHED&translation=' + currentLang;\n                const contentResponse = await fetch(contentUrl);\n                if (contentResponse.ok) {\n                    const content = await contentResponse.json();\n                    articlesWithContent.push({\n                        code: article.code,\n                        title: content.title,\n                        summary: content.summary,\n                        content: content.content,\n                        author: content.author,\n                        date: content.date,\n                        categoryCode: categoryCode\n                    });\n                }\n            }\n            return articlesWithContent;\n        }\n\n        async function getCommentCount(articleCode) {\n            const url = API_BASE_URL + '/datas/content-code/' + articleCode + '/count';\n            const response = await fetch(url);\n            if (response.ok) {\n                const count = await response.json();\n                return count;\n            }\n            return 0;\n        }\n\n        async function updateArticleCommentCount(articleCode) {\n            const newCount = await getCommentCount(articleCode);\n            const articleCards = document.querySelectorAll('.article-card');\n            for (const card of articleCards) {\n                const onclickAttr = card.getAttribute('onclick');\n                if (onclickAttr && onclickAttr.includes(articleCode)) {\n                    const commentSpan = card.querySelector('.comment-count');\n                    if (commentSpan) {\n                        commentSpan.textContent = `💬 ${newCount} comment${newCount !== 1 ? 's' : ''}`;\n                    }\n                    break;\n                }\n            }\n        }\n\n        async function openArticle(articleCode) {\n            if (!articleCode) {\n                console.error('No article code provided');\n                return;\n            }\n\n            const url = API_BASE_URL + '/contents/code/' + articleCode + '?payloadOnly=true&status=PUBLISHED&translation=' + currentLang;\n            const response = await fetch(url);\n            if (!response.ok) {\n                console.error('Failed to fetch article:', url);\n                return;\n            }\n            const article = await response.json();\n\n            const modal = document.getElementById('articleModal');\n            const modalBody = document.getElementById('modalBody');\n\n            modalBody.innerHTML = `\n                <h2>${escapeHtml(article.title)}</h2>\n                <div class=\"article-meta\">\n                    By <strong>${escapeHtml(article.author)}</strong> | ${new Date(article.date).toLocaleDateString()}\n                </div>\n                <div class=\"article-full-content\">${article.content}</div>\n                <div class=\"comment-section\">\n                    <h4>Comments</h4>\n                    <div id=\"comments-${articleCode}\"></div>\n                    <div class=\"comment-input\">\n                        <input type=\"text\" id=\"comment-user-${articleCode}\" placeholder=\"Your name\" value=\"anonymous\">\n                        <input type=\"text\" id=\"comment-text-${articleCode}\" placeholder=\"Add a comment...\">\n                        <button onclick=\"addComment('${articleCode}')\">Post</button>\n                    </div>\n                </div>\n            `;\n\n            modal.style.display = 'block';\n            currentModal = modal;\n            document.body.style.overflow = 'hidden';\n\n            await loadComments(articleCode);\n        }\n\n        async function addComment(articleCode) {\n            const userNameInput = document.getElementById('comment-user-' + articleCode);\n            const commentInput = document.getElementById('comment-text-' + articleCode);\n            const userName = userNameInput.value.trim() || 'anonymous';\n            const commentText = commentInput.value.trim();\n            if (!commentText) return;\n\n            const commentData = {\n                user: userName,\n                text: commentText,\n                date: new Date().toISOString()\n            };\n\n            const url = API_BASE_URL + '/datas/';\n            const response = await fetch(url, {\n                method: 'POST',\n                headers: { 'Content-Type': 'application/json' },\n                body: JSON.stringify({\n                    contentNodeCode: articleCode,\n                    dataType: 'COMMENT',\n                    name: 'Comment',\n                    user: userName,\n                    key: 'comment_' + Date.now(),\n                    value: JSON.stringify(commentData)\n                })\n            });\n\n            if (response.ok) {\n                commentInput.value = '';\n                await loadComments(articleCode);\n                await updateArticleCommentCount(articleCode);\n            }\n        }\n\n        async function loadComments(articleCode) {\n            const url = API_BASE_URL + '/datas/contentCode/' + articleCode + '?limit=50';\n            const response = await fetch(url);\n            const comments = await response.json();\n\n            const commentsDiv = document.getElementById('comments-' + articleCode);\n            if (commentsDiv) {\n                if (comments.length === 0) {\n                    commentsDiv.innerHTML = '<p style=\"color: #999;\">No comments yet. Be the first to comment!</p>';\n                } else {\n                    commentsDiv.innerHTML = comments.map(c => {\n                        let commentData;\n                        try {\n                            commentData = JSON.parse(c.value);\n                        } catch(e) {\n                            commentData = { user: c.user || 'anonymous', text: c.value };\n                        }\n                        return `\n                            <div class=\"comment\">\n                                <strong>${escapeHtml(commentData.user)}</strong>\n                                <span style=\"color: #999; font-size: 0.8rem;\">${commentData.date ? new Date(commentData.date).toLocaleString() : ''}</span>\n                                <p>${escapeHtml(commentData.text)}</p>\n                            </div>\n                        `;\n                    }).join('');\n                }\n            }\n        }\n\n        function escapeHtml(text) {\n            if (!text) return '';\n            const div = document.createElement('div');\n            div.textContent = text;\n            return div.innerHTML;\n        }\n\n        function closeModal() {\n            if (currentModal) {\n                currentModal.style.display = 'none';\n                currentModal = null;\n                document.body.style.overflow = 'auto';\n            }\n        }\n\n        function updateStaticTranslations() {\n            const elements = document.querySelectorAll('[data-translate]');\n            const translations = {\n                EN: {\n                    MAIN_TITLE: 'Nodify News Feed',\n                    MAIN_SUBTITLE: 'Stay updated with the latest news',\n                    COPYRIGHT: '© 2026 Nodify CMS. All rights reserved.',\n                    FOOTER_TEXT: 'Built with ❤️ using Nodify Headless CMS'\n                },\n                FR: {\n                    MAIN_TITLE: 'Flux d\\'actualités Nodify',\n                    MAIN_SUBTITLE: 'Restez informé des dernières actualités',\n                    COPYRIGHT: '© 2026 Nodify CMS. Tous droits réservés.',\n                    FOOTER_TEXT: 'Construit avec ❤️ en utilisant Nodify Headless CMS'\n                },\n                ES: {\n                    MAIN_TITLE: 'Feed de Noticias Nodify',\n                    MAIN_SUBTITLE: 'Manténgase actualizado con las últimas noticias',\n                    COPYRIGHT: '© 2026 Nodify CMS. Todos los derechos reservados.',\n                    FOOTER_TEXT: 'Construido con ❤️ usando Nodify Headless CMS'\n                }\n            };\n            elements.forEach(el => {\n                const key = el.getAttribute('data-translate');\n                if (translations[currentLang] && translations[currentLang][key]) {\n                    el.textContent = translations[currentLang][key];\n                }\n            });\n        }\n\n        async function loadArticles() {\n            const grid = document.getElementById('articlesGrid');\n            if (!grid) return;\n\n            try {\n                const categories = await fetchCategories();\n\n                if (!categories || categories.length === 0) {\n                    grid.innerHTML = '<p style=\"color: white; text-align: center;\">No categories found.</p>';\n                    return;\n                }\n\n                const filterContainer = document.getElementById('categoryFilters');\n                filterContainer.innerHTML = `\n                    <button class=\"category-btn ${!currentCategory ? 'active' : ''}\" onclick=\"filterByCategory(null)\">All</button>\n                    ${categories.map(cat => `\n                        <button class=\"category-btn ${currentCategory === cat.code ? 'active' : ''}\" onclick=\"filterByCategory('${cat.code}')\">\n                            ${escapeHtml(cat.name)}\n                        </button>\n                    `).join('')}\n                `;\n\n                let allArticles = [];\n                for (const cat of categories) {\n                    const articles = await fetchArticlesFromCategory(cat.code);\n                    if (articles && articles.length > 0) {\n                        for (const article of articles) {\n                            const commentCount = await getCommentCount(article.code);\n                            allArticles.push({\n                                code: article.code,\n                                title: article.title,\n                                summary: article.summary,\n                                content: article.content,\n                                author: article.author,\n                                date: article.date,\n                                categoryName: cat.name,\n                                categoryCode: cat.code,\n                                commentCount: commentCount\n                            });\n                        }\n                    }\n                }\n\n                if (currentCategory) {\n                    allArticles = allArticles.filter(a => a.categoryCode === currentCategory);\n                }\n\n                if (allArticles.length === 0) {\n                    grid.innerHTML = '<p style=\"color: white; text-align: center;\">No articles found.</p>';\n                    return;\n                }\n\n                grid.innerHTML = allArticles.map(article => `\n                    <div class=\"article-card\" onclick=\"openArticle('${article.code}')\">\n                        <div class=\"article-content\">\n                            <span class=\"article-category\">${escapeHtml(article.categoryName)}</span>\n                            <h3>${escapeHtml(article.title)}</h3>\n                            <div class=\"article-meta\">\n                                By <strong>${escapeHtml(article.author)}</strong> | ${new Date(article.date).toLocaleDateString()}\n                                <span class=\"comment-count\">💬 ${article.commentCount} comment${article.commentCount !== 1 ? 's' : ''}</span>\n                            </div>\n                            <p>${escapeHtml(article.summary?.substring(0, 150))}...</p>\n                            <span class=\"read-more\">Read More →</span>\n                        </div>\n                    </div>\n                `).join('');\n            } catch (error) {\n                console.error('Error loading articles:', error);\n                grid.innerHTML = '<p style=\"color: white; text-align: center;\">Error loading articles.</p>';\n            }\n        }\n\n        function filterByCategory(categoryCode) {\n            currentCategory = categoryCode;\n            loadArticles();\n        }\n\n        document.addEventListener('keydown', (e) => {\n            if (e.key === 'Escape') closeModal();\n        });\n\n        window.onclick = (e) => {\n            if (currentModal && e.target === currentModal) closeModal();\n        };\n\n        document.addEventListener('DOMContentLoaded', async () => {\n            updateStaticTranslations();\n            await loadArticles();\n\n            const select = document.getElementById('langSelect');\n            if (select) {\n                select.value = currentLang;\n                select.onchange = (e) => changeLanguage(e.target.value);\n            }\n        });\n        ",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774280080601,
+        "modificationDate": 1774280080675,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774280080675,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "6925a505-ae47-475f-b04e-eff844eed7ad",
+        "parentCode": "SITE-40DCA10AC732",
+        "code": "PAGE-1CE3477A9C54",
+        "language": "EN",
+        "type": "HTML",
+        "title": "Nodify News Feed Landing Page",
+        "description": "Main landing page for the news feed",
+        "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Nodify News Feed</title>\n    <style>$content(STYLE-770D35847BC7)</style>\n</head>\n<body>\n    <div class=\"language-selector\">\n        <select id=\"langSelect\">\n            <option value=\"EN\">English</option>\n            <option value=\"FR\">Français</option>\n            <option value=\"ES\">Español</option>\n        </select>\n    </div>\n    <nav class=\"navbar\">\n        <div class=\"nav-container\">\n            <div class=\"logo\">📰 <span data-translate=\"MAIN_TITLE\">Nodify News Feed</span></div>\n        </div>\n    </nav>\n    <main class=\"container\">\n        <section class=\"hero\">\n            <h1 data-translate=\"MAIN_TITLE\">Nodify News Feed</h1>\n            <p data-translate=\"MAIN_SUBTITLE\">Stay updated with the latest news</p>\n        </section>\n        <div id=\"categoryFilters\" class=\"category-filters\"></div>\n        <div id=\"articlesGrid\" class=\"articles-grid\"></div>\n        <footer class=\"footer\">\n            <p data-translate=\"COPYRIGHT\">© 2026 Nodify CMS. All rights reserved.</p>\n            <p><span data-translate=\"FOOTER_TEXT\">Built with ❤️ using Nodify Headless CMS</span></p>\n        </footer>\n    </main>\n    <div id=\"articleModal\" class=\"modal\">\n        <div class=\"modal-content\">\n            <span class=\"close\" onclick=\"closeModal()\">&times;</span>\n            <div id=\"modalBody\"></div>\n        </div>\n    </div>\n    <script>$content(SCRIPT-85E96327C0E6)</script>\n</body>\n</html>",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774280080622,
+        "modificationDate": 1774280080693,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774280080693,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "MAIN_TITLE",
+            "value": "Nodify News Feed"
+          },
+          {
+            "language": "EN",
+            "key": "MAIN_SUBTITLE",
+            "value": "Stay updated with the latest news"
+          },
+          {
+            "language": "EN",
+            "key": "FOOTER_TEXT",
+            "value": "Built with ❤️ using Nodify Headless CMS"
+          },
+          {
+            "language": "EN",
+            "key": "COPYRIGHT",
+            "value": "© 2026 Nodify CMS. All rights reserved."
+          },
+          {
+            "language": "FR",
+            "key": "MAIN_TITLE",
+            "value": "Flux d'actualités Nodify"
+          },
+          {
+            "language": "FR",
+            "key": "MAIN_SUBTITLE",
+            "value": "Restez informé des dernières actualités"
+          },
+          {
+            "language": "FR",
+            "key": "FOOTER_TEXT",
+            "value": "Construit avec ❤️ en utilisant Nodify Headless CMS"
+          },
+          {
+            "language": "FR",
+            "key": "COPYRIGHT",
+            "value": "© 2026 Nodify CMS. Tous droits réservés."
+          },
+          {
+            "language": "ES",
+            "key": "MAIN_TITLE",
+            "value": "Feed de Noticias Nodify"
+          },
+          {
+            "language": "ES",
+            "key": "MAIN_SUBTITLE",
+            "value": "Manténgase actualizado con las últimas noticias"
+          },
+          {
+            "language": "ES",
+            "key": "FOOTER_TEXT",
+            "value": "Construido con ❤️ usando Nodify Headless CMS"
+          },
+          {
+            "language": "ES",
+            "key": "COPYRIGHT",
+            "value": "© 2026 Nodify CMS. Todos los derechos reservados."
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "languages": [
+      "EN",
+      "FR",
+      "ES"
+    ],
+    "creationDate": 1774280080362,
+    "modificationDate": 1774280080647,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774280080647,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "f50e416a-444b-485b-b846-41507b15193c",
+    "parentCode": "CATEGORIES-8E2F4F19D7C6",
+    "name": "Politics",
+    "code": "CAT-38C6A43A06BC",
+    "description": "Political news and analysis",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "fcd0082e-0738-4b33-b455-ec5a6b3cc6a2",
+        "parentCode": "CAT-38C6A43A06BC",
+        "code": "POST-0C6120ED8FFC",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Election Results: A New Era Begins",
+        "description": "Landmark election brings historic changes",
+        "content": "{\"title\": \"$translate(title)\", \"summary\": \"$translate(summary)\", \"content\": \"$translate(content)\", \"author\": \"Emma Thompson\", \"date\": \"2026-03-23T16:34:40.402880\", \"category_code\": \"POLITICS\"}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774280080538,
+        "modificationDate": 1774280080735,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774280080735,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "Election Results: A New Era Begins"
+          },
+          {
+            "language": "EN",
+            "key": "summary",
+            "value": "Landmark election brings historic changes"
+          },
+          {
+            "language": "EN",
+            "key": "content",
+            "value": "<h2>A New Era</h2><p>The election results mark a turning point in the nation's history. With record voter turnout, the people have spoken clearly for change.</p><p>Analysts predict significant policy shifts in the coming months.</p>"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Résultats des élections : Une nouvelle ère commence"
+          },
+          {
+            "language": "FR",
+            "key": "summary",
+            "value": "Une élection historique apporte des changements majeurs"
+          },
+          {
+            "language": "FR",
+            "key": "content",
+            "value": "<h2>Une nouvelle ère</h2><p>Les résultats des élections marquent un tournant dans l'histoire de la nation. Avec un taux de participation record, le peuple s'est clairement exprimé pour le changement.</p><p>Les analystes prévoient des changements politiques majeurs dans les mois à venir.</p>"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Resultados electorales: Comienza una nueva era"
+          },
+          {
+            "language": "ES",
+            "key": "summary",
+            "value": "Elección histórica trae cambios importantes"
+          },
+          {
+            "language": "ES",
+            "key": "content",
+            "value": "<h2>Una nueva era</h2><p>Los resultados electorales marcan un punto de inflexión en la historia de la nación. Con una participación récord, el pueblo ha hablado claramente por el cambio.</p><p>Los analistas predicen cambios políticos significativos en los próximos meses.</p>"
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774280080515,
+    "modificationDate": 1774280080727,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774280080727,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "be2bb178-48e1-4716-a6ef-28d242eb0a91",
+    "parentCode": "SITE-40DCA10AC732",
+    "name": "Categories",
+    "code": "CATEGORIES-8E2F4F19D7C6",
+    "description": "Container for all news categories",
+    "type": "FOLDER",
+    "contents": [],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774280080386,
+    "modificationDate": 1774280080768,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774280080768,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "af96611e-a9df-4c0a-8a2d-2280cb2a68da",
+    "parentCode": "CATEGORIES-8E2F4F19D7C6",
+    "name": "Sports",
+    "code": "CAT-48DCFD30CFB5",
+    "description": "Sports news and updates",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "18ea2bd6-ad43-4eb1-a32f-178fa1f0610d",
+        "parentCode": "CAT-48DCFD30CFB5",
+        "code": "POST-57E6B2D329EC",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Champions League Final: Historic Comeback",
+        "description": "Dramatic finish in the Champions League final",
+        "content": "{\"title\": \"$translate(title)\", \"summary\": \"$translate(summary)\", \"content\": \"$translate(content)\", \"author\": \"James Wilson\", \"date\": \"2026-03-23T16:34:40.402877\", \"category_code\": \"SPORTS\"}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774280080494,
+        "modificationDate": 1774280080847,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774280080847,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "Champions League Final: Historic Comeback"
+          },
+          {
+            "language": "EN",
+            "key": "summary",
+            "value": "Dramatic finish in the Champions League final"
+          },
+          {
+            "language": "EN",
+            "key": "content",
+            "value": "<h2>Historic Comeback</h2><p>In what will be remembered as one of the greatest finals in history, the underdogs completed an incredible comeback from 3-0 down to win 4-3 in extra time.</p><p>This victory will be talked about for generations.</p>"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Finale de la Ligue des Champions : Retour historique"
+          },
+          {
+            "language": "FR",
+            "key": "summary",
+            "value": "Fin dramatique en finale de la Ligue des Champions"
+          },
+          {
+            "language": "FR",
+            "key": "content",
+            "value": "<h2>Retour historique</h2><p>Dans ce qui restera comme l'une des plus grandes finales de l'histoire, les outsiders ont réalisé un incroyable retour de 3-0 pour gagner 4-3 en prolongation.</p><p>Cette victoire fera parler d'elle pendant des générations.</p>"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Final de la Champions League: Remontada histórica"
+          },
+          {
+            "language": "ES",
+            "key": "summary",
+            "value": "Final dramático en la final de la Champions League"
+          },
+          {
+            "language": "ES",
+            "key": "content",
+            "value": "<h2>Remontada histórica</h2><p>En lo que será recordada como una de las mejores finales de la historia, los underdogs completaron una increíble remontada de 3-0 para ganar 4-3 en tiempo extra.</p><p>Esta victoria será recordada por generaciones.</p>"
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774280080473,
+    "modificationDate": 1774280080842,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774280080842,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "5e81243f-6341-4475-b345-574fb59dddd1",
+    "parentCode": "CATEGORIES-8E2F4F19D7C6",
+    "name": "Technology",
+    "code": "CAT-4BD118817944",
+    "description": "Latest in technology and innovation",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "cb01ddcc-b2cc-41b0-ac17-e822e602454f",
+        "parentCode": "CAT-4BD118817944",
+        "code": "POST-48B3637E11E6",
+        "language": "EN",
+        "type": "JSON",
+        "title": "AI Revolution: How Machine Learning is Changing Everything",
+        "description": "Discover how artificial intelligence is transforming industries worldwide",
+        "content": "{\"title\": \"$translate(title)\", \"summary\": \"$translate(summary)\", \"content\": \"$translate(content)\", \"author\": \"Sarah Johnson\", \"date\": \"2026-03-23T16:34:40.402345\", \"category_code\": \"TECH\"}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774280080432,
+        "modificationDate": 1774280080796,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774280080796,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "AI Revolution: How Machine Learning is Changing Everything"
+          },
+          {
+            "language": "EN",
+            "key": "summary",
+            "value": "Discover how artificial intelligence is transforming industries worldwide"
+          },
+          {
+            "language": "EN",
+            "key": "content",
+            "value": "<h2>The AI Revolution</h2><p>Artificial intelligence is no longer science fiction. From healthcare to finance, AI is transforming how we work and live.</p><p>The future is here, and it's powered by artificial intelligence.</p>"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Révolution IA : Comment le Machine Learning change tout"
+          },
+          {
+            "language": "FR",
+            "key": "summary",
+            "value": "Découvrez comment l'intelligence artificielle transforme les industries dans le monde"
+          },
+          {
+            "language": "FR",
+            "key": "content",
+            "value": "<h2>La Révolution IA</h2><p>L'intelligence artificielle n'est plus de la science-fiction. De la santé à la finance, l'IA transforme notre façon de travailler et de vivre.</p><p>L'avenir est là, et il est alimenté par l'intelligence artificielle.</p>"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Revolución IA: Cómo el Machine Learning lo está cambiando todo"
+          },
+          {
+            "language": "ES",
+            "key": "summary",
+            "value": "Descubre cómo la inteligencia artificial está transformando industrias en todo el mundo"
+          },
+          {
+            "language": "ES",
+            "key": "content",
+            "value": "<h2>La Revolución IA</h2><p>La inteligencia artificial ya no es ciencia ficción. Desde la salud hasta las finanzas, la IA está transformando cómo trabajamos y vivimos.</p><p>El futuro está aquí y está impulsado por la inteligencia artificial.</p>"
+          }
+        ]
+      },
+      {
+        "id": "4e10523c-5ab5-4ef3-b1d2-30aa534a7319",
+        "parentCode": "CAT-4BD118817944",
+        "code": "POST-5F3D3D93FF64",
+        "language": "EN",
+        "type": "JSON",
+        "title": "Kubernetes at Scale: Managing Cloud Infrastructure",
+        "description": "Best practices for running Kubernetes in production environments",
+        "content": "{\"title\": \"$translate(title)\", \"summary\": \"$translate(summary)\", \"content\": \"$translate(content)\", \"author\": \"Michael Chen\", \"date\": \"2026-03-23T16:34:40.402873\", \"category_code\": \"TECH\"}",
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774280080453,
+        "modificationDate": 1774280080813,
+        "modifiedBy": "",
+        "version": "1",
+        "publicationDate": 1774280080813,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "EN",
+            "key": "title",
+            "value": "Kubernetes at Scale: Managing Cloud Infrastructure"
+          },
+          {
+            "language": "EN",
+            "key": "summary",
+            "value": "Best practices for running Kubernetes in production environments"
+          },
+          {
+            "language": "EN",
+            "key": "content",
+            "value": "<h2>Kubernetes at Scale</h2><p>Running Kubernetes in production requires careful planning and best practices.</p><p>With the right approach, Kubernetes can power any workload.</p>"
+          },
+          {
+            "language": "FR",
+            "key": "title",
+            "value": "Kubernetes à grande échelle : Gérer l'infrastructure cloud"
+          },
+          {
+            "language": "FR",
+            "key": "summary",
+            "value": "Bonnes pratiques pour exécuter Kubernetes en production"
+          },
+          {
+            "language": "FR",
+            "key": "content",
+            "value": "<h2>Kubernetes à grande échelle</h2><p>Exécuter Kubernetes en production nécessite une planification minutieuse et des bonnes pratiques.</p><p>Avec la bonne approche, Kubernetes peut alimenter n'importe quelle charge de travail.</p>"
+          },
+          {
+            "language": "ES",
+            "key": "title",
+            "value": "Kubernetes a escala: Gestionando infraestructura cloud"
+          },
+          {
+            "language": "ES",
+            "key": "summary",
+            "value": "Mejores prácticas para ejecutar Kubernetes en entornos de producción"
+          },
+          {
+            "language": "ES",
+            "key": "content",
+            "value": "<h2>Kubernetes a escala</h2><p>Ejecutar Kubernetes en producción requiere una planificación cuidadosa y mejores prácticas.</p><p>Con el enfoque correcto, Kubernetes puede manejar cualquier carga de trabajo.</p>"
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774280080410,
+    "modificationDate": 1774280080790,
+    "modifiedBy": "",
+    "version": "1",
+    "publicationDate": 1774280080790,
+    "status": "SNAPSHOT",
+    "favorite": false
+  }
+]

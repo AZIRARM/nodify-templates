@@ -1,0 +1,495 @@
+[
+  {
+    "id": "c773c4ef-28e1-418a-bcbd-b61a9ba8888c",
+    "name": "Tiny Tales - Stories for Children",
+    "code": "TINY-B86F5BD4",
+    "defaultLanguage": "en",
+    "type": "SITE",
+    "contents": [
+      {
+        "id": "fa3c2a78-c9f6-4e5c-b368-b078bf81ba2c",
+        "parentCode": "TINY-B86F5BD4",
+        "code": "STORY-AA4AE443",
+        "language": "en",
+        "type": "STYLE",
+        "title": "Tiny Tales Styles",
+        "description": "CSS styles for Tiny Tales",
+        "content": "* {\n    margin: 0;\n    padding: 0;\n    box-sizing: border-box;\n}\n\nbody {\n    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;\n    background: linear-gradient(135deg, #f9d5e5 0%, #d5f0f9 100%);\n    min-height: 100vh;\n    padding: 30px 20px;\n}\n\n.container {\n    max-width: 1200px;\n    margin: 0 auto;\n}\n\n.header {\n    text-align: center;\n    margin-bottom: 40px;\n    padding: 30px;\n    background: white;\n    border-radius: 60px 60px 30px 30px;\n    box-shadow: 0 15px 30px rgba(0,0,0,0.15);\n    border: 3px solid #ffb6c1;\n    position: relative;\n    overflow: hidden;\n}\n\n.header::before {\n    content: \"✨\";\n    font-size: 40px;\n    position: absolute;\n    left: 20px;\n    top: 20px;\n    opacity: 0.3;\n}\n\n.header::after {\n    content: \"📚\";\n    font-size: 40px;\n    position: absolute;\n    right: 20px;\n    bottom: 20px;\n    opacity: 0.3;\n}\n\n.header h1 {\n    color: #ff6b6b;\n    font-size: 3em;\n    margin-bottom: 15px;\n    text-shadow: 3px 3px 0 #ffeaa7;\n}\n\n.header p {\n    color: #5f9ea0;\n    font-size: 1.3em;\n    margin-bottom: 20px;\n}\n\n.language-selector {\n    margin: 20px auto;\n    padding: 15px;\n    background: #fff0f5;\n    border-radius: 50px;\n    display: inline-block;\n    border: 2px dashed #ffb6c1;\n}\n\n.language-selector select {\n    padding: 12px 25px;\n    border-radius: 30px;\n    border: 2px solid #ff9a9e;\n    background: white;\n    font-size: 1.1em;\n    font-family: 'Comic Sans MS', cursive;\n    cursor: pointer;\n}\n\n.stories-grid {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 30px;\n    margin-top: 40px;\n}\n\n.story-card {\n    background: white;\n    border-radius: 40px 20px 40px 20px;\n    padding: 30px;\n    box-shadow: 0 15px 25px rgba(0,0,0,0.1);\n    transition: transform 0.3s ease;\n    border: 3px solid #98ddca;\n    position: relative;\n}\n\n.story-card:hover {\n    transform: translateY(-10px);\n}\n\n.story-card h2 {\n    color: #ff8a8a;\n    font-size: 2em;\n    margin-bottom: 15px;\n    border-bottom: 3px dotted #a7e9af;\n    padding-bottom: 10px;\n}\n\n.story-card p {\n    color: #5d6d7e;\n    font-size: 1.2em;\n    line-height: 1.6;\n    margin-bottom: 15px;\n}\n\n.story-card .animal-icon {\n    font-size: 50px;\n    text-align: right;\n    margin-top: 10px;\n}\n\n.footer {\n    text-align: center;\n    margin-top: 60px;\n    padding: 30px;\n    background: white;\n    border-radius: 30px 30px 60px 60px;\n    border: 3px solid #ffb6c1;\n    color: #5f9ea0;\n    font-size: 1.2em;\n}\n",
+        "values": [
+          {
+            "key": "AUTHOR_NAME",
+            "value": "Tiny Tales Team"
+          },
+          {
+            "key": "AUTHOR_EMAIL",
+            "value": "hello@tinytales.com"
+          },
+          {
+            "key": "AUTHOR_BIO",
+            "value": "Creating magical stories for children"
+          }
+        ],
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279940799,
+        "modificationDate": 1774299831162,
+        "modifiedBy": "",
+        "version": "3",
+        "publicationDate": 1774299831162,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "551e3947-7c29-4285-924b-ded8ea1331f5",
+        "parentCode": "TINY-B86F5BD4",
+        "code": "STORY-3AF01B00",
+        "language": "en",
+        "type": "SCRIPT",
+        "title": "Tiny Tales Script",
+        "description": "JavaScript for Tiny Tales",
+        "content": "const SITE_CODE = 'TINY-B86F5BD4';\nconst STORIES_NODE_CODE = 'STORIES-E77A07CB';\nconst API_URL = '$value(BASE_URL)';\n\nfunction changeLanguage(lang) {\n    const url = new URL(window.location.href);\n    url.searchParams.set('translation', lang);\n    window.location.href = url.toString();\n}\n\nasync function fetchAllStories() {\n    const url = `${API_URL}/contents/node/code/${STORIES_NODE_CODE}?status=SNAPSHOT`;\n    try {\n        const response = await fetch(url);\n        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);\n        return await response.json();\n    } catch (error) {\n        console.error('Error fetching stories:', error);\n        return [];\n    }\n}\n\nasync function loadStoryContent(code, lang = 'en') {\n    const url = `${API_URL}/contents/code/${code}?payloadOnly=true&status=SNAPSHOT&translation=${lang}`;\n    try {\n        const response = await fetch(url);\n        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);\n        const data = await response.json();\n\n        // Si c'est un objet JSON, le retourner directement\n        // Si c'est une chaîne JSON, la parser\n        if (typeof data === 'object' && data !== null) {\n            return data;\n        }\n        return typeof data === 'string' ? JSON.parse(data) : data;\n    } catch (error) {\n        console.error('Error fetching story:', error);\n        return null;\n    }\n}\n\nasync function loadStories() {\n    const storiesGrid = document.querySelector('.stories-grid');\n    if (!storiesGrid) return;\n\n    storiesGrid.innerHTML = '';\n\n    const params = new URLSearchParams(window.location.search);\n    const lang = params.get('translation') || 'en';\n\n    // Récupérer tous les contenus du sous-nœud STORIES\n    const allContents = await fetchAllStories();\n    console.log('All contents from stories node:', allContents);\n\n    // Filtrer uniquement les contenus de type JSON (les histoires)\n    const stories = allContents.filter(content => content.type === 'JSON');\n    console.log('Filtered JSON stories:', stories);\n\n    const animalIcons = ['🐶', '🐱', '🦊', '🐼', '🐨', '🦁', '🐸', '🐧'];\n\n    for (let i = 0; i < stories.length; i++) {\n        const story = stories[i];\n        const storyData = await loadStoryContent(story.code, lang);\n        console.log('Story data for', story.code, ':', storyData);\n\n        if (!storyData) continue;\n\n        const card = document.createElement('div');\n        card.className = 'story-card';\n\n        const title = document.createElement('h2');\n        title.textContent = storyData.title || 'A Tiny Tale';\n        card.appendChild(title);\n\n        if (storyData.content) {\n            const content = document.createElement('p');\n            content.textContent = storyData.content;\n            card.appendChild(content);\n        }\n\n        const icon = document.createElement('div');\n        icon.className = 'animal-icon';\n        icon.textContent = animalIcons[i % animalIcons.length];\n        card.appendChild(icon);\n\n        storiesGrid.appendChild(card);\n    }\n\n    if (stories.length === 0) {\n        storiesGrid.innerHTML = '<p style=\"text-align:center; font-size:1.5em;\">✨ No stories yet, but check back soon! ✨</p>';\n    }\n}\n\nwindow.addEventListener('load', function() {\n    const params = new URLSearchParams(window.location.search);\n    const lang = params.get('translation') || 'en';\n    const select = document.querySelector('select');\n    if (select) select.value = lang;\n    loadStories();\n});\n",
+        "values": [
+          {
+            "key": "AUTHOR_NAME",
+            "value": "Tiny Tales Team"
+          },
+          {
+            "key": "AUTHOR_EMAIL",
+            "value": "hello@tinytales.com"
+          },
+          {
+            "key": "AUTHOR_BIO",
+            "value": "Creating magical stories for children"
+          }
+        ],
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279940890,
+        "modificationDate": 1774299831219,
+        "modifiedBy": "",
+        "version": "3",
+        "publicationDate": 1774299831219,
+        "status": "SNAPSHOT",
+        "favorite": false
+      },
+      {
+        "id": "0b3316dc-5b2d-48b4-8d87-dd43844488f4",
+        "parentCode": "TINY-B86F5BD4",
+        "code": "STORY-95884653",
+        "language": "en",
+        "type": "HTML",
+        "title": "Tiny Tales Main Page",
+        "description": "Main page for Tiny Tales",
+        "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Tiny Tales - Stories for Children</title>\n    <style>\n        $content(STORY-AA4AE443)\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"header\">\n            <h1>$translate(MAIN_TITLE)</h1>\n            <p>$translate(MAIN_DESCRIPTION)</p>\n\n            <div class=\"language-selector\">\n                <select onchange=\"changeLanguage(this.value)\">\n                    <option value=\"en\">English</option>\n                    <option value=\"fr\">Français</option>\n                </select>\n            </div>\n            <p><small>✨ $translate(CURRENT_LANG) ✨</small></p>\n        </div>\n\n        <div class=\"stories-grid\">\n          <!-- Stories will be loaded dynamically -->\n        </div>\n\n        <div class=\"footer\">\n            <p>$translate(FOOTER_TEXT)</p>\n            <p>💫 $translate(MORE_COMING) 💫</p>\n        </div>\n    </div>\n\n    <script>\n        $content(STORY-3AF01B00)\n    </script>\n</body>\n</html>\n",
+        "values": [
+          {
+            "key": "AUTHOR_NAME",
+            "value": "Tiny Tales Team"
+          },
+          {
+            "key": "AUTHOR_EMAIL",
+            "value": "hello@tinytales.com"
+          },
+          {
+            "key": "AUTHOR_BIO",
+            "value": "Creating magical stories for children"
+          }
+        ],
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279940924,
+        "modificationDate": 1774299831271,
+        "modifiedBy": "",
+        "version": "3",
+        "publicationDate": 1774299831271,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "en",
+            "key": "MAIN_TITLE",
+            "value": "Tiny Tales"
+          },
+          {
+            "language": "en",
+            "key": "MAIN_DESCRIPTION",
+            "value": "Short, magical stories for children"
+          },
+          {
+            "language": "en",
+            "key": "CURRENT_LANG",
+            "value": "English"
+          },
+          {
+            "language": "en",
+            "key": "FOOTER_TEXT",
+            "value": "Made with 💕 for little dreamers"
+          },
+          {
+            "language": "en",
+            "key": "MORE_COMING",
+            "value": "More stories coming soon!"
+          },
+          {
+            "language": "fr",
+            "key": "MAIN_TITLE",
+            "value": "Petites Histoires"
+          },
+          {
+            "language": "fr",
+            "key": "MAIN_DESCRIPTION",
+            "value": "De courtes histoires magiques pour enfants"
+          },
+          {
+            "language": "fr",
+            "key": "CURRENT_LANG",
+            "value": "Français"
+          },
+          {
+            "language": "fr",
+            "key": "FOOTER_TEXT",
+            "value": "Fabriqué avec 💕 pour les petits rêveurs"
+          },
+          {
+            "language": "fr",
+            "key": "MORE_COMING",
+            "value": "Bientôt d'autres histoires !"
+          }
+        ]
+      }
+    ],
+    "values": [
+      {
+        "key": "BASE_URL",
+        "value": "http://localhost:1080"
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774279940650,
+    "modificationDate": 1774299831141,
+    "modifiedBy": "",
+    "version": "2",
+    "publicationDate": 1774299831141,
+    "status": "SNAPSHOT",
+    "favorite": false
+  },
+  {
+    "id": "0083231c-de19-4aaf-841d-fa410c28b8b2",
+    "parentCode": "TINY-B86F5BD4",
+    "name": "Stories",
+    "code": "STORIES-E77A07CB",
+    "defaultLanguage": "en",
+    "type": "FOLDER",
+    "contents": [
+      {
+        "id": "bd424951-a49d-47f7-bce2-453c8ffdb738",
+        "parentCode": "STORIES-E77A07CB",
+        "code": "STORY-21ED528B",
+        "language": "en",
+        "type": "JSON",
+        "title": "The Little Fox Who Lost His Spots",
+        "description": "Story 1",
+        "content": "{\n  \"title\": \"$translate(TITLE)\",\n  \"content\": \"$translate(CONTENT)\"\n}\n",
+        "values": [
+          {
+            "key": "AUTHOR_NAME",
+            "value": "Emma Thompson"
+          },
+          {
+            "key": "AUTHOR_EMAIL",
+            "value": "emma@tinytales.com"
+          },
+          {
+            "key": "AUTHOR_BIO",
+            "value": "Children's book author"
+          }
+        ],
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279940828,
+        "modificationDate": 1774299831382,
+        "modifiedBy": "",
+        "version": "4",
+        "publicationDate": 1774299831382,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "en",
+            "key": "TITLE",
+            "value": "The Little Fox Who Lost His Spots"
+          },
+          {
+            "language": "en",
+            "key": "CONTENT",
+            "value": "Once upon a time, a little fox woke up and found that all his spots had disappeared overnight. He searched everywhere - under the leaves, behind the trees, and even asked his friends the rabbits. Finally, he looked in the pond and saw his reflection - his spots were there all along! They had just faded in the morning light. From that day on, he never worried about losing his spots again."
+          },
+          {
+            "language": "fr",
+            "key": "TITLE",
+            "value": "Le Petit Renard qui a Perdu ses Taches"
+          },
+          {
+            "language": "fr",
+            "key": "CONTENT",
+            "value": "Il était une fois un petit renard qui se réveilla et découvrit que toutes ses taches avaient disparu pendant la nuit. Il chercha partout - sous les feuilles, derrière les arbres, et demanda même à ses amis les lapins. Finalement, il regarda dans l'étang et vit son reflet - ses taches étaient là depuis toujours ! Elles s'étaient juste estompées dans la lumière du matin. À partir de ce jour, il ne s'inquiéta plus jamais de perdre ses taches."
+          }
+        ]
+      },
+      {
+        "id": "762fcd81-ed55-464a-b74f-83f77cb4e594",
+        "parentCode": "STORIES-E77A07CB",
+        "code": "STORY-9A3E6B10",
+        "language": "en",
+        "type": "JSON",
+        "title": "The Sleepy Bear and the Honey Moon",
+        "description": "Story 2",
+        "content": "{\n  \"title\": \"$translate(TITLE)\",\n  \"content\": \"$translate(CONTENT)\"\n}\n",
+        "values": [
+          {
+            "key": "AUTHOR_NAME",
+            "value": "Michael Brown"
+          },
+          {
+            "key": "AUTHOR_EMAIL",
+            "value": "michael@tinytales.com"
+          },
+          {
+            "key": "AUTHOR_BIO",
+            "value": "Storyteller and illustrator"
+          }
+        ],
+        "rules": [
+          {
+            "type": "BOOL",
+            "name": "MAINTENANCE",
+            "value": "false",
+            "editable": false,
+            "erasable": false,
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "ACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          },
+          {
+            "type": "DATE",
+            "name": "DEACTIVATION_DATE",
+            "editable": false,
+            "erasable": false,
+            "operator": "SUP_EQ",
+            "behavior": false,
+            "enable": false
+          }
+        ],
+        "creationDate": 1774279940859,
+        "modificationDate": 1774299831432,
+        "modifiedBy": "",
+        "version": "4",
+        "publicationDate": 1774299831432,
+        "status": "SNAPSHOT",
+        "favorite": false,
+        "translations": [
+          {
+            "language": "en",
+            "key": "TITLE",
+            "value": "The Sleepy Bear and the Honey Moon"
+          },
+          {
+            "language": "en",
+            "key": "CONTENT",
+            "value": "Bear was supposed to hibernate, but he just couldn't fall asleep. The moon was so bright and round, looking just like a jar of honey. So Bear climbed the tallest tree to get a closer look. He reached and reached, but the moon was always just out of reach. Tired from his adventure, he climbed back down and fell fast asleep, dreaming of honey moons."
+          },
+          {
+            "language": "fr",
+            "key": "TITLE",
+            "value": "L'Ours Endormi et la Lune de Miel"
+          },
+          {
+            "language": "fr",
+            "key": "CONTENT",
+            "value": "L'ours était censé hiberner, mais il n'arrivait pas à s'endormir. La lune était si brillante et ronde, ressemblant à un pot de miel. Alors l'ours grimpa à l'arbre le plus haut pour mieux voir. Il tendit la patte, encore et encore, mais la lune était toujours hors de portée. Fatigué de son aventure, il redescendit et s'endormit profondément, rêvant de lunes de miel."
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "type": "BOOL",
+        "name": "MAINTENANCE",
+        "value": "false",
+        "editable": false,
+        "erasable": false,
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "ACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      },
+      {
+        "type": "DATE",
+        "name": "DEACTIVATION_DATE",
+        "editable": false,
+        "erasable": false,
+        "operator": "SUP_EQ",
+        "behavior": false,
+        "enable": false
+      }
+    ],
+    "creationDate": 1774279940718,
+    "modificationDate": 1774299831361,
+    "modifiedBy": "",
+    "version": "3",
+    "publicationDate": 1774299831361,
+    "status": "SNAPSHOT",
+    "favorite": false
+  }
+]
