@@ -1,4 +1,3 @@
-Voici le README général mis à jour avec les deux templates IoT :
 # Nodify Templates
 
 ![nodify_transparent.png](assets/nodify_transparent.png)
